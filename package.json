@@ -1,0 +1,14 @@
+{
+  "name": "shr2js",
+  "version": "1.0.0",
+  "description": "Converts Standard Health Record (SHR) elements from their custom grammar to JSON",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "antlr4": "^4.5.3"
+  }
+}
