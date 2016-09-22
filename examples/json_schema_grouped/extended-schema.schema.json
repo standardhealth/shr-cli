@@ -1,0 +1,32 @@
+{
+  "$schema" : "http://standardhealthrecord.org/schemas/shr/extended-schema.schema.json",
+  "id": "http://standardhealthrecord.org/schemas/shr/extended-schema.schema.json",
+  "description": "Extended schema for SHR definitions",
+  "anyOf": [
+    {
+      "properties": {
+        "concepts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {"type": "string"},
+              "version": {"type": "string"},
+              "code": {"type": "string"},
+              "display": {"type": "string"}
+            },
+            "required": ["code"],
+            "additionalProperties": false
+          }
+        },
+        "valueSet": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    {
+        "$ref": "http://json-schema.org/draft-04/schema#"
+    }
+  ]
+}

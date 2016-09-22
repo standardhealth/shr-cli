@@ -1,0 +1,7 @@
+{
+  "$schema" : "http://standardhealthrecord.org/schemas/shr/extended-schema.schema.json",
+  "id": "http://standardhealthrecord.org/schemas/shr/identification/humanNameUse.schema.json",
+  "description": "Identifies the purpose for this name.",
+  "$ref": "http://standardhealthrecord.org/schemas/shr/types.schema.json#/definitions/code",
+  "valueSet": "http://standardhealthrecord.org/identification/vs/HumanNameUse"
+}

@@ -1,0 +1,7 @@
+{
+  "$schema" : "http://standardhealthrecord.org/schemas/shr/extended-schema.schema.json",
+  "id": "http://standardhealthrecord.org/schemas/shr/identification/humanNamePrefix.schema.json",
+  "description": "Contains a set of honorific terms that typically appear before a person's name, for example Mr., Mrs., Dr., etc. Prefixes have a strong association to the immediately following name part. (Source: HL7 V3)",
+  "$ref": "http://standardhealthrecord.org/schemas/shr/types.schema.json#/definitions/code",
+  "valueSet": "http://standardhealthrecord.org/identification/vs/HumanNamePrefix"
+}

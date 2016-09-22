@@ -1,0 +1,87 @@
+[
+    {
+        "type": "Entry",
+        "name": "shr.identification.PatientName",
+        "concepts": [{
+            "codeSystem": "http://snomed.info/sct",
+            "code": "371484003"
+        }],
+        "description": "A name for the patient of record",
+        "answer": "shr.identification.humanName"
+    },
+    {
+        "type": "DataElement",
+        "name": "shr.identification.humanName",
+        "has": [
+            {"ref": "shr.identification.humanNamePrefix", "min": 0},
+            {"ref": "shr.identification.givenName", "maxUnbounded": true},
+            {"ref": "shr.identification.familyName"},
+            {"ref": "shr.identification.humanNameSuffix", "min": 0, "maxUnbounded": true},
+            {"ref": "shr.identification.humanNameUse", "min": 0}
+        ]
+    },
+    {
+        "type": "DataElement",
+        "name": "shr.identification.givenName",
+        "description": "A set of names given to a person at birth, but not including the family name. In western cultures, this property would contain the 'first' and 'middle' names. Note that in some cultures, the given name is placed after the family name. Note also that this property contains multiple elements, so it can handle those situations where a person has more than one 'middle' name. (Source: HL7 V3)",
+        "answer": "string"
+    },
+    {
+        "type": "DataElement",
+        "name": "shr.identification.familyName",
+        "description": "The portion of a person's name that reflects the genealogy of the person. In western cultures, this is the 'last' name. In eastern cultures, the family name appears before the person's given name(s). In some cultures (e.g. Eritrea) the family name of a son is the first name of his father. (Source: HL7 V3)",
+        "answer": "string"
+    },
+    {
+        "type": "DataElement",
+        "name": "shr.identification.humanNamePrefix",
+        "description": "Contains a set of honorific terms that typically appear before a person's name, for example Mr., Mrs., Dr., etc. Prefixes have a strong association to the immediately following name part. (Source: HL7 V3)",
+        "answer": "code",
+        "valueSet": "http://standardhealthrecord.org/identification/vs/HumanNamePrefix"
+    },
+    {
+        "type": "DataElement",
+        "name": "shr.identification.humanNameSuffix",
+        "description": "Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that appears at the end of the name.",
+        "answer": "code",
+        "valueSet": "http://standardhealthrecord.org/identification/vs/HumanNameSuffix"
+    },
+    {
+        "type": "DataElement",
+        "name": "shr.identification.humanNameUse",
+        "answer": "code",
+        "valueSet": "http://standardhealthrecord.org/identification/vs/HumanNameUse"
+    },
+    {
+        "type": "ValueSet",
+        "url": "http://standardhealthrecord.org/vs/identification/vs/HumanNamePrefix",
+        "codes": [
+            {"code": "mr", "display": "Mr."},
+            {"code": "mrs", "display": "Mrs."},
+            {"code": "ms", "display": "Ms."},
+            {"code": "dr", "display": "Dr."}
+        ]
+    },
+    {
+        "type": "ValueSet",
+        "url": "http://standardhealthrecord.org/vs/identification/vs/HumanNameSuffix",
+        "codes": [
+            {"code": "jr", "display": "Jr."},
+            {"code": "sr", "display": "Sr."},
+            {"code": "md", "display": "M.D."},
+            {"code": "phd", "display": "Ph.D"}
+        ]
+    },
+    {
+        "type": "ValueSet",
+        "url": "http://standardhealthrecord.org/vs/identification/vs/HumanNameUse",
+        "codes": [
+            {"code": "preferred", "display": "Preferred"},
+            {"code": "legal", "display": "Legal"},
+            {"code": "alias", "display": "Alias or Pseudonym"},
+            {"code": "birth-name", "display": "Birth Name (if different)"},
+            {"code": "variant-spelling", "display": "Variant Spelling"},
+            {"code": "temporary", "display": "Temporary"}
+        ]
+    }
+]
