@@ -1,23 +1,19 @@
-const _namespace = Symbol()
-const _name = Symbol()
-const _elements = Symbol()
-
 class Namespace {
     constructor(namespace) {
-        this[_namespace] = namespace;
-        this[_elements] = [];
+        this._namespace = namespace;
+        this._elements = [];
     }
 
     push(element) {
-        this[_elements].push(element)
+        this._elements.push(element)
     }
 
     toJSON() {
         let j = {
-            namespace: this[_namespace],
+            namespace: this._namespace,
             definitions: {}
         }
-        for (const el of this[_elements]) {
+        for (const el of this._elements) {
             j.definitions[el.name()] = el
         }
         return j
@@ -26,17 +22,17 @@ class Namespace {
 
 class DataElement {
     constructor(namespace, name) {
-        this[_namespace] = namespace;
-        this[_name] = name;
+        this._namespace = namespace;
+        this._name = name;
     }
 
     name() {
-        return this[_name];
+        return this._name;
     }
 
     toJSON() {
         return {
-            name: this[_name]
+            name: this._name
         }
     }
 }
@@ -48,7 +44,7 @@ class Entry extends DataElement {
 
     toJSON() {
         return {
-            name: this[_name]
+            name: this._name
         }
     }
 }
