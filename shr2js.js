@@ -1,50 +1,62 @@
 const antlr4 = require('antlr4/index');
 const {SHRParser} = require('./parsers/SHRParser');
 const {SHRParserListener} = require('./parsers/SHRParserListener');
-const {DataElement, Entry} = require('./models')
+const {Namespace, DataElement, Entry} = require('./models')
+
+const _nsMap = Symbol()
+const _currentNs = Symbol()
+const _currentDef = Symbol()
 
 class SHR2JS extends SHRParserListener {
     constructor() {
         super();
-        /** The data elements, entries, and vocabs defined in this file **/
-        this.definitions = [];
-        /** The currently active namespace */
-        this.currentNamespace = "";
-        /** The currently active definition (data element, entry, vocabulary) */
-        this.currentDefinition = null;
+        // The map of namespace to elements
+        this[_nsMap] = {};
+        // The currently active namespace
+        this[_currentNs] = "";
+        // The currently active definition (data element, entry, vocabulary)
+        this[_currentDef] = null;
     }
 
     exitNamespace(ctx) {
         if (ctx.parentCtx instanceof SHRParser.NamespaceDefContext) {
-            this.currentNamespace = ctx.getText();
-            console.log(`In namespace: ${this.currentNamespace}`);
+            let ns = ctx.getText()
+            this[_currentNs] = ns;
+            this[_nsMap][ns] = new Namespace(ns)
         }
     }
 
     exitDataElementName(ctx) {
         if (ctx.parentCtx instanceof SHRParser.DataElementHeaderContext) {
-            this.currentDefinition = new DataElement(this.currentNamespace, ctx.getText());
-            console.log(`Start ${this.currentDefinition.type}: ${this.currentDefinition.namespace}.${this.currentDefinition.name}`);
+            this[_currentDef] = new DataElement(this[_currentNs], ctx.getText());
         }
     }
 
     exitDataElementDef(ctx) {
-        this.definitions.push(this.currentDefinition);
-        console.log(`Stop ${this.currentDefinition.type}: ${this.currentDefinition.namespace}.${this.currentDefinition.name}`);
-        this.currentDefinition = null;
+        this.pushCurrentDefinition();
     }
 
     exitEntryName(ctx) {
         if (ctx.parentCtx instanceof SHRParser.EntryHeaderContext) {
-            this.currentDefinition = new Entry(this.currentNamespace, ctx.getText());
-            console.log(`Start ${this.currentDefinition.type}: ${this.currentDefinition.namespace}.${this.currentDefinition.name}`);
+            this[_currentDef] = new Entry(this[_currentNs], ctx.getText());
         }
     }
 
     exitEntryDef(ctx) {
-        this.definitions.push(this.currentDefinition);
-        console.log(`Stop ${this.currentDefinition.type}: ${this.currentDefinition.namespace}.${this.currentDefinition.name}`);
-        this.currentDefinition = null;
+        this.pushCurrentDefinition();
+    }
+
+    pushCurrentDefinition() {
+        this[_nsMap][this[_currentNs]].push(this[_currentDef]);
+        this[_currentDef] = null;
+    }
+
+    toJSON() {
+        let j = {}
+        for (let key of Object.keys(this[_nsMap])) {
+            j[key] = this[_nsMap][key].toJSON()
+        }
+        return j;
     }
 }
 

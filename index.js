@@ -19,3 +19,4 @@ const tree = parser.shr();
 const walker = new ParseTreeWalker();
 const shr2js = new SHR2JS();
 walker.walk(shr2js, tree);
+console.log(JSON.stringify(shr2js.toJSON()))
