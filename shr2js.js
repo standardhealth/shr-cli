@@ -42,18 +42,33 @@ class SHR2JS extends SHRParserListener {
         this.pushCurrentDefinition();
     }
 
+    exitAnswer(ctx) {
+        this._currentDef.addAnswer(ctx.getText());
+    }
+
+    exitDescriptionProp(ctx) {
+        let d = stripStringToken(ctx.STRING());
+        this._currentDef.setDescription(d);
+    }
+
     pushCurrentDefinition() {
         this._nsMap[this._currentNs].push(this._currentDef);
         this._currentDef = null;
     }
 
-    toJSON() {
-        let j = {}
+    toSchemas() {
+        let schemas = []
         for (let key of Object.keys(this._nsMap)) {
-            j[key] = this._nsMap[key].toJSON()
+            schemas.push(this._nsMap[key].toSchema())
         }
-        return j;
+        return schemas;
     }
+}
+
+function stripStringToken(tkn) {
+    str = tkn.getText()
+    // TODO: Also fix escaped double-quotes, but right now, the parser seems to be screwing those up.
+    return str.substr(1,str.length -2)
 }
 
 exports.SHR2JS = SHR2JS;
