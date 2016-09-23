@@ -1,8 +1,9 @@
 const {FileStream, CommonTokenStream} = require('antlr4/index');
 const {ParseTreeWalker} = require('antlr4/tree');
-const {SHRLexer} = require('./parsers/SHRLexer');
-const {SHRParser} = require('./parsers/SHRParser');
-const {SHR2JS} = require('./shr2js');
+const {SHRLexer} = require('./lib/parsers/SHRLexer');
+const {SHRParser} = require('./lib/parsers/SHRParser');
+const {SHR2JS} = require('./lib/shr2js');
+const {namespaceToSchema} = require('./lib/schemaExport.js')
 
 if (process.argv.length < 3) {
     console.log("Missing path to SHR definition file")
@@ -19,4 +20,7 @@ const tree = parser.shr();
 const walker = new ParseTreeWalker();
 const shr2js = new SHR2JS();
 walker.walk(shr2js, tree);
-console.log(JSON.stringify(shr2js.toSchemas(), null, "  "))
+
+for (ns of shr2js.namespaces()) {
+    console.log(JSON.stringify(namespaceToSchema(ns), null, "  "))
+}
