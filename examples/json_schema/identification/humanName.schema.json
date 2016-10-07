@@ -1,31 +1,32 @@
 {
   "$schema" : "http://standardhealthrecord.org/schemas/shr/extended-schema.schema.json",
-  "id": "http://standardhealthrecord.org/schemas/shr/identification/humanName.schema.json",
+  "id": "http://standardhealthrecord.org/schemas/shr/identification/HumanName.schema.json",
   "concepts": [{
     "codeSystem": "http://snomed.info/sct",
     "code": "371484003"
   }],
   "type": "object",
   "properties": {
+    "fullName": {
+      "$ref": "http://standardhealthrecord.org/schemas/shr/identification/FullName.schema.json"
+    },
     "humanNamePrefix": {
-      "$ref": "http://standardhealthrecord.org/schemas/shr/identification/humanNamePrefix.schema.json"
+      "$ref": "http://standardhealthrecord.org/schemas/shr/identification/HumanNamePrefix.schema.json"
     },
     "givenName": {
-      "type": "array",
-      "minItems": 1,
-      "items": { "$ref": "http://standardhealthrecord.org/schemas/shr/identification/givenName.schema.json" }
+      "$ref": "http://standardhealthrecord.org/schemas/shr/identification/GivenName.schema.json"
     },
     "familyName": {
-      "$ref": "http://standardhealthrecord.org/schemas/shr/identification/familyName.schema.json"
+      "$ref": "http://standardhealthrecord.org/schemas/shr/identification/FamilyName.schema.json"
     },
     "humanNameSuffix": {
       "type": "array",
-      "items": { "$ref": "http://standardhealthrecord.org/schemas/shr/identification/humanNameSuffix.schema.json" }
+      "items": { "$ref": "http://standardhealthrecord.org/schemas/shr/identification/HumanNameSuffix.schema.json" }
     },
     "humanNameUse": {
-      "$ref": "http://standardhealthrecord.org/schemas/shr/identification/humanNameUse.schema.json"
+      "type": "array",
+      "items": { "$ref": "http://standardhealthrecord.org/schemas/shr/identification/HumanNameUse.schema.json" }
     }
   },
-  "required": ["familyName"],
-  "additionalProperties": false
+  "required": ["fullName, givenName, familyName"]
 }

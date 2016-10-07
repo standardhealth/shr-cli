@@ -1,0 +1,64 @@
+Namespace:      shr.identification
+
+Vocabulary: MTH = http://uts.nlm.nih.gov/metathesaurus
+
+Section:	Identification
+1..*	PersonOfRecordName
+
+DataElement:  PersonOfRecordName
+Concept:      MTH #C1299487
+Description:  "A name for the person of record."
+Value:        HumanName
+
+Group:   		HumanName
+Concept: 		MTH #C1547383
+Description:	"A name for a human being."
+1..1  FullName
+0..1  HumanNamePrefix
+1..1  GivenName
+1..1  FamilyName
+0..*  HumanNameSuffix
+0..*  HumanNameUse
+
+DataElement:    FullName
+Description:    "A full human name as it is spoken or written"
+Value:          string
+
+DataElement:    GivenName
+Description:    "A set of names given to a person at birth, but not including the family name. In western cultures, this property would contain the 'first' and 'middle' names. Note that in some cultures, the given name is placed after the family name. Note also that this property contains multiple elements, so it can handle those situations where a person has more than one 'middle' name. (Source: HL7 V3)"
+Value:          string
+
+DataElement:    FamilyName
+Description:    "The portion of a person's name that reflects the genealogy of the person. In western cultures, this is the 'last' name. In eastern cultures, the family name appears before the person's given name(s). In some cultures (e.g. Eritrea) the family name of a son is the first name of his father. (Source: HL7 V3)"
+Value:          string
+
+DataElement:    HumanNamePrefix
+Description:    "Contains a set of honorific terms that typically appear before a person's name, for example Mr., Mrs., Dr., etc. Prefixes have a strong association to the immediately following name part. (Source: HL7 V3)"
+Value:          code from http://standardhealthrecord.org/identification/vs/HumanNamePrefix
+
+DataElement:    HumanNameSuffix
+Description:    "Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that appears at the end of the name."
+Value:          0..* (code from http://standardhealthrecord.org/identification/vs/HumanNameSuffix or string)
+
+DataElement:    HumanNameUse
+Value:          code from http://standardhealthrecord.org/identification/vs/HumanNameUse
+
+ValueSetDefinition: http://standardhealthrecord.org/identification/vs/HumanNamePrefix
+#mr     "Mr."
+#mrs    "Mrs."
+#ms     "Ms."
+#dr     "Dr."
+
+ValueSetDefinition: http://standardhealthrecord.org/identification/vs/HumanNameSuffix
+#jr     "Jr."
+#sr     "Sr."
+#md     "M.D."
+#phd    "Ph.D"
+
+ValueSetDefinition: http://standardhealthrecord.org/identification/vs/HumanNameUse
+#preferred      "Preferred"
+#legal          "Legal"
+#alias          "Alias or Pseudonym"
+#premarriage    "Premarriage Name"
+#variant        "Spelling Variant"
+#temporary      "Temporary"

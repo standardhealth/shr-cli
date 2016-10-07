@@ -1,7 +1,17 @@
 {
   "$schema" : "http://standardhealthrecord.org/schemas/shr/extended-schema.schema.json",
-  "id": "http://standardhealthrecord.org/schemas/shr/identification/humanNameSuffix.schema.json",
+  "id": "http://standardhealthrecord.org/schemas/shr/identification/HumanNameSuffix.schema.json",
   "description": "Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that appears at the end of the name.",
-  "$ref": "http://standardhealthrecord.org/schemas/shr/types.schema.json#/definitions/code",
-  "valueSet": "http://standardhealthrecord.org/identification/vs/HumanNameSuffix"
+  "type": "array",
+  "items": {
+    "oneOf": [
+      {
+        "$ref": "http://standardhealthrecord.org/schemas/shr/types.schema.json#/definitions/code",
+        "valueSet": "http://standardhealthrecord.org/identification/vs/HumanNameSuffix"
+      },
+      {
+        "type": "string"
+      }
+    ]
+  }
 }

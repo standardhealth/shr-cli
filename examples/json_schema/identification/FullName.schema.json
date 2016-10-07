@@ -1,0 +1,6 @@
+{
+  "$schema" : "http://standardhealthrecord.org/schemas/shr/extended-schema.schema.json",
+  "id": "http://standardhealthrecord.org/schemas/shr/identification/FullName.schema.json",
+  "description": "A full human name as it is spoken or written",
+  "type": "string"
+}
