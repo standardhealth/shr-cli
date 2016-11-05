@@ -1,11 +1,24 @@
+const fs = require('fs');
+const url = require('url');
+const mkdirp = require('mkdirp');
 const {importFromFilePath} = require('./lib/text/import');
 const {exportToSchemas} = require('./lib/schema/export');
-
+const {exportToStructureDefinitions} = require('./lib/structdef/export');
 if (process.argv.length < 3) {
-  console.error('Missing path to SHR definition file');
+  console.error('Missing path to SHR definition folder or file');
 }
 
 const namespaces = importFromFilePath(process.argv[2]);
-for (let ns of namespaces) {
-  console.log(JSON.stringify(exportToSchemas(ns), null, '  '));
+const outDir = process.argv.length == 4 ? process.argv[3] : './out';
+
+for (const schema of exportToSchemas(namespaces)) {
+  const filePath = outDir + url.parse(schema.id).pathname;
+  mkdirp.sync(filePath.substring(0, filePath.lastIndexOf('/')));
+  fs.writeFileSync(filePath, JSON.stringify(schema, null, '  '));
+}
+
+for (const structdef of exportToStructureDefinitions(namespaces)) {
+  const filePath = `${outDir}/structdefs/${url.parse(structdef.url).pathname}.json`;
+  mkdirp.sync(filePath.substring(0, filePath.lastIndexOf('/')));
+  fs.writeFileSync(filePath, JSON.stringify(structdef, null, '  '));
 }
