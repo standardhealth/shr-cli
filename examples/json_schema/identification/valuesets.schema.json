@@ -5,7 +5,7 @@
   "definitions": {
     "HumanNamePrefix": {
       "$ref": "http://standardhealthrecord.org/schemas/shr/types.schema.json#/definitions/concept",
-      "valueSet": "http://standardhealthrecord.org/vs/identification/vs/HumanNamePrefix",
+      "valueSet": "http://standardhealthrecord.org/identification/vs/HumanNamePrefix",
       "enum": [
         {"code": "mr", "display": "Mr."},
         {"code": "mrs", "display": "Mrs."},
@@ -15,7 +15,7 @@
     },
     "HumanNameSuffix": {
       "$ref": "http://standardhealthrecord.org/schemas/shr/types.schema.json#/definitions/concept",
-      "valueSet": "http://standardhealthrecord.org/vs/identification/vs/HumanNameSuffix",
+      "valueSet": "http://standardhealthrecord.org/identification/vs/HumanNameSuffix",
       "enum": [
         {"code": "jr", "display": "Jr."},
         {"code": "sr", "display": "Sr."},
@@ -25,13 +25,13 @@
     },
     "HumanNameUse": {
       "$ref": "http://standardhealthrecord.org/schemas/shr/types.schema.json#/definitions/concept",
-      "valueSet": "http://standardhealthrecord.org/vs/identification/vs/HumanNameUse",
+      "valueSet": "http://standardhealthrecord.org/identification/vs/HumanNameUse",
       "enum": [
         {"code": "preferred", "display": "Preferred"},
         {"code": "legal", "display": "Legal"},
         {"code": "alias", "display": "Alias or Pseudonym"},
-        {"code": "birth-name", "display": "Birth Name (if different)"},
-        {"code": "variant-spelling", "display": "Variant Spelling"},
+        {"code": "premarriage", "display": "Premarriage Name"},
+        {"code": "variant", "display": "Spelling Variant"},
         {"code": "temporary", "display": "Temporary"}
       ]
     }

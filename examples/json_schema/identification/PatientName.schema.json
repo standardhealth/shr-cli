@@ -1,6 +1,0 @@
-{
-  "$schema" : "http://standardhealthrecord.org/schemas/shr/extended-schema.schema.json",
-  "id": "http://standardhealthrecord.org/schemas/shr/identification/PatientName.schema.json",
-  "description": "A name for the patient of record",
-  "$ref": "http://standardhealthrecord.org/schemas/shr/identification/humanName.schema.json"
-}
