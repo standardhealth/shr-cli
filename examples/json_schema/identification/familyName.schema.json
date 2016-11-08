@@ -1,6 +1,0 @@
-{
-  "$schema" : "http://standardhealthrecord.org/schemas/shr/extended-schema.schema.json",
-  "id": "http://standardhealthrecord.org/schemas/shr/identification/FamilyName.schema.json",
-  "description": "The portion of a person's name that reflects the genealogy of the person. In western cultures, this is the 'last' name. In eastern cultures, the family name appears before the person's given name(s). In some cultures (e.g. Eritrea) the family name of a son is the first name of his father. (Source: HL7 V3)",
-  "type": "string"
-}
