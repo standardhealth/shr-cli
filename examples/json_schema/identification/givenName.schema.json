@@ -1,6 +1,0 @@
-{
-  "$schema" : "http://standardhealthrecord.org/schemas/shr/extended-schema.schema.json",
-  "id": "http://standardhealthrecord.org/schemas/shr/identification/GivenName.schema.json",
-  "description": "A set of names given to a person at birth, but not including the family name. In western cultures, this property would contain the 'first' and 'middle' names. Note that in some cultures, the given name is placed after the family name. Note also that this property contains multiple elements, so it can handle those situations where a person has more than one 'middle' name. (Source: HL7 V3)",
-  "type": "string"
-}
