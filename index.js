@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const url = require('url');
 const mkdirp = require('mkdirp');
 const {importFromFilePath} = require('./lib/text/import');
@@ -23,11 +24,17 @@ const hierarchyPath = `${outDir}/hierarchy/hierarchy.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(hierarchyJSON, null, '  '));
 
-let i = 1;
-for (const markdown of exportToMarkdown(namespaces)) {
-  const filePath = outDir + `/markdown/md${i++}`;
-  mkdirp.sync(filePath.substring(0, filePath.lastIndexOf('/')));
-  fs.writeFileSync(filePath, markdown);
+const markdownResults = exportToMarkdown(namespaces);
+for (const ns of Object.keys(markdownResults)) {
+  const nsPath = path.join(outDir, 'markdown', ...ns.split('.'));
+  const nsFilePath = path.join(nsPath, 'index.md');
+  mkdirp.sync(nsFilePath.substring(0, nsFilePath.lastIndexOf('/')));
+  fs.writeFileSync(nsFilePath, markdownResults[ns].markdown);
+  for (const defMD of markdownResults[ns].defMarkdowns) {
+    const fqn = defMD.split(' ', 2)[1];
+    const name = fqn.substring(fqn.lastIndexOf('.') + 1) + '.md';
+    fs.writeFileSync(path.join(nsPath, name), defMD);
+  }
 }
 
 for (const schema of exportToSchemas(namespaces)) {
