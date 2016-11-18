@@ -3,6 +3,7 @@ const url = require('url');
 const mkdirp = require('mkdirp');
 const {importFromFilePath} = require('./lib/text/import');
 const {exportToSchemas} = require('./lib/schema/export');
+const {exportToMarkdown} = require('./lib/markdown/export');
 const {exportToStructureDefinitions} = require('./lib/structdef/export');
 const {exportToHierarchyJSON} = require('./lib/hierarchy/export');
 
@@ -21,6 +22,13 @@ const hierarchyJSON = exportToHierarchyJSON(namespaces);
 const hierarchyPath = `${outDir}/hierarchy/hierarchy.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(hierarchyJSON, null, '  '));
+
+let i = 1;
+for (const markdown of exportToMarkdown(namespaces)) {
+  const filePath = outDir + `/markdown/md${i++}`;
+  mkdirp.sync(filePath.substring(0, filePath.lastIndexOf('/')));
+  fs.writeFileSync(filePath, markdown);
+}
 
 for (const schema of exportToSchemas(namespaces)) {
   const filePath = outDir + url.parse(schema.id).pathname;
