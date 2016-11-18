@@ -8,8 +8,12 @@ if (process.argv.length < 3) {
   console.error('Missing path to SHR definition folder or file');
 }
 
-const namespaces = importFromFilePath(process.argv[2]);
+const {namespaces, errors} = importFromFilePath(process.argv[2]);
 const outDir = process.argv.length == 4 ? process.argv[3] : './out';
+
+for (const err of errors) {
+  console.error(`Import Error: ${err}`);
+}
 
 for (const schema of exportToSchemas(namespaces)) {
   const filePath = outDir + url.parse(schema.id).pathname;
