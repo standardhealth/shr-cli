@@ -36,7 +36,7 @@ const exportDoc = function(namespaces, format) {
     result = exportToHTML(namespaces);
     ext = 'html';
     // Copy over the CSS
-    fs.createReadStream('./lib/markdown/github-markdown.css').pipe(fs.createWriteStream(path.join(basePath, 'github-markdown.css')));
+    fs.createReadStream('./lib/markdown/shr-github-markdown.css').pipe(fs.createWriteStream(path.join(basePath, 'shr-github-markdown.css')));
   } else {
     console.error(`Unsupported doc format: ${format}`);
     return;
