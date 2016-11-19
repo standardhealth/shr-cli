@@ -4,7 +4,7 @@ const url = require('url');
 const mkdirp = require('mkdirp');
 const {importFromFilePath} = require('./lib/text/import');
 const {exportToSchemas} = require('./lib/schema/export');
-const {exportToMarkdown} = require('./lib/markdown/export');
+const {exportToMarkdown, exportToHTML} = require('./lib/markdown/export');
 const {exportToStructureDefinitions} = require('./lib/structdef/export');
 const {exportToHierarchyJSON} = require('./lib/hierarchy/export');
 
@@ -24,21 +24,35 @@ const hierarchyPath = `${outDir}/hierarchy/hierarchy.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(hierarchyJSON, null, '  '));
 
-const mdResult = exportToMarkdown(namespaces);
-const mdPath = path.join(outDir, 'markdown');
-mkdirp.sync(mdPath);
-fs.writeFileSync(path.join(mdPath, 'index.md'), mdResult.markdown);
-for (const ns of Object.keys(mdResult.namespaces)) {
-  const nsPath = path.join(mdPath, ...ns.split('.'));
-  const nsFilePath = path.join(nsPath, 'index.md');
-  mkdirp.sync(nsFilePath.substring(0, nsFilePath.lastIndexOf('/')));
-  fs.writeFileSync(nsFilePath, mdResult.namespaces[ns].markdown);
-  for (const defMD of mdResult.namespaces[ns].definitions) {
-    const fqn = defMD.split(/[ \n]+/, 2)[1];
-    const name = fqn.substring(fqn.lastIndexOf('.') + 1) + '.md';
-    fs.writeFileSync(path.join(nsPath, name), defMD);
+const exportDoc = function(namespaces, format) {
+  var result, ext;
+  if (format == 'markdown') {
+    result = exportToMarkdown(namespaces);
+    ext = 'md';
+  } else if (format == 'html') {
+    result = exportToHTML(namespaces);
+    ext = 'html';
+  } else {
+    console.error(`Unsupported doc format: ${format}`);
+    return;
   }
-}
+  const basePath = path.join(outDir, format);
+  mkdirp.sync(basePath);
+  fs.writeFileSync(path.join(basePath, `index.${ext}`), result.index);
+  for (const ns of Object.keys(result.namespaces)) {
+    const nsPath = path.join(basePath, ...ns.split('.'));
+    const nsFilePath = path.join(nsPath, `index.${ext}`);
+    mkdirp.sync(nsFilePath.substring(0, nsFilePath.lastIndexOf('/')));
+    fs.writeFileSync(nsFilePath, result.namespaces[ns].index);
+    for (const def of Object.keys(result.namespaces[ns].definitions)) {
+      const name = `${def}.${ext}`;
+      fs.writeFileSync(path.join(nsPath, name), result.namespaces[ns].definitions[def]);
+    }
+  }
+};
+
+exportDoc(namespaces, 'markdown');
+exportDoc(namespaces, 'html');
 
 for (const schema of exportToSchemas(namespaces)) {
   const filePath = outDir + url.parse(schema.id).pathname;

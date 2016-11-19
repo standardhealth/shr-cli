@@ -17,7 +17,8 @@
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
   "dependencies": {
-    "antlr4": "^4.5.3"
+    "antlr4": "^4.5.3",
+    "markdown-it": "^8.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
