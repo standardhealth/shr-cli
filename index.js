@@ -25,6 +25,9 @@ mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(hierarchyJSON, null, '  '));
 
 const exportDoc = function(namespaces, format) {
+  const basePath = path.join(outDir, format);
+  mkdirp.sync(basePath);
+
   var result, ext;
   if (format == 'markdown') {
     result = exportToMarkdown(namespaces);
@@ -32,12 +35,12 @@ const exportDoc = function(namespaces, format) {
   } else if (format == 'html') {
     result = exportToHTML(namespaces);
     ext = 'html';
+    // Copy over the CSS
+    fs.createReadStream('./lib/markdown/github-markdown.css').pipe(fs.createWriteStream(path.join(basePath, 'github-markdown.css')));
   } else {
     console.error(`Unsupported doc format: ${format}`);
     return;
   }
-  const basePath = path.join(outDir, format);
-  mkdirp.sync(basePath);
   fs.writeFileSync(path.join(basePath, `index.${ext}`), result.index);
   for (const ns of Object.keys(result.namespaces)) {
     const nsPath = path.join(basePath, ...ns.split('.'));
