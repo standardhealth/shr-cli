@@ -24,14 +24,17 @@ const hierarchyPath = `${outDir}/hierarchy/hierarchy.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(hierarchyJSON, null, '  '));
 
-const markdownResults = exportToMarkdown(namespaces);
-for (const ns of Object.keys(markdownResults)) {
-  const nsPath = path.join(outDir, 'markdown', ...ns.split('.'));
+const mdResult = exportToMarkdown(namespaces);
+const mdPath = path.join(outDir, 'markdown');
+mkdirp.sync(mdPath);
+fs.writeFileSync(path.join(mdPath, 'index.md'), mdResult.markdown);
+for (const ns of Object.keys(mdResult.namespaces)) {
+  const nsPath = path.join(mdPath, ...ns.split('.'));
   const nsFilePath = path.join(nsPath, 'index.md');
   mkdirp.sync(nsFilePath.substring(0, nsFilePath.lastIndexOf('/')));
-  fs.writeFileSync(nsFilePath, markdownResults[ns].markdown);
-  for (const defMD of markdownResults[ns].defMarkdowns) {
-    const fqn = defMD.split(' ', 2)[1];
+  fs.writeFileSync(nsFilePath, mdResult.namespaces[ns].markdown);
+  for (const defMD of mdResult.namespaces[ns].definitions) {
+    const fqn = defMD.split(/[ \n]+/, 2)[1];
     const name = fqn.substring(fqn.lastIndexOf('.') + 1) + '.md';
     fs.writeFileSync(path.join(nsPath, name), defMD);
   }
