@@ -42,7 +42,7 @@ const exportDoc = function(namespaces, format) {
     return;
   }
   fs.writeFileSync(path.join(basePath, `index.${ext}`), result.index);
-  fs.writeFileSync(path.join(basePath, `index_entries.${ext}`), result.indexEntries);
+  fs.writeFileSync(path.join(basePath, `index_entries.${ext}`), result.entryIndex);
   for (const ns of Object.keys(result.namespaces)) {
     const nsPath = path.join(basePath, ...ns.split('.'));
     const nsFilePath = path.join(nsPath, `index.${ext}`);
