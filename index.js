@@ -45,7 +45,7 @@ const exportDoc = function(namespaces, format) {
   for (const ns of Object.keys(result.namespaces)) {
     const nsPath = path.join(basePath, ...ns.split('.'));
     const nsFilePath = path.join(nsPath, `index.${ext}`);
-    mkdirp.sync(nsFilePath.substring(0, nsFilePath.lastIndexOf('/')));
+    mkdirp.sync(nsFilePath.substring(0, nsFilePath.lastIndexOf(path.sep)));
     fs.writeFileSync(nsFilePath, result.namespaces[ns].index);
     for (const def of Object.keys(result.namespaces[ns].definitions)) {
       const name = `${def}.${ext}`;
