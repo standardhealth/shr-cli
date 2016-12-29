@@ -1,28 +1,22 @@
 {
-  "name": "shr2js",
-  "version": "1.0.0",
-  "description": "Converts Standard Health Record (SHR) elements from their custom grammar to JSON",
+  "name": "shr-cli",
+  "version": "3.0.0",
+  "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:standardhealth/shr2js.git"
+    "url": "git@github.com:standardhealth/shr-cli.git"
   },
-  "main": "index.js",
+  "main": "cli.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec --recursive",
-    "test:watch": "npm test -- --watch",
-    "test:debug": "./node_modules/.bin/mocha --inspect --debug-brk --reporter spec --recursive",
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
   "dependencies": {
-    "antlr4": "^4.5.3",
-    "markdown-it": "^8.1.0"
-  },
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "eslint": "^3.6.1",
-    "mocha": "^3.1.0"
+    "shr-models": "^3.0.0",
+    "shr-expand": "^3.0.0",
+    "shr-text-import": "^3.0.0",
+    "shr-md-export": "^3.0.0"
   }
 }

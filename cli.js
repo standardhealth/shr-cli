@@ -1,14 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-//const url = require('url');
 const mkdirp = require('mkdirp');
-const {importFromFilePath} = require('./lib/text/import');
-const {expand} = require('./lib/expander/expand');
-//const {exportToSchemas} = require('./lib/schema/export');
-const {exportToMarkdown, exportToHTML} = require('./lib/markdown/export');
-//const {exportToStructureDefinitions} = require('./lib/structdef/export');
-//const {exportToHierarchyJSON} = require('./lib/hierarchy/export');
-
+const {importFromFilePath} = require('shr-text-import');
+const {expand} = require('shr-expand');
+const {exportToMarkdown, exportToHTML} = require('shr-md-export');
 
 if (process.argv.length < 3) {
   console.error('Missing path to SHR definition folder or file');
@@ -24,12 +19,6 @@ for (const err of expanded.errors) {
 }
 const outDir = process.argv.length == 4 ? process.argv[3] : './out';
 
-/* COMMENTING OUT SINCE HIERARCHY HASN'T BEEN UPDATED TO NEW MODELS
-const hierarchyJSON = exportToHierarchyJSON(namespaces);
-const hierarchyPath = `${outDir}/hierarchy/hierarchy.json`;
-mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-fs.writeFileSync(hierarchyPath, JSON.stringify(hierarchyJSON, null, '  '));
-*/
 const exportDoc = function(namespaces, format) {
   const basePath = path.join(outDir, format);
   mkdirp.sync(basePath);
@@ -42,7 +31,7 @@ const exportDoc = function(namespaces, format) {
     result = exportToHTML(namespaces);
     ext = 'html';
     // Copy over the CSS
-    fs.createReadStream('./lib/markdown/shr-github-markdown.css').pipe(fs.createWriteStream(path.join(basePath, 'shr-github-markdown.css')));
+    // fs.createReadStream('./lib/markdown/shr-github-markdown.css').pipe(fs.createWriteStream(path.join(basePath, 'shr-github-markdown.css')));
   } else {
     console.error(`Unsupported doc format: ${format}`);
     return;
@@ -63,17 +52,3 @@ const exportDoc = function(namespaces, format) {
 
 exportDoc(expanded.namespaces, 'markdown');
 exportDoc(expanded.namespaces, 'html');
-
-/* COMMENTING OUT SINCE SCHEMA AND STRUCTURE DEFINTIONS HAVEN'T BEEN UPDATED TO NEW MODELS
-for (const schema of exportToSchemas(namespaces)) {
-  const filePath = outDir + url.parse(schema.id).pathname;
-  mkdirp.sync(filePath.substring(0, filePath.lastIndexOf('/')));
-  fs.writeFileSync(filePath, JSON.stringify(schema, null, '  '));
-}
-
-for (const structdef of exportToStructureDefinitions(namespaces)) {
-  const filePath = `${outDir}/structdefs/${url.parse(structdef.url).pathname}.json`;
-  mkdirp.sync(filePath.substring(0, filePath.lastIndexOf('/')));
-  fs.writeFileSync(filePath, JSON.stringify(structdef, null, '  '));
-}
-*/

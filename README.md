@@ -1,8 +1,8 @@
-# SHR Conversion Tools
+# SHR Command-Line Interface
 
 The Standard Health Record (SHR) initiative is working to create a single, high-quality health record for every individual in the United States.  For more information, see [standardhealthrecord.org](http://standardhealthrecord.org/).
 
-This GitHub repository contains Node.js tools for parsing SHR text definitions and exporting them as JSON schemas and FHIR structure definitions.  Most code is standard ES6 (not requiring Node.js packages) and _should_ be able to be adapted for use in a browser.
+This GitHub repository contains a Node.js command-line interface for parsing SHR text definitions and exporting them as markdown/html.  Future versions of the CLI will support additional capabilities.
 
 The SHR text definitions and grammar files can be found in the [shr_spec](https://github.com/standardhealth/shr_spec) repo.  As the SHR text format (and content files) are still evolving, so is this toolset.
 
@@ -17,22 +17,10 @@ $ npm install
 
 After installing the dependencies with npm, you can use node to convert a file or folder of files from SHR text format to JSON schemas and FHIR structure definitions:
 ```
-$ node index.js /path/to/shr_spec/spec ./out
+$ node cli.js /path/to/shr_spec/spec ./out
 ```
 
 The last argument is the path where the exported files should be written.  If it does not exist, a new folder will be created.  If the last argument is not provided, it will default to a folder called _out_ in the current directory.
-
-# Running the Tests
-
-This project contains unit tests for testing the SHR text importer, JSON schema exporter, and FHIR StructureDefinition exporter.  To run the tests, execute the following command:
-```
-$ npm test
-```
-
-During development, it is often helpful to run tests in _watch_ mode.  This launches a process that watches the filesystem for changes to the javascript files and will automatically re-run the tests whenever it detects changes.  To run the tests in _watch_ mode, execute the following command:
-```
-$ npm run test:watch
-```
 
 # Linting the Code
 
