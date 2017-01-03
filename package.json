@@ -14,9 +14,10 @@
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
   "dependencies": {
-    "shr-models": "^3.0.0",
-    "shr-expand": "^3.0.0",
-    "shr-text-import": "^3.0.0",
-    "shr-md-export": "^3.0.0"
+    "mkdirp": "^0.5.1",
+    "shr-models": "~3.0.0",
+    "shr-expand": "~3.0.0",
+    "shr-text-import": "~3.0.0",
+    "shr-md-export": "~3.0.0"
   }
 }
