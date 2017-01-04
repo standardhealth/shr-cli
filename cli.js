@@ -3,6 +3,7 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 const {importFromFilePath} = require('shr-text-import');
 const {expand} = require('shr-expand');
+const {exportToJSON} = require('shr-json-export');
 const {exportToMarkdown, exportToHTML} = require('shr-md-export');
 
 if (process.argv.length < 3) {
@@ -18,6 +19,11 @@ for (const err of expanded.errors) {
   console.error(`Expansion Error: ${err}`);
 }
 const outDir = process.argv.length == 4 ? process.argv[3] : './out';
+
+const hierarchyJSON = exportToJSON(namespaces);
+const hierarchyPath = `${outDir}/json/shr.json`;
+mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+fs.writeFileSync(hierarchyPath, JSON.stringify(hierarchyJSON, null, '  '));
 
 const exportDoc = function(namespaces, format) {
   const basePath = path.join(outDir, format);

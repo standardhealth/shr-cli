@@ -2,7 +2,7 @@
 
 The Standard Health Record (SHR) initiative is working to create a single, high-quality health record for every individual in the United States.  For more information, see [standardhealthrecord.org](http://standardhealthrecord.org/).
 
-This GitHub repository contains a Node.js command-line interface for parsing SHR text definitions and exporting them as markdown/html.  Future versions of the CLI will support additional capabilities.
+This GitHub repository contains a Node.js command-line interface for parsing SHR text definitions and exporting them as JSON and markdown/html.  Future versions of the CLI will support additional capabilities.
 
 The SHR text definitions and grammar files can be found in the [shr_spec](https://github.com/standardhealth/shr_spec) repo.  As the SHR text format (and content files) are still evolving, so is this toolset.
 

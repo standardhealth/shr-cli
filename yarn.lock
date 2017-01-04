@@ -52,6 +52,12 @@ shr-expand@~3.0.0:
   dependencies:
     shr-models "~3.0.0"
 
+shr-json-export@~3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-3.0.0.tgz#68e9f78806cccb427fd55a3a1238204dcf2c5158"
+  dependencies:
+    shr-models "~3.0.0"
+
 shr-md-export@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/shr-md-export/-/shr-md-export-3.0.0.tgz#79cb086910af2bd4a809704e32eb181598158076"

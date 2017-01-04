@@ -18,6 +18,7 @@
     "shr-models": "~3.0.0",
     "shr-expand": "~3.0.0",
     "shr-text-import": "~3.0.0",
+    "shr-json-export": "~3.0.0",
     "shr-md-export": "~3.0.0"
   }
 }
