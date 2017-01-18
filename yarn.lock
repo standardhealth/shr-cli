@@ -46,9 +46,9 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-shr-expand@~4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-4.0.0.tgz#c2fc748e98271d2747c129ebaf52fa58a601fc0f"
+shr-expand@~4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-4.0.1.tgz#173f8f269f43b19f770f574d770e60c1584cff9a"
   dependencies:
     shr-models "~4.0.0"
 
