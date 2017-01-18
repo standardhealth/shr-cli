@@ -46,35 +46,29 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-shr-expand@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-3.0.0.tgz#80c09f1d1d5195dd031d78353a5ee2c13aede0e8"
+shr-expand@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-4.0.0.tgz#c2fc748e98271d2747c129ebaf52fa58a601fc0f"
   dependencies:
-    shr-models "~3.0.0"
+    shr-models "~4.0.0"
 
-shr-json-export@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-3.0.0.tgz#68e9f78806cccb427fd55a3a1238204dcf2c5158"
-  dependencies:
-    shr-models "~3.0.0"
-
-shr-md-export@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/shr-md-export/-/shr-md-export-3.0.0.tgz#79cb086910af2bd4a809704e32eb181598158076"
+shr-md-export@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/shr-md-export/-/shr-md-export-4.0.0.tgz#c23a58564036b09b5614076224063eba9e6862d4"
   dependencies:
     markdown-it "~8.1.0"
-    shr-models "~3.0.0"
+    shr-models "~4.0.0"
 
-shr-models@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-3.0.0.tgz#fb9e5e4c293c999db8db1b108fc6cada0bc8979b"
+shr-models@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-4.0.0.tgz#2e506a1e9731d536ab1268b634d3a4767ca4cbf1"
 
-shr-text-import@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-3.0.0.tgz#81408985d7ab3f46a2fb6005662fe23525c3087b"
+shr-text-import@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-4.0.0.tgz#50f695c31299490ad9069311d57199e9a35cd3b2"
   dependencies:
     antlr4 "~4.5.3"
-    shr-models "~3.0.0"
+    shr-models "~4.0.0"
 
 sprintf-js@~1.0.2:
   version "1.0.3"
