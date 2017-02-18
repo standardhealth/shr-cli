@@ -46,35 +46,35 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-shr-expand@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-3.0.0.tgz#80c09f1d1d5195dd031d78353a5ee2c13aede0e8"
+shr-expand@~4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-4.0.1.tgz#173f8f269f43b19f770f574d770e60c1584cff9a"
   dependencies:
-    shr-models "~3.0.0"
+    shr-models "~4.0.0"
 
-shr-json-export@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-3.0.0.tgz#68e9f78806cccb427fd55a3a1238204dcf2c5158"
+shr-json-export@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-4.0.0.tgz#3df6ae4a10d98ab9b6c0fef5c3fa07407343a3c2"
   dependencies:
-    shr-models "~3.0.0"
+    shr-models "~4.0.0"
 
-shr-md-export@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/shr-md-export/-/shr-md-export-3.0.0.tgz#79cb086910af2bd4a809704e32eb181598158076"
+shr-md-export@~4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/shr-md-export/-/shr-md-export-4.0.1.tgz#53904db0187b4aa98a48d2dc2aad7fde02c8412c"
   dependencies:
     markdown-it "~8.1.0"
-    shr-models "~3.0.0"
+    shr-models "~4.0.0"
 
-shr-models@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-3.0.0.tgz#fb9e5e4c293c999db8db1b108fc6cada0bc8979b"
+shr-models@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-4.0.0.tgz#2e506a1e9731d536ab1268b634d3a4767ca4cbf1"
 
-shr-text-import@~3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-3.0.0.tgz#81408985d7ab3f46a2fb6005662fe23525c3087b"
+shr-text-import@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-4.0.0.tgz#50f695c31299490ad9069311d57199e9a35cd3b2"
   dependencies:
     antlr4 "~4.5.3"
-    shr-models "~3.0.0"
+    shr-models "~4.0.0"
 
 sprintf-js@~1.0.2:
   version "1.0.3"

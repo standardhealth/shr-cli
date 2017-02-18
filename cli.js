@@ -10,31 +10,31 @@ if (process.argv.length < 3) {
   console.error('Missing path to SHR definition folder or file');
 }
 
-const {namespaces, errors} = importFromFilePath(process.argv[2]);
+const {specifications, errors} = importFromFilePath(process.argv[2]);
 for (const err of errors) {
   console.error(`Import Error: ${err}`);
 }
-const expanded = expand(namespaces);
+const expanded = expand(specifications);
 for (const err of expanded.errors) {
   console.error(`Expansion Error: ${err}`);
 }
 const outDir = process.argv.length == 4 ? process.argv[3] : './out';
 
-const hierarchyJSON = exportToJSON(namespaces);
+const hierarchyJSON = exportToJSON(specifications);
 const hierarchyPath = `${outDir}/json/shr.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(hierarchyJSON, null, '  '));
 
-const exportDoc = function(namespaces, format) {
+const exportDoc = function(specifications, format) {
   const basePath = path.join(outDir, format);
   mkdirp.sync(basePath);
 
   var result, ext;
   if (format == 'markdown') {
-    result = exportToMarkdown(namespaces);
+    result = exportToMarkdown(specifications);
     ext = 'md';
   } else if (format == 'html') {
-    result = exportToHTML(namespaces);
+    result = exportToHTML(specifications);
     ext = 'html';
     // Copy over the CSS
     // fs.createReadStream('./lib/markdown/shr-github-markdown.css').pipe(fs.createWriteStream(path.join(basePath, 'shr-github-markdown.css')));
@@ -56,5 +56,5 @@ const exportDoc = function(namespaces, format) {
   }
 };
 
-exportDoc(expanded.namespaces, 'markdown');
-exportDoc(expanded.namespaces, 'html');
+exportDoc(expanded.specifications, 'markdown');
+exportDoc(expanded.specifications, 'html');
