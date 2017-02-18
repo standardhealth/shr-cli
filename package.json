@@ -10,6 +10,7 @@
   },
   "main": "cli.js",
   "scripts": {
+    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json",
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
