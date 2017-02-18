@@ -34,8 +34,8 @@ jsonfile@^2.1.0:
     graceful-fs "^4.1.6"
 
 linkify-it@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.0.2.tgz#994629a4adfa5a7d34e08c075611575ab9b6fcfc"
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.0.3.tgz#d94a4648f9b1c179d64fa97291268bdb6ce9434f"
   dependencies:
     uc.micro "^1.0.1"
 
@@ -71,7 +71,7 @@ shr-expand@standardhealth/shr-expand#grammar_4_map:
 
 shr-fhir-export@standardhealth/shr-fhir-export:
   version "4.0.0"
-  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/5eb24cb647ed89ed97870c9706be16e4d9b956d9"
+  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/8984b25516b6bd3dea279fb53b384476c88a8a4c"
   dependencies:
     fs-extra "^2.0.0"
     shr-models standardhealth/shr-models#grammar_4_map
@@ -80,14 +80,14 @@ shr-json-export@standardhealth/shr-json-export#grammar_4_map:
   version "4.0.0"
   resolved "https://codeload.github.com/standardhealth/shr-json-export/tar.gz/4be81bf213e28ba96e7ba254002ba3c69e550cb2"
   dependencies:
-    shr-models "~4.0.0"
+    shr-models standardhealth/shr-models#grammar_4_map
 
 shr-md-export@standardhealth/shr-md-export#grammar_4_map:
   version "4.0.1"
   resolved "https://codeload.github.com/standardhealth/shr-md-export/tar.gz/ba0a6dc39b86b9dc06f4d74ab749d295e90477ae"
   dependencies:
     markdown-it "~8.1.0"
-    shr-models "~4.0.0"
+    shr-models standardhealth/shr-models#grammar_4_map
 
 shr-models@standardhealth/shr-models#grammar_4_map:
   version "4.1.0"
