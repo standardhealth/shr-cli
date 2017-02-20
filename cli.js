@@ -36,10 +36,20 @@ mkdirp.sync(baseFHIRProfilesPath);
 for (const profile of fhirResults.profiles) {
   fs.writeFileSync(path.join(baseFHIRProfilesPath, `${profile.id}.json`), JSON.stringify(profile, null, 2));
 }
-const baseFHIRPExtensionsPath = path.join(baseFHIRPath, 'extensions');
-mkdirp.sync(baseFHIRPExtensionsPath);
+const baseFHIRExtensionsPath = path.join(baseFHIRPath, 'extensions');
+mkdirp.sync(baseFHIRExtensionsPath);
 for (const extension of fhirResults.extensions) {
-  fs.writeFileSync(path.join(baseFHIRPExtensionsPath, `${extension.id}.json`), JSON.stringify(extension, null, 2));
+  fs.writeFileSync(path.join(baseFHIRExtensionsPath, `${extension.id}.json`), JSON.stringify(extension, null, 2));
+}
+const baseFHIRCodeSystemsPath = path.join(baseFHIRPath, 'codeSystems');
+mkdirp.sync(baseFHIRCodeSystemsPath);
+for (const codeSystem of fhirResults.codeSystems) {
+  fs.writeFileSync(path.join(baseFHIRCodeSystemsPath, `${codeSystem.id}.json`), JSON.stringify(codeSystem, null, 2));
+}
+const baseFHIRValueSetsPath = path.join(baseFHIRPath, 'valueSets');
+mkdirp.sync(baseFHIRValueSetsPath);
+for (const valueSet of fhirResults.valueSets) {
+  fs.writeFileSync(path.join(baseFHIRValueSetsPath, `${valueSet.id}.json`), JSON.stringify(valueSet, null, 2));
 }
 exportIG(fhirResults, path.join(baseFHIRPath, 'guide'));
 
