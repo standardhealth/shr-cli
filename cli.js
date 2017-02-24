@@ -51,6 +51,7 @@ mkdirp.sync(baseFHIRValueSetsPath);
 for (const valueSet of fhirResults.valueSets) {
   fs.writeFileSync(path.join(baseFHIRValueSetsPath, `${valueSet.id}.json`), JSON.stringify(valueSet, null, 2));
 }
+fs.writeFileSync(path.join(baseFHIRPath, `shr_qa.html`), fhirResults.qaHTML);
 exportIG(fhirResults, path.join(baseFHIRPath, 'guide'));
 
 const exportDoc = function(specifications, format) {
