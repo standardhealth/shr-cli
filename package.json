@@ -18,7 +18,7 @@
     "mkdirp": "^0.5.1",
     "shr-models": "~4.1.0",
     "shr-expand": "~4.1.0",
-    "shr-text-import": "~4.1.0",
+    "shr-text-import": "~4.1.1",
     "shr-md-export": "~4.1.0",
     "shr-json-export": "~4.1.0",
     "shr-fhir-export": "~4.0.0"
