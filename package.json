@@ -16,11 +16,11 @@
   },
   "dependencies": {
     "mkdirp": "^0.5.1",
-    "shr-models": "standardhealth/shr-models#grammar_4_map",
-    "shr-expand": "standardhealth/shr-expand#grammar_4_map",
-    "shr-text-import": "standardhealth/shr-text-import#grammar_4_map",
-    "shr-md-export": "standardhealth/shr-md-export#grammar_4_map",
-    "shr-json-export": "standardhealth/shr-json-export#grammar_4_map",
-    "shr-fhir-export": "standardhealth/shr-fhir-export"
+    "shr-models": "~4.1.0",
+    "shr-expand": "~4.1.0",
+    "shr-text-import": "~4.1.0",
+    "shr-md-export": "~4.1.0",
+    "shr-json-export": "~4.1.0",
+    "shr-fhir-export": "~4.0.0"
   }
 }

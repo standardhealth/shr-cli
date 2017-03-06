@@ -63,42 +63,42 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-shr-expand@standardhealth/shr-expand#grammar_4_map:
+shr-expand@~4.1.0:
   version "4.1.0"
-  resolved "https://codeload.github.com/standardhealth/shr-expand/tar.gz/707dcd5f15cd56000bc94bacbb694273bd6bf1ad"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-4.1.0.tgz#c63dd76da84a392d39d248d518113cd4575bd8a7"
   dependencies:
-    shr-models standardhealth/shr-models#grammar_4_map
+    shr-models "~4.1.0"
 
-shr-fhir-export@standardhealth/shr-fhir-export:
+shr-fhir-export@~4.0.0:
   version "4.0.0"
-  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/94b927d923d8afac6168106325e5d70efd179a55"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-4.0.0.tgz#ddabe7b63fcfb065d10e20f90c5f09536861e666"
   dependencies:
     fs-extra "^2.0.0"
-    shr-models standardhealth/shr-models#grammar_4_map
+    shr-models "~4.1.0"
 
-shr-json-export@standardhealth/shr-json-export#grammar_4_map:
-  version "4.0.0"
-  resolved "https://codeload.github.com/standardhealth/shr-json-export/tar.gz/f1a17e780add0f976595245a3fd74ba53515dccf"
+shr-json-export@~4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-4.1.0.tgz#9396879c58cec378fe87d786df2401f8eb5b1a07"
   dependencies:
-    shr-models standardhealth/shr-models#grammar_4_map
+    shr-models "~4.1.0"
 
-shr-md-export@standardhealth/shr-md-export#grammar_4_map:
-  version "4.0.1"
-  resolved "https://codeload.github.com/standardhealth/shr-md-export/tar.gz/3245b76327ceb47a49650d7afab3099f8f7032b0"
+shr-md-export@~4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/shr-md-export/-/shr-md-export-4.1.0.tgz#cd9edba98cdf051f5055e7d028ef405c6f66edc0"
   dependencies:
     markdown-it "~8.1.0"
-    shr-models standardhealth/shr-models#grammar_4_map
+    shr-models "~4.1.0"
 
-shr-models@standardhealth/shr-models#grammar_4_map:
+shr-models@~4.1.0:
   version "4.1.0"
-  resolved "https://codeload.github.com/standardhealth/shr-models/tar.gz/deae37ebe41a27b2b765c9eaf5d4d89b24dbc426"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-4.1.0.tgz#940d6037181d2e57cfd176d001bb8333434562c4"
 
-shr-text-import@standardhealth/shr-text-import#grammar_4_map:
+shr-text-import@~4.1.0:
   version "4.1.0"
-  resolved "https://codeload.github.com/standardhealth/shr-text-import/tar.gz/cb556af0e71cecbdf22a4025207deb9581216874"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-4.1.0.tgz#02950cf8e64f2ab7cff3ec93da315888ce9be846"
   dependencies:
     antlr4 "~4.5.3"
-    shr-models standardhealth/shr-models#grammar_4_map
+    shr-models "~4.1.0"
 
 sprintf-js@~1.0.2:
   version "1.0.3"
