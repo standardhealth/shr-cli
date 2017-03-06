@@ -5,6 +5,7 @@ const {importFromFilePath} = require('shr-text-import');
 const {expand} = require('shr-expand');
 const {exportToJSON} = require('shr-json-export');
 const {exportToMarkdown, exportToHTML} = require('shr-md-export');
+const {exportToFHIR, exportIG} = require('shr-fhir-export');
 
 if (process.argv.length < 3) {
   console.error('Missing path to SHR definition folder or file');
@@ -24,6 +25,34 @@ const hierarchyJSON = exportToJSON(specifications);
 const hierarchyPath = `${outDir}/json/shr.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(hierarchyJSON, null, '  '));
+
+const fhirResults = exportToFHIR(expanded.specifications);
+for (const err of fhirResults.errors) {
+  console.error(`FHIR Mapping Error: ${err}`);
+}
+const baseFHIRPath = path.join(outDir, 'fhir');
+const baseFHIRProfilesPath = path.join(baseFHIRPath, 'profiles');
+mkdirp.sync(baseFHIRProfilesPath);
+for (const profile of fhirResults.profiles) {
+  fs.writeFileSync(path.join(baseFHIRProfilesPath, `${profile.id}.json`), JSON.stringify(profile, null, 2));
+}
+const baseFHIRExtensionsPath = path.join(baseFHIRPath, 'extensions');
+mkdirp.sync(baseFHIRExtensionsPath);
+for (const extension of fhirResults.extensions) {
+  fs.writeFileSync(path.join(baseFHIRExtensionsPath, `${extension.id}.json`), JSON.stringify(extension, null, 2));
+}
+const baseFHIRCodeSystemsPath = path.join(baseFHIRPath, 'codeSystems');
+mkdirp.sync(baseFHIRCodeSystemsPath);
+for (const codeSystem of fhirResults.codeSystems) {
+  fs.writeFileSync(path.join(baseFHIRCodeSystemsPath, `${codeSystem.id}.json`), JSON.stringify(codeSystem, null, 2));
+}
+const baseFHIRValueSetsPath = path.join(baseFHIRPath, 'valueSets');
+mkdirp.sync(baseFHIRValueSetsPath);
+for (const valueSet of fhirResults.valueSets) {
+  fs.writeFileSync(path.join(baseFHIRValueSetsPath, `${valueSet.id}.json`), JSON.stringify(valueSet, null, 2));
+}
+fs.writeFileSync(path.join(baseFHIRPath, `shr_qa.html`), fhirResults.qaHTML);
+exportIG(fhirResults, path.join(baseFHIRPath, 'guide'));
 
 const exportDoc = function(specifications, format) {
   const basePath = path.join(outDir, format);
@@ -58,3 +87,13 @@ const exportDoc = function(specifications, format) {
 
 exportDoc(expanded.specifications, 'markdown');
 exportDoc(expanded.specifications, 'html');
+
+if (errors.length > 0) {
+  console.error(`${errors.length} import errors`);
+}
+if (expanded.errors.length > 0) {
+  console.error(`${expanded.errors.length} expansion errors`);
+}
+if (fhirResults.errors.length > 0) {
+  console.error(`${fhirResults.errors.length} fhir mapping errors`);
+}

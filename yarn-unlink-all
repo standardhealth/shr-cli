@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+yarn unlink shr-fhir-export
+yarn unlink shr-md-export
+yarn unlink shr-json-export
+yarn unlink shr-text-import
+yarn unlink shr-expand
+yarn unlink shr-models
+
+cd ../shr-fhir-export
+yarn unlink shr-models
+yarn unlink shr-test-helpers
+yarn unlink
+
+cd ../shr-md-export
+yarn unlink shr-models
+yarn unlink shr-test-helpers
+yarn unlink
+
+cd ../shr-json-export
+yarn unlink shr-models
+yarn unlink shr-test-helpers
+yarn unlink
+
+cd ../shr-text-import
+yarn unlink shr-models
+yarn unlink
+
+cd ../shr-expand
+yarn unlink shr-models
+yarn unlink
+
+cd ../shr-test-helpers
+yarn unlink shr-models
+yarn unlink
+
+cd ../shr-models
+yarn unlink
+
+cd ../shr-cli

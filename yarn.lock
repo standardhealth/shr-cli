@@ -16,9 +16,26 @@ entities@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
+fs-extra@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-2.0.0.tgz#337352bded4a0b714f3eb84de8cea765e9d37600"
+  dependencies:
+    graceful-fs "^4.1.2"
+    jsonfile "^2.1.0"
+
+graceful-fs@^4.1.2, graceful-fs@^4.1.6:
+  version "4.1.11"
+  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
+
+jsonfile@^2.1.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-2.4.0.tgz#3736a2b428b87bbda0cc83b53fa3d633a35c2ae8"
+  optionalDependencies:
+    graceful-fs "^4.1.6"
+
 linkify-it@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.0.2.tgz#994629a4adfa5a7d34e08c075611575ab9b6fcfc"
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.0.3.tgz#d94a4648f9b1c179d64fa97291268bdb6ce9434f"
   dependencies:
     uc.micro "^1.0.1"
 
@@ -46,35 +63,42 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-shr-expand@~4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-4.0.1.tgz#173f8f269f43b19f770f574d770e60c1584cff9a"
+shr-expand@~4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-4.1.0.tgz#c63dd76da84a392d39d248d518113cd4575bd8a7"
   dependencies:
-    shr-models "~4.0.0"
+    shr-models "~4.1.0"
 
-shr-json-export@~4.0.0:
+shr-fhir-export@~4.0.0:
   version "4.0.0"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-4.0.0.tgz#3df6ae4a10d98ab9b6c0fef5c3fa07407343a3c2"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-4.0.0.tgz#ddabe7b63fcfb065d10e20f90c5f09536861e666"
   dependencies:
-    shr-models "~4.0.0"
+    fs-extra "^2.0.0"
+    shr-models "~4.1.0"
 
-shr-md-export@~4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/shr-md-export/-/shr-md-export-4.0.1.tgz#53904db0187b4aa98a48d2dc2aad7fde02c8412c"
+shr-json-export@~4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-4.1.0.tgz#9396879c58cec378fe87d786df2401f8eb5b1a07"
+  dependencies:
+    shr-models "~4.1.0"
+
+shr-md-export@~4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/shr-md-export/-/shr-md-export-4.1.0.tgz#cd9edba98cdf051f5055e7d028ef405c6f66edc0"
   dependencies:
     markdown-it "~8.1.0"
-    shr-models "~4.0.0"
+    shr-models "~4.1.0"
 
-shr-models@~4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-4.0.0.tgz#2e506a1e9731d536ab1268b634d3a4767ca4cbf1"
+shr-models@~4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-4.1.0.tgz#940d6037181d2e57cfd176d001bb8333434562c4"
 
-shr-text-import@~4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-4.0.0.tgz#50f695c31299490ad9069311d57199e9a35cd3b2"
+shr-text-import@~4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-4.1.0.tgz#02950cf8e64f2ab7cff3ec93da315888ce9be846"
   dependencies:
     antlr4 "~4.5.3"
-    shr-models "~4.0.0"
+    shr-models "~4.1.0"
 
 sprintf-js@~1.0.2:
   version "1.0.3"
