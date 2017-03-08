@@ -23,8 +23,8 @@ const outDir = process.argv.length == 4 ? process.argv[3] : './out';
 
 const jsonHierarchyResults = exportToJSON(specifications);
 for (const err of jsonHierarchyResults.errors) {
-	  console.error(`JSON Hierarchy Error: ${err}`);
-	}
+  console.error(`JSON Hierarchy Error: ${err}`);
+}
 const hierarchyPath = `${outDir}/json/shr.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults.json, null, '  '));
@@ -98,7 +98,7 @@ if (expanded.errors.length > 0) {
   console.error(`${expanded.errors.length} expansion errors`);
 }
 if (jsonHierarchyResults.errors.length > 0) {
-	console.error(`${jsonHierarchyResults.errors.length} json hierarchy export errors`);
+  console.error(`${jsonHierarchyResults.errors.length} json hierarchy export errors`);
 }
 if (fhirResults.errors.length > 0) {
   console.error(`${fhirResults.errors.length} fhir mapping errors`);
