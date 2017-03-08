@@ -76,9 +76,9 @@ shr-fhir-export@~4.0.0:
     fs-extra "^2.0.0"
     shr-models "~4.1.0"
 
-shr-json-export@~4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-4.1.0.tgz#9396879c58cec378fe87d786df2401f8eb5b1a07"
+shr-json-export@~4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-4.2.0.tgz#6a0411ec357db9f093dc827f6c3717da2be3c451"
   dependencies:
     shr-models "~4.1.0"
 
