@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "4.1.2",
+  "version": "4.2.0",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
@@ -10,17 +10,20 @@
   },
   "main": "cli.js",
   "scripts": {
-    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json",
+    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json; ./node_modules/.bin/replace-in-file /âˆ‘/g Σ ./out/fhir/guide/output/guide/StructureDefinition-*.html --isRegex",
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
   "dependencies": {
     "mkdirp": "^0.5.1",
-    "shr-models": "~4.1.0",
-    "shr-expand": "~4.1.0",
-    "shr-text-import": "~4.1.1",
-    "shr-md-export": "~4.1.0",
-    "shr-json-export": "~4.3.0",
-    "shr-fhir-export": "~4.0.0"
+    "shr-expand": "standardhealth/shr-expand.git#grammar_4.2",
+    "shr-fhir-export": "standardhealth/shr-fhir-export.git#grammar_4.2",
+    "shr-json-export": "standardhealth/shr-json-export.git#grammar_4.2",
+    "shr-md-export": "standardhealth/shr-md-export.git#grammar_4.2",
+    "shr-models": "standardhealth/shr-models.git#grammar_4.2",
+    "shr-text-import": "standardhealth/shr-text-import.git#grammar_4.2"
+  },
+  "devDependencies": {
+    "replace-in-file": "^2.5.0"
   }
 }
