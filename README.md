@@ -29,7 +29,7 @@ The command above will export these formats to the _out_ directory.
 
 # Creating the FHIR Implementation Guide
 
-After exporting the SHR definitions, the FHIR IG Publisher tool can be used to create a FHIR implementation guide, containing HTML documentation, bundled definitions, and more.  This requires that the Java Runtime Environment (JRE) or Java SDK (JSDK) are installed on your system.  After ensuring they are installed, run the following command:
+After exporting the SHR definitions, the FHIR IG Publisher tool can be used to create a FHIR implementation guide, containing HTML documentation, bundled definitions, and more.  This requires that the Java Runtime Environment (JRE) or Java SDK (JSDK) are installed on your system.  It also requires Jekyll ([Mac/Linux](https://jekyllrb.com/) / [Windows](http://jekyll-windows.juthilo.com/1-ruby-and-devkit/)). After ensuring they are installed, run the following command:
 ```
 $ yarn run ig:publish
 ```
@@ -62,9 +62,16 @@ On Windows:
 > java -jar %JAVA_OPTS% out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/shr.json
 ```
 
-The above command will take several minutes.  When it is done, we need to run an operation to fix some invalid characters produced by the HL7 IG Publisher tool:
+The above command will take several minutes.  When it is done, we need to run an operation to fix some invalid characters produced by the HL7 IG Publisher tool.
+
+On Mac or Linux:
 ```
 $ node_modules/.bin/replace-in-file /âˆ‘/g Σ out/fhir/guide/output/guide/StructureDefinition-*.html --isRegex
+```
+
+On Windows:
+```
+$ node_modules\.bin\replace-in-file /âˆ‘/g Σ out/fhir/guide/output/guide/StructureDefinition-*.html --isRegex
 ```
 
 # License
