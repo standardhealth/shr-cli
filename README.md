@@ -62,18 +62,6 @@ On Windows:
 > java -jar %JAVA_OPTS% out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/shr.json
 ```
 
-The above command will take several minutes.  When it is done, we need to run an operation to fix some invalid characters produced by the HL7 IG Publisher tool.
-
-On Mac or Linux:
-```
-$ node_modules/.bin/replace-in-file /âˆ‘/g Σ out/fhir/guide/output/guide/StructureDefinition-*.html --isRegex
-```
-
-On Windows:
-```
-$ node_modules\.bin\replace-in-file /âˆ‘/g Σ out/fhir/guide/output/guide/StructureDefinition-*.html --isRegex
-```
-
 # License
 
 Copyright 2016, 2017 The MITRE Corporation

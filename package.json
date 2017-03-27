@@ -23,7 +23,5 @@
     "shr-models": "standardhealth/shr-models.git#grammar_4.2",
     "shr-text-import": "standardhealth/shr-text-import.git#grammar_4.2"
   },
-  "devDependencies": {
-    "replace-in-file": "^2.5.0"
-  }
+  "devDependencies": {}
 }
