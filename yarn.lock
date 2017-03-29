@@ -71,7 +71,7 @@ shr-expand@standardhealth/shr-expand.git#grammar_4.2:
 
 shr-fhir-export@standardhealth/shr-fhir-export.git#grammar_4.2:
   version "4.1.0"
-  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/77a65fba9fcee707fe12d352f6c286c9126e62ed"
+  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/9a875824cb6b8ba267309b5ac947c0f53b951c7e"
   dependencies:
     fs-extra "^2.0.0"
     shr-models standardhealth/shr-models.git#grammar_4.2
