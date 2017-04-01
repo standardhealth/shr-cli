@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@ojolabs/bunyan-prettystream@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@ojolabs/bunyan-prettystream/-/bunyan-prettystream-0.1.6.tgz#5b254259bf6b13af4e34e653413978da20995452"
+
 antlr4@~4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/antlr4/-/antlr4-4.6.0.tgz#0d7e8b4b4692ebf1d9470ae59cf627428bcc6dec"
@@ -11,6 +15,36 @@ argparse@^1.0.7:
   resolved "https://registry.yarnpkg.com/argparse/-/argparse-1.0.9.tgz#73d83bc263f86e97f8cc4f6bae1b0e90a7d22c86"
   dependencies:
     sprintf-js "~1.0.2"
+
+balanced-match@^0.4.1:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
+
+brace-expansion@^1.0.0:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.6.tgz#7197d7eaa9b87e648390ea61fc66c84427420df9"
+  dependencies:
+    balanced-match "^0.4.1"
+    concat-map "0.0.1"
+
+bunyan@^1.8.9:
+  version "1.8.9"
+  resolved "https://registry.yarnpkg.com/bunyan/-/bunyan-1.8.9.tgz#2c7c9d422ea64ee2465d52b4decd72de0657401a"
+  optionalDependencies:
+    dtrace-provider "~0.8"
+    moment "^2.10.6"
+    mv "~2"
+    safe-json-stringify "~1"
+
+concat-map@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
+
+dtrace-provider@~0.8:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/dtrace-provider/-/dtrace-provider-0.8.1.tgz#cd4d174a233bea1bcf4a1fbfa5798f44f48cda9f"
+  dependencies:
+    nan "^2.3.3"
 
 entities@~1.1.1:
   version "1.1.1"
@@ -23,9 +57,30 @@ fs-extra@^2.0.0:
     graceful-fs "^4.1.2"
     jsonfile "^2.1.0"
 
+glob@^6.0.1:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-6.0.4.tgz#0f08860f6a155127b2fadd4f9ce24b1aab6e4d22"
+  dependencies:
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "2 || 3"
+    once "^1.3.0"
+    path-is-absolute "^1.0.0"
+
 graceful-fs@^4.1.2, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
+
+inflight@^1.0.4:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/inflight/-/inflight-1.0.6.tgz#49bd6331d7d02d0c09bc910a1075ba8165b56df9"
+  dependencies:
+    once "^1.3.0"
+    wrappy "1"
+
+inherits@2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
 
 jsonfile@^2.1.0:
   version "2.4.0"
@@ -53,51 +108,101 @@ mdurl@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
 
+"minimatch@2 || 3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.3.tgz#2a4e4090b96b2db06a9d7df01055a62a77c9b774"
+  dependencies:
+    brace-expansion "^1.0.0"
+
 minimist@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
-mkdirp@^0.5.1:
+mkdirp@^0.5.1, mkdirp@~0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
 
+moment@^2.10.6:
+  version "2.18.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
+
+mv@~2:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/mv/-/mv-2.1.1.tgz#ae6ce0d6f6d5e0a4f7d893798d03c1ea9559b6a2"
+  dependencies:
+    mkdirp "~0.5.1"
+    ncp "~2.0.0"
+    rimraf "~2.4.0"
+
+nan@^2.3.3:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.5.1.tgz#d5b01691253326a97a2bbee9e61c55d8d60351e2"
+
+ncp@~2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
+
+once@^1.3.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
+  dependencies:
+    wrappy "1"
+
+path-is-absolute@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
+
+rimraf@~2.4.0:
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.4.5.tgz#ee710ce5d93a8fdb856fb5ea8ff0e2d75934b2da"
+  dependencies:
+    glob "^6.0.1"
+
+safe-json-stringify@~1:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/safe-json-stringify/-/safe-json-stringify-1.0.4.tgz#81a098f447e4bbc3ff3312a243521bc060ef5911"
+
 shr-expand@standardhealth/shr-expand.git#grammar_4.2:
   version "4.2.0"
-  resolved "https://codeload.github.com/standardhealth/shr-expand/tar.gz/6b788e1e44e3e03d93299e29ef1b35e7d7277058"
+  resolved "https://codeload.github.com/standardhealth/shr-expand/tar.gz/9d00be89ab366b65f92c75e96f9a98d786c63539"
   dependencies:
+    bunyan "^1.8.9"
     shr-models standardhealth/shr-models.git#grammar_4.2
 
 shr-fhir-export@standardhealth/shr-fhir-export.git#grammar_4.2:
   version "4.1.0"
-  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/9a875824cb6b8ba267309b5ac947c0f53b951c7e"
+  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/fd49a7a6c5f34d0186936b3dee02a703f98ebf18"
   dependencies:
+    bunyan "^1.8.9"
     fs-extra "^2.0.0"
     shr-models standardhealth/shr-models.git#grammar_4.2
 
 shr-json-export@standardhealth/shr-json-export.git#grammar_4.2:
   version "4.3.1"
-  resolved "https://codeload.github.com/standardhealth/shr-json-export/tar.gz/2fe150ea34d01f76b3708385a75969f97660a1bd"
+  resolved "https://codeload.github.com/standardhealth/shr-json-export/tar.gz/b1541d5bd29f372cd800b7b4c0c7a93ff37fdd6d"
   dependencies:
+    bunyan "^1.8.9"
     shr-models standardhealth/shr-models.git#grammar_4.2
 
 shr-md-export@standardhealth/shr-md-export.git#grammar_4.2:
   version "4.1.1"
-  resolved "https://codeload.github.com/standardhealth/shr-md-export/tar.gz/36264d0fb26692ab32de2ed4fd16d3b71f7c0abb"
+  resolved "https://codeload.github.com/standardhealth/shr-md-export/tar.gz/9d0b1773d0f0024afc455032789db42bb6bfd071"
   dependencies:
     markdown-it "~8.1.0"
     shr-models standardhealth/shr-models.git#grammar_4.2
 
 shr-models@standardhealth/shr-models.git#grammar_4.2:
   version "4.2.0"
-  resolved "https://codeload.github.com/standardhealth/shr-models/tar.gz/c247c272d26713365145a7b7442f4841711509f8"
+  resolved "https://codeload.github.com/standardhealth/shr-models/tar.gz/4add8db10edba06ecee496d2f5635b069019ea96"
 
 shr-text-import@standardhealth/shr-text-import.git#grammar_4.2:
   version "4.2.0"
-  resolved "https://codeload.github.com/standardhealth/shr-text-import/tar.gz/ee59319478083639bd5805e1523de8a6c3cfc47f"
+  resolved "https://codeload.github.com/standardhealth/shr-text-import/tar.gz/05c7253a3804486fdb0727bc25aec686728eb479"
   dependencies:
     antlr4 "~4.6.0"
+    bunyan "^1.8.9"
     shr-models standardhealth/shr-models.git#grammar_4.2
 
 sprintf-js@~1.0.2:
@@ -107,3 +212,7 @@ sprintf-js@~1.0.2:
 uc.micro@^1.0.1, uc.micro@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.3.tgz#7ed50d5e0f9a9fb0a573379259f2a77458d50192"
+
+wrappy@1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
