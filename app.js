@@ -13,8 +13,8 @@ const shrFE = require('shr-fhir-export');
 let input;
 program
   .usage('<path-to-shr-defs> [options]')
-  .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/, 'info')
-  .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/, 'short')
+  .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
+  .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
   .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
@@ -32,14 +32,18 @@ if (typeof input === 'undefined') {
 mkdirp.sync(program.out);
 
 // Set up the logger streams
+const [ll, lm] = [program.logLevel.toLowerCase(), program.logMode.toLowerCase()];
 const streams = [];
-if (program.logMode == 'short' || program.logMode == 'long') {
-  const prettyStdOut = new bps({mode: program.mode});
+if (lm == 'short' || lm == 'long') {
+  const prettyStdOut = new bps({mode: lm});
   prettyStdOut.pipe(process.stdout);
-  streams.push({ level: program.logLevel, type: 'raw', stream: prettyStdOut});
-} else if (program.logMode == 'json') {
-  streams.push({ level: program.logLevel, stream: process.stdout });
+  streams.push({ level: ll, type: 'raw', stream: prettyStdOut});
+} else if (lm == 'json') {
+  streams.push({ level: ll, stream: process.stdout });
 }
+// Setup a ringbuffer for counting the number of errors at the end
+const ringBuffer = new bunyan.RingBuffer({ limit: 500 });
+streams.push({ level: 'warn', type: 'raw', stream: ringBuffer});
 // Always do a full JSON log
 streams.push({ level: 'trace', path: path.join(program.out, 'out.log') });
 const logger = bunyan.createLogger({
@@ -121,3 +125,28 @@ const exportDoc = function(specifications, format) {
 
 exportDoc(expSpecifications, 'markdown');
 exportDoc(expSpecifications, 'html');
+
+let [numErrors, numWarnings] = [0, 0];
+let [errModules, wrnModules] = [{}, {}];
+for (const r of ringBuffer.records) {
+  if (r.level >= 50) {
+    numErrors++;
+    if (r.module) errModules[r.module] = true;
+  } else if (r.level >= 40) {
+    numWarnings++;
+    if (r.module) wrnModules[r.module] = true;
+  }
+}
+let [errColor, errLabel, wrnColor, wrnLabel, resetColor] = ['\x1b[32m', 'errors', '\x1b[32m', 'warnings', '\x1b[0m'];
+if (numErrors > 0) {
+  errColor = '\x1b[31m'; // red
+  errLabel = `errors (${Object.keys(errModules).join(', ')})`;
+}
+if (numWarnings > 0) {
+  wrnColor = '\x1b[35m'; // magenta
+  wrnLabel = `warnings (${Object.keys(wrnModules).join(', ')})`;
+}
+// eslint-disable-next-line no-console
+console.log(errColor, numErrors, errLabel, resetColor);
+// eslint-disable-next-line no-console
+console.log(wrnColor, numWarnings, wrnLabel, resetColor);
