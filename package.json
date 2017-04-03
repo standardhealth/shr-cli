@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git@github.com:standardhealth/shr-cli.git"
   },
-  "main": "cli.js",
+  "main": "app.js",
   "scripts": {
     "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json; ./node_modules/.bin/replace-in-file /âˆ‘/g Σ ./out/fhir/guide/output/guide/StructureDefinition-*.html --isRegex",
     "lint": "./node_modules/.bin/eslint .",
@@ -17,6 +17,7 @@
   "dependencies": {
     "@ojolabs/bunyan-prettystream": "^0.1.6",
     "bunyan": "^1.8.9",
+    "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
     "shr-expand": "standardhealth/shr-expand.git#grammar_4.2",
     "shr-fhir-export": "standardhealth/shr-fhir-export.git#grammar_4.2",

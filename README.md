@@ -22,10 +22,39 @@ To run the command-line interface, you must perform the following steps to insta
 
 After setting up the environment, you can use node to import a folder of files from CAMEO (SHR text format) to a number of other formats, including Markdown, HTML, JSON, and FHIR definitions:
 ```
-$ node cli.js /path/to/shr_spec/spec
+$ node . /path/to/shr_spec/spec
 ```
 
 The command above will export these formats to the _out_ directory.
+
+It is also possible to override the default logging level, logging format, and output folder:
+```
+$ node . --help
+
+  Usage: shr-cli <path-to-shr-defs> [options]
+
+  Options:
+
+    -h, --help               output usage information
+    -l, --log-level <level>  the console log level <fatal,error,warn,info,debug,trace> (default: info)
+    -m, --log-mode <mode>    the console log mode <short,long,json,off> (default: short)
+    -o, --out <out>          the path to the output folder (default: ./out)
+```
+
+For example:
+```
+node . ../shr_spec/spec -l error -o out2
+```
+
+# Advanced Logging
+
+The SHR tools use the [Bunyan](https://www.npmjs.com/package/bunyan) structured logging framework, and store a full log file in the output folder (note: it will be appended to on subsequent runs).  You can use the Bunyan CLI tool to perform advanced filtering of the log file.  For example:
+```
+node_modules/.bin/bunyan -c 'this.shrId=="shr.vital.BloodPressure"'  -o short out/out.log
+```
+(On Windows, replace `/` with `\` in the example).
+
+For more information on Bunyan and Bunyan CLI, see the Bunyan documentation.
 
 # Creating the FHIR Implementation Guide
 

@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const bunyan = require('bunyan');
+const program = require('commander');
 const bps = require('@ojolabs/bunyan-prettystream');
 const shrTI = require('shr-text-import');
 const shrEx = require('shr-expand');
@@ -9,25 +10,41 @@ const shrJE = require('shr-json-export');
 const shrME = require('shr-md-export');
 const shrFE = require('shr-fhir-export');
 
-// Check args
-if (process.argv.length < 3) {
-  console.error('Missing path to SHR definition folder or file');
-  process.exit(1);
+let input;
+program
+  .usage('<path-to-shr-defs> [options]')
+  .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/, 'info')
+  .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/, 'short')
+  .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
+  .arguments('<path-to-shr-defs>')
+  .action(function (pathToShrDefs) {
+    input = pathToShrDefs;
+  })
+  .parse(process.argv);
+
+// Check that input folder is specified
+if (typeof input === 'undefined') {
+  console.error('\x1b[31m','Missing path to SHR definition folder or file','\x1b[0m');
+  program.help();
 }
 
 // Create the output folder if necessary
-const outDir = process.argv.length == 4 ? process.argv[3] : './out';
-mkdirp.sync(outDir);
+mkdirp.sync(program.out);
 
-// Set up the logger
-var prettyStdOut = new bps({mode: 'short'});
-prettyStdOut.pipe(process.stdout);
+// Set up the logger streams
+const streams = [];
+if (program.logMode == 'short' || program.logMode == 'long') {
+  const prettyStdOut = new bps({mode: program.mode});
+  prettyStdOut.pipe(process.stdout);
+  streams.push({ level: program.logLevel, type: 'raw', stream: prettyStdOut});
+} else if (program.logMode == 'json') {
+  streams.push({ level: program.logLevel, stream: process.stdout });
+}
+// Always do a full JSON log
+streams.push({ level: 'trace', path: path.join(program.out, 'out.log') });
 const logger = bunyan.createLogger({
   name: 'shr',
-  streams: [
-    { level: 'info', type: 'raw', stream: prettyStdOut },
-    { level: 'trace', path: path.join(outDir, 'out.log') }
-  ]
+  streams: streams
 });
 
 shrTI.setLogger(logger.child({module: 'shr-text-input'}));
@@ -42,12 +59,12 @@ const specifications = shrTI.importFromFilePath(process.argv[2]);
 const expSpecifications = shrEx.expand(specifications);
 
 const jsonHierarchyResults = shrJE.exportToJSON(specifications);
-const hierarchyPath = `${outDir}/json/shr.json`;
+const hierarchyPath = `${program.out}/json/shr.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
 
 const fhirResults = shrFE.exportToFHIR(expSpecifications);
-const baseFHIRPath = path.join(outDir, 'fhir');
+const baseFHIRPath = path.join(program.out, 'fhir');
 const baseFHIRProfilesPath = path.join(baseFHIRPath, 'profiles');
 mkdirp.sync(baseFHIRProfilesPath);
 for (const profile of fhirResults.profiles) {
@@ -72,7 +89,7 @@ fs.writeFileSync(path.join(baseFHIRPath, `shr_qa.html`), fhirResults.qaHTML);
 shrFE.exportIG(fhirResults, path.join(baseFHIRPath, 'guide'));
 
 const exportDoc = function(specifications, format) {
-  const basePath = path.join(outDir, format);
+  const basePath = path.join(program.out, format);
   mkdirp.sync(basePath);
 
   var result, ext;
