@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "4.1.2",
+  "version": "4.2.0",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
@@ -8,19 +8,23 @@
     "type": "git",
     "url": "git@github.com:standardhealth/shr-cli.git"
   },
-  "main": "cli.js",
+  "main": "app.js",
   "scripts": {
-    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json",
+    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json; ./node_modules/.bin/replace-in-file /âˆ‘/g Σ ./out/fhir/guide/output/guide/StructureDefinition-*.html --isRegex",
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
   "dependencies": {
+    "@ojolabs/bunyan-prettystream": "^0.1.6",
+    "bunyan": "^1.8.9",
+    "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
-    "shr-models": "~4.1.0",
-    "shr-expand": "~4.1.0",
-    "shr-text-import": "~4.1.1",
-    "shr-md-export": "~4.1.0",
+    "shr-expand": "~4.2.0",
+    "shr-fhir-export": "~4.1.0",
     "shr-json-export": "~4.3.0",
-    "shr-fhir-export": "~4.0.0"
-  }
+    "shr-md-export": "~4.1.1",
+    "shr-models": "~4.2.0",
+    "shr-text-import": "~4.2.0"
+  },
+  "devDependencies": {}
 }

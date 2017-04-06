@@ -24,10 +24,12 @@ yarn unlink
 
 cd ../shr-text-import
 yarn unlink shr-models
+yarn unlink shr-test-helpers
 yarn unlink
 
 cd ../shr-expand
 yarn unlink shr-models
+yarn unlink shr-test-helpers
 yarn unlink
 
 cd ../shr-test-helpers

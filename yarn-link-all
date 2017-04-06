@@ -9,10 +9,12 @@ yarn link
 
 cd ../shr-expand
 yarn link shr-models
+yarn link shr-test-helpers
 yarn link
 
 cd ../shr-text-import
 yarn link shr-models
+yarn link shr-test-helpers
 yarn link
 
 cd ../shr-json-export
