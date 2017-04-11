@@ -20,7 +20,7 @@
     "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
     "shr-expand": "~4.2.0",
-    "shr-fhir-export": "~4.1.0",
+    "shr-fhir-export": "^4.2.0",
     "shr-json-export": "~4.3.0",
     "shr-md-export": "~4.1.1",
     "shr-models": "~4.2.0",
