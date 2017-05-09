@@ -83,12 +83,12 @@ Next, create the IG using the HL7 IG Publisher Tool.
 
 On Mac or Linux:
 ```
-$ java -jar $JAVA_OPTS out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/shr.json
+$ java -jar $JAVA_OPTS out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/shr.json -tx http://test.fhir.org/r3
 ```
 
 On Windows:
 ```
-> java -jar %JAVA_OPTS% out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/shr.json
+> java -jar %JAVA_OPTS% out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/shr.json -tx http://test.fhir.org/r3
 ```
 
 # License

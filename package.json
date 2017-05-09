@@ -10,7 +10,7 @@
   },
   "main": "app.js",
   "scripts": {
-    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json; ./node_modules/.bin/replace-in-file /âˆ‘/g Σ ./out/fhir/guide/output/guide/StructureDefinition-*.html --isRegex",
+    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json -tx http://test.fhir.org/r3",
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
