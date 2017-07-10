@@ -181,9 +181,9 @@ shr-expand@^4.2.1:
     bunyan "^1.8.9"
     shr-models "^4.2.1"
 
-shr-fhir-export@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-4.2.3.tgz#18ab3870203a46f41a40607c2cecde1605b8b61c"
+shr-fhir-export@^4.2.4:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-4.2.4.tgz#859ff2843caf546de33478d46b018181dde8dbc7"
   dependencies:
     bunyan "^1.8.9"
     fs-extra "^2.0.0"
