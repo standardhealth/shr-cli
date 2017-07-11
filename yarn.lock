@@ -175,15 +175,15 @@ safe-json-stringify@~1:
   resolved "https://registry.yarnpkg.com/safe-json-stringify/-/safe-json-stringify-1.0.4.tgz#81a098f447e4bbc3ff3312a243521bc060ef5911"
 
 "shr-expand@>=5.0.0-beta <5.1.0":
-  version "5.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.0.0-beta.1.tgz#6552204a150c3f48b4427f21d76653355f243826"
+  version "5.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.0.0-beta.2.tgz#3335af0c8fdbc6a10174128c4687e672f180f25c"
   dependencies:
     bunyan "^1.8.9"
     shr-models ">=5.0.0-beta <5.1.0"
 
 "shr-fhir-export@>=5.0.0-beta <5.1.0":
-  version "5.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.0.0-beta.1.tgz#a5d0fc05bdd06bdde3bcc39c30421272877dc087"
+  version "5.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.0.0-beta.2.tgz#70a7c18ab5d8fe94b68ccb7f6814779aafd3c357"
   dependencies:
     bunyan "^1.8.9"
     fs-extra "^2.0.0"
