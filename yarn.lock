@@ -174,46 +174,46 @@ safe-json-stringify@~1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/safe-json-stringify/-/safe-json-stringify-1.0.4.tgz#81a098f447e4bbc3ff3312a243521bc060ef5911"
 
-"shr-expand@>=5.0.0-beta <5.1.0":
-  version "5.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.0.0-beta.2.tgz#3335af0c8fdbc6a10174128c4687e672f180f25c"
+shr-expand@beta:
+  version "5.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.0.0-beta.3.tgz#6945f477f776aebf2a85817033d442013fb4eee0"
   dependencies:
     bunyan "^1.8.9"
-    shr-models ">=5.0.0-beta <5.1.0"
+    shr-models beta
 
-"shr-fhir-export@>=5.0.0-beta <5.1.0":
-  version "5.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.0.0-beta.2.tgz#70a7c18ab5d8fe94b68ccb7f6814779aafd3c357"
+shr-fhir-export@beta:
+  version "5.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.0.0-beta.3.tgz#4177636d716560aad3deb49a1c2e7467451b4a9a"
   dependencies:
     bunyan "^1.8.9"
     fs-extra "^2.0.0"
-    shr-models ">=5.0.0-beta <5.1.0"
+    shr-models beta
 
-"shr-json-export@>=5.0.0-beta <5.1.0":
-  version "5.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.0.0-beta.1.tgz#3998dcb760c2e4a9ad6bc8005e893fe03bd2d8b1"
+shr-json-export@beta:
+  version "5.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.0.0-beta.2.tgz#82e37dd483637c773a040071f3546059666f79d2"
   dependencies:
     bunyan "^1.8.9"
-    shr-models ">=5.0.0-beta <5.1.0"
+    shr-models beta
 
-"shr-md-export@>=5.0.0-beta <5.1.0":
-  version "5.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/shr-md-export/-/shr-md-export-5.0.0-beta.1.tgz#f86625b34bb33055daee926a188e991becfa7bc3"
+shr-md-export@beta:
+  version "5.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/shr-md-export/-/shr-md-export-5.0.0-beta.2.tgz#432631619a194209ace301fe0a4aa58e39bd6224"
   dependencies:
     markdown-it "~8.1.0"
-    shr-models ">=5.0.0-beta <5.1.0"
+    shr-models beta
 
-"shr-models@>=5.0.0-beta <5.1.0":
-  version "5.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.0.0-beta.1.tgz#fcafa30231ded644ee42865aa84c83dc37c3310a"
+shr-models@beta:
+  version "5.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.0.0-beta.3.tgz#cd57f7fe74cb397a43e77588e1c9f69a9785791d"
 
-"shr-text-import@>=5.0.0-beta <5.1.0":
-  version "5.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.0.0-beta.2.tgz#5bcf6303eb9e80a9f452fc01f51b8fee625cee75"
+shr-text-import@beta:
+  version "5.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.0.0-beta.3.tgz#d40efdedcd26dbffceefe143b3977533ccff3fc5"
   dependencies:
     antlr4 "~4.6.0"
     bunyan "^1.8.9"
-    shr-models ">=5.0.0-beta <5.1.0"
+    shr-models beta
 
 sprintf-js@~1.0.2:
   version "1.0.3"
