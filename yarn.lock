@@ -208,8 +208,8 @@ shr-models@beta:
   resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.0.0-beta.3.tgz#cd57f7fe74cb397a43e77588e1c9f69a9785791d"
 
 shr-text-import@beta:
-  version "5.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.0.0-beta.3.tgz#d40efdedcd26dbffceefe143b3977533ccff3fc5"
+  version "5.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.0.0-beta.4.tgz#bfaf4a34efa13b9eb2194a96e3c299f457f525d6"
   dependencies:
     antlr4 "~4.6.0"
     bunyan "^1.8.9"
