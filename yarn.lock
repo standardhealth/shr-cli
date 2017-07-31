@@ -57,8 +57,8 @@ entities@~1.1.1:
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
 fs-extra@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-2.0.0.tgz#337352bded4a0b714f3eb84de8cea765e9d37600"
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-2.1.2.tgz#046c70163cef9aad46b0e4a7fa467fb22d71de35"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^2.1.0"
@@ -182,16 +182,16 @@ shr-expand@beta:
     shr-models beta
 
 shr-fhir-export@beta:
-  version "5.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.0.0-beta.3.tgz#4177636d716560aad3deb49a1c2e7467451b4a9a"
+  version "5.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.0.0-beta.4.tgz#75acaf24c6fba4211489d07b99e171b9768cbe43"
   dependencies:
     bunyan "^1.8.9"
     fs-extra "^2.0.0"
     shr-models beta
 
 shr-json-export@beta:
-  version "5.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.0.0-beta.2.tgz#82e37dd483637c773a040071f3546059666f79d2"
+  version "5.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.0.0-beta.3.tgz#c1c20ba85e55f21cde1b70f6299bef683d813f1d"
   dependencies:
     bunyan "^1.8.9"
     shr-models beta
@@ -208,8 +208,8 @@ shr-models@beta:
   resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.0.0-beta.3.tgz#cd57f7fe74cb397a43e77588e1c9f69a9785791d"
 
 shr-text-import@beta:
-  version "5.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.0.0-beta.4.tgz#bfaf4a34efa13b9eb2194a96e3c299f457f525d6"
+  version "5.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.0.0-beta.5.tgz#b28b1fa2e938e50bc64c7b528cef4a9ff678dcdf"
   dependencies:
     antlr4 "~4.6.0"
     bunyan "^1.8.9"
