@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "5.0.0-beta.2",
+  "version": "5.0.0-beta.7",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
@@ -10,7 +10,7 @@
   },
   "main": "app.js",
   "scripts": {
-    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json -tx http://test.fhir.org/r3",
+    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json",
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
@@ -19,12 +19,12 @@
     "bunyan": "^1.8.9",
     "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
-    "shr-expand": ">=5.0.0-beta <5.1.0",
-    "shr-fhir-export": ">=5.0.0-beta <5.1.0",
-    "shr-json-export": ">=5.0.0-beta <5.1.0",
-    "shr-md-export": ">=5.0.0-beta <5.1.0",
-    "shr-models": ">=5.0.0-beta <5.1.0",
-    "shr-text-import": ">=5.0.0-beta <5.1.0"
+    "shr-expand": "beta",
+    "shr-fhir-export": "beta",
+    "shr-json-export": "beta",
+    "shr-md-export": "beta",
+    "shr-models": "beta",
+    "shr-text-import": "beta"
   },
   "devDependencies": {}
 }
