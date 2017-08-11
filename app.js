@@ -60,6 +60,7 @@ shrFE.setLogger(logger.child({module: 'shr-fhir-export'}));
 // Go!
 logger.info('Starting CLI Import/Export');
 const specifications = shrTI.importFromFilePath(process.argv[2]);
+const configSpecifications = shrTI.importConfigFromFilePath(process.argv[2]);
 const expSpecifications = shrEx.expand(specifications);
 
 const jsonHierarchyResults = shrJE.exportToJSON(specifications);
@@ -67,7 +68,7 @@ const hierarchyPath = `${program.out}/json/shr.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
 
-const fhirResults = shrFE.exportToFHIR(expSpecifications);
+const fhirResults = shrFE.exportToFHIR(expSpecifications, configSpecifications);
 const baseFHIRPath = path.join(program.out, 'fhir');
 const baseFHIRProfilesPath = path.join(baseFHIRPath, 'profiles');
 mkdirp.sync(baseFHIRProfilesPath);
