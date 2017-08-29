@@ -182,8 +182,8 @@ shr-expand@beta:
     shr-models beta
 
 shr-fhir-export@beta:
-  version "5.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.0.0-beta.6.tgz#3ed875262312046419e724f2a586ca8686bb3ad6"
+  version "5.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.0.0-beta.7.tgz#5b83aa9bbc3e700940953f76d812f855e4ae5fb1"
   dependencies:
     bunyan "^1.8.9"
     fs-extra "^2.0.0"
