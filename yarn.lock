@@ -190,8 +190,8 @@ shr-fhir-export@beta:
     shr-models beta
 
 shr-json-export@beta:
-  version "5.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.0.0-beta.4.tgz#7625126745536939e421ec23571982c94b448c93"
+  version "5.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.0.0-beta.5.tgz#60fc6534ce890462f6994b39c4d02fea93d19ffd"
   dependencies:
     bunyan "^1.8.9"
     shr-models beta
@@ -208,8 +208,8 @@ shr-models@beta:
   resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.0.0-beta.4.tgz#89b0c8e610a2ec52ea4f9024df76bf63051ff46f"
 
 shr-text-import@beta:
-  version "5.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.0.0-beta.6.tgz#6a2900c0d7627d2af28a9aaaa846b4fd9522f990"
+  version "5.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.0.0-beta.7.tgz#3681467b677011812b605198be62b6e5caae2a51"
   dependencies:
     antlr4 "~4.6.0"
     bunyan "^1.8.9"
