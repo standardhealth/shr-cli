@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+echo "----------------------------------------------------"
+
+cd ../shr-models
+echo "shr-models:       $(git rev-parse --abbrev-ref HEAD)"
+
+cd ../shr-test-helpers
+echo "shr-test-helpers: $(git rev-parse --abbrev-ref HEAD)"
+
+cd ../shr-expand
+echo "shr-expand:       $(git rev-parse --abbrev-ref HEAD)"
+
+cd ../shr-text-import
+echo "shr-text-import:  $(git rev-parse --abbrev-ref HEAD)"
+
+cd ../shr-json-export
+echo "shr-json-export:  $(git rev-parse --abbrev-ref HEAD)"
+
+cd ../shr-fhir-export
+echo "shr-fhir-export:  $(git rev-parse --abbrev-ref HEAD)"
+
+cd ../shr-cli
+echo "shr-cli:          $(git rev-parse --abbrev-ref HEAD)"
+
+echo "----------------------------------------------------"

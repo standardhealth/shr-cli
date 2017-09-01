@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "4.3.4",
+  "version": "5.0.0",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
@@ -10,7 +10,7 @@
   },
   "main": "app.js",
   "scripts": {
-    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json -tx http://test.fhir.org/r3",
+    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json",
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
@@ -19,12 +19,11 @@
     "bunyan": "^1.8.9",
     "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
-    "shr-expand": "^4.2.1",
-    "shr-fhir-export": "^4.2.4",
-    "shr-json-export": "^4.3.2",
-    "shr-md-export": "^4.1.2",
-    "shr-models": "^4.2.1",
-    "shr-text-import": "^4.2.1"
+    "shr-expand": "^5.0.0",
+    "shr-fhir-export": "^5.0.0",
+    "shr-json-export": "^5.0.0",
+    "shr-models": "^5.0.0",
+    "shr-text-import": "^5.0.0"
   },
   "devDependencies": {}
 }

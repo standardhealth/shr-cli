@@ -10,12 +10,6 @@ antlr4@~4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/antlr4/-/antlr4-4.6.0.tgz#0d7e8b4b4692ebf1d9470ae59cf627428bcc6dec"
 
-argparse@^1.0.7:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/argparse/-/argparse-1.0.9.tgz#73d83bc263f86e97f8cc4f6bae1b0e90a7d22c86"
-  dependencies:
-    sprintf-js "~1.0.2"
-
 balanced-match@^0.4.1:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
@@ -52,13 +46,9 @@ dtrace-provider@~0.8:
   dependencies:
     nan "^2.3.3"
 
-entities@~1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
-
 fs-extra@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-2.0.0.tgz#337352bded4a0b714f3eb84de8cea765e9d37600"
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-2.1.2.tgz#046c70163cef9aad46b0e4a7fa467fb22d71de35"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^2.1.0"
@@ -97,26 +87,6 @@ jsonfile@^2.1.0:
   resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-2.4.0.tgz#3736a2b428b87bbda0cc83b53fa3d633a35c2ae8"
   optionalDependencies:
     graceful-fs "^4.1.6"
-
-linkify-it@^2.0.0:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.0.3.tgz#d94a4648f9b1c179d64fa97291268bdb6ce9434f"
-  dependencies:
-    uc.micro "^1.0.1"
-
-markdown-it@~8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-8.1.0.tgz#38902d4e7bac2260c073eb67be623211fbb2c2e3"
-  dependencies:
-    argparse "^1.0.7"
-    entities "~1.1.1"
-    linkify-it "^2.0.0"
-    mdurl "^1.0.1"
-    uc.micro "^1.0.3"
-
-mdurl@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
 
 "minimatch@2 || 3":
   version "3.0.3"
@@ -174,54 +144,39 @@ safe-json-stringify@~1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/safe-json-stringify/-/safe-json-stringify-1.0.4.tgz#81a098f447e4bbc3ff3312a243521bc060ef5911"
 
-shr-expand@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-4.2.1.tgz#250f3d9c545ac7baba9c968a96ac17a001effd03"
+shr-expand@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.0.0.tgz#669c4add8a0d474c85434cd137e7b6ff023e091a"
   dependencies:
     bunyan "^1.8.9"
-    shr-models "^4.2.1"
+    shr-models "^5.0.0"
 
-shr-fhir-export@^4.2.4:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-4.2.4.tgz#859ff2843caf546de33478d46b018181dde8dbc7"
+shr-fhir-export@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.0.0.tgz#98310ba740b368b3ec82f1893a5a7b54876419cf"
   dependencies:
     bunyan "^1.8.9"
     fs-extra "^2.0.0"
-    shr-models "^4.2.1"
+    shr-models "^5.0.0"
 
-shr-json-export@^4.3.2:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-4.3.2.tgz#0019918bd57dc4077853254274163619f74ae150"
+shr-json-export@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.0.0.tgz#26bc3ec4d590234f9f29dd2ffd8da680b708baa4"
   dependencies:
     bunyan "^1.8.9"
-    shr-models "^4.2.1"
+    shr-models "^5.0.0"
 
-shr-md-export@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/shr-md-export/-/shr-md-export-4.1.2.tgz#1f7127d4e1afadbd14d79f0d298f97a804537006"
-  dependencies:
-    markdown-it "~8.1.0"
-    shr-models "^4.2.1"
+shr-models@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.0.0.tgz#ddeefb62d99b630b828401d87e594803d06b9e3b"
 
-shr-models@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-4.2.1.tgz#57a067afb78ffbf8e57fd51fb34188b00fc252e6"
-
-shr-text-import@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-4.2.1.tgz#bc3c26c2257f93d55e48937ebb9bf639f28b9375"
+shr-text-import@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.0.0.tgz#a86050f15b2043662077375363a119ebad1346ed"
   dependencies:
     antlr4 "~4.6.0"
     bunyan "^1.8.9"
-    shr-models "^4.2.1"
-
-sprintf-js@~1.0.2:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
-
-uc.micro@^1.0.1, uc.micro@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.3.tgz#7ed50d5e0f9a9fb0a573379259f2a77458d50192"
+    shr-models "^5.0.0"
 
 wrappy@1:
   version "1.0.2"
