@@ -17,9 +17,6 @@ echo "shr-text-import:  $(git rev-parse --abbrev-ref HEAD)"
 cd ../shr-json-export
 echo "shr-json-export:  $(git rev-parse --abbrev-ref HEAD)"
 
-cd ../shr-md-export
-echo "shr-md-export:    $(git rev-parse --abbrev-ref HEAD)"
-
 cd ../shr-fhir-export
 echo "shr-fhir-export:  $(git rev-parse --abbrev-ref HEAD)"
 

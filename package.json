@@ -22,7 +22,6 @@
     "shr-expand": "beta",
     "shr-fhir-export": "beta",
     "shr-json-export": "beta",
-    "shr-md-export": "beta",
     "shr-models": "beta",
     "shr-text-import": "beta"
   },

@@ -2,7 +2,7 @@
 
 The Standard Health Record (SHR) initiative is working to create a single, high-quality health record for every individual in the United States.  For more information, see [standardhealthrecord.org](http://standardhealthrecord.org/).
 
-This GitHub repository contains a Node.js command-line interface for parsing SHR text definitions and exporting them as JSON and markdown/html.  Future versions of the CLI will support additional capabilities.
+This GitHub repository contains a Node.js command-line interface for parsing SHR text definitions and exporting them as a JSON document (for website generation) and FHIR profiles.  Future versions of the CLI may support additional capabilities.
 
 The SHR text definitions and grammar files can be found in the [shr_spec](https://github.com/standardhealth/shr_spec) repo.  As the SHR text format (and content files) are still evolving, so is this toolset.
 
@@ -18,9 +18,9 @@ To run the command-line interface, you must perform the following steps to insta
 2. Install [Yarn](https://yarnpkg.com/en/docs/install)
 3. Execute the following from this project's root directory: `yarn`
 
-# Exporting SHR to Markdown, HTML, JSON, and FHIR
+# Exporting SHR to JSON and FHIR
 
-After setting up the environment, you can use node to import a folder of files from CAMEO (SHR text format) to a number of other formats, including Markdown, HTML, JSON, and FHIR definitions:
+After setting up the environment, you can use node to import a folder of files from CAMEO (SHR text format) and export the definitions to JSON and FHIR:
 ```
 $ node . /path/to/shr_spec/spec
 ```

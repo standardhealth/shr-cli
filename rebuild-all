@@ -22,10 +22,6 @@ cd ../shr-json-export
 rm -rf node_modules
 yarn
 
-cd ../shr-md-export
-rm -rf node_modules
-yarn
-
 cd ../shr-fhir-export
 rm -rf node_modules
 yarn
