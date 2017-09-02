@@ -22,6 +22,7 @@
     "shr-expand": "^5.0.0",
     "shr-fhir-export": "^5.0.0",
     "shr-json-export": "^5.0.0",
+    "shr-json-schema-export": "https://github.com/standardhealth/shr-json-schema-export",
     "shr-models": "^5.0.0",
     "shr-text-import": "^5.0.0"
   },

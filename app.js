@@ -7,6 +7,7 @@ const bps = require('@ojolabs/bunyan-prettystream');
 const shrTI = require('shr-text-import');
 const shrEx = require('shr-expand');
 const shrJE = require('shr-json-export');
+const shrJSE = require('shr-json-schema-export');
 const shrFE = require('shr-fhir-export');
 
 let input;
@@ -53,6 +54,7 @@ const logger = bunyan.createLogger({
 shrTI.setLogger(logger.child({module: 'shr-text-input'}));
 shrEx.setLogger(logger.child({module: 'shr-expand'}));
 shrJE.setLogger(logger.child({module: 'shr-json-export'}));
+shrJSE.setLogger(logger.child({module: 'shr-json-schema-export'}));
 shrFE.setLogger(logger.child({module: 'shr-fhir-export'}));
 
 // Go!
@@ -64,6 +66,15 @@ const jsonHierarchyResults = shrJE.exportToJSON(specifications);
 const hierarchyPath = `${program.out}/json/shr.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
+
+const jsonSchemaResults = shrJSE.exportToJSONSchema(specifications);
+const jsonSchemaPath = `${program.out}/json-schema/`;
+mkdirp.sync(jsonSchemaPath);
+const baseSchemaNamespace = 'https://standardhealthrecord.org/test/';
+for (const schemaId in jsonSchemaResults) {
+  const filename = `${schemaId.substring(baseSchemaNamespace.length).replace(/\//g, '.')}.schema.json`;
+  fs.writeFileSync(path.join(jsonSchemaPath, filename), JSON.stringify(jsonSchemaResults[schemaId], null, '  '));
+}
 
 const fhirResults = shrFE.exportToFHIR(expSpecifications);
 const baseFHIRPath = path.join(program.out, 'fhir');
