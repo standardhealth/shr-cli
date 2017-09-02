@@ -8,12 +8,13 @@ const { sanityCheckModules } = require('shr-models');
 const shrTI = require('shr-text-import');
 const shrEx = require('shr-expand');
 const shrJE = require('shr-json-export');
+const shrJSE = require('shr-json-schema-export');
 const shrFE = require('shr-fhir-export');
 const LogCounter = require('./logcounter');
 
 /* eslint-disable no-console */
 
-sanityCheckModules({shrTI, shrEx, shrJE, shrFE })
+sanityCheckModules({shrTI, shrEx, shrJE, shrJSE, shrFE });
 
 // Record the time so we can print elapsed time
 const hrstart = process.hrtime();
@@ -28,7 +29,7 @@ program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
-  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,all> (default: <none>)', collect, [])
+  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,json-schema,all> (default: <none>)', collect, [])
   .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
@@ -45,6 +46,7 @@ if (typeof input === 'undefined') {
 // Process the skip flags
 const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
 const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
+const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-shcema' && a.toLowerCase() != 'all');
 
 // Create the output folder if necessary
 mkdirp.sync(program.out);
@@ -76,6 +78,9 @@ if (doJSON) {
 }
 if (doFHIR) {
   shrFE.setLogger(logger.child({module: 'shr-fhir-export'}));
+}
+if (doJSONSchema) {
+  shrJSE.setLogger(logger.child({module: 'shr-json-schema-export'}));
 }
 
 // Go!
@@ -122,6 +127,35 @@ if (doFHIR) {
   logger.info('Skipping FHIR export');
 }
 
+if (doJSONSchema) {
+  let typeURL = configSpecifications.entryTypeURL;
+  if (!typeURL) {
+    typeURL = 'http://nowhere.invalid/';
+  }
+  const baseSchemaNamespace = 'https://standardhealthrecord.org/schema';
+  const baseSchemaNamespaceWithSlash = baseSchemaNamespace + '/';
+  const jsonSchemaResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaNamespace, typeURL);
+  const jsonSchemaPath = `${program.out}/json-schema/`;
+  mkdirp.sync(jsonSchemaPath);
+  for (const schemaId in jsonSchemaResults) {
+    const filename = `${schemaId.substring(baseSchemaNamespaceWithSlash.length).replace(/\//g, '.')}.schema.json`;
+    fs.writeFileSync(path.join(jsonSchemaPath, filename), JSON.stringify(jsonSchemaResults[schemaId], null, '  '));
+  }
+
+// Uncomment the following to get expanded schemas
+//   shrJSE.setLogger(logger.child({module: 'shr-json-schema-export-expanded'}));
+//   const baseSchemaExpandedNamespace = 'https://standardhealthrecord.org/schema-expanded';
+//   const baseSchemaExpandedNamespaceWithSlash = baseSchemaExpandedNamespace + '/';
+//   const jsonSchemaExpandedResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaExpandedNamespace, typeURL, true);
+//   const jsonSchemaExpandedPath = `${program.out}/json-schema-expanded/`;
+//   mkdirp.sync(jsonSchemaExpandedPath);
+//   for (const schemaId in jsonSchemaExpandedResults) {
+//     const filename = `${schemaId.substring(baseSchemaExpandedNamespaceWithSlash.length).replace(/\//g, '.')}.schema.json`;
+//     fs.writeFileSync(path.join(jsonSchemaExpandedPath, filename), JSON.stringify(jsonSchemaExpandedResults[schemaId], null, '  '));
+//   }
+} else {
+  logger.info('Skipping JSON Schema export');
+}
 logger.info('Finished CLI Import/Export');
 
 const errCounter = logCounter.error;
