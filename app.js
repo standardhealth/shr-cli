@@ -9,6 +9,11 @@ const shrEx = require('shr-expand');
 const shrJE = require('shr-json-export');
 const shrFE = require('shr-fhir-export');
 
+/* eslint-disable no-console */
+
+// Record the time so we can print elapsed time
+const hrstart = process.hrtime();
+
 let input;
 program
   .usage('<path-to-shr-defs> [options]')
@@ -110,7 +115,11 @@ if (numWarnings > 0) {
   wrnColor = '\x1b[35m'; // magenta
   wrnLabel = `warnings (${Object.keys(wrnModules).join(', ')})`;
 }
-// eslint-disable-next-line no-console
-console.log(errColor, numErrors, errLabel, resetColor);
-// eslint-disable-next-line no-console
-console.log(wrnColor, numWarnings, wrnLabel, resetColor);
+
+// Get the elapsed time
+const hrend = process.hrtime(hrstart);
+console.log('------------------------------------------------------------');
+console.log('Elapsed time: %d.%ds', hrend[0], Math.floor(hrend[1]/1000000));
+console.log('%s%d %s%s', errColor, numErrors, errLabel, resetColor);
+console.log('%s%d %s%s', wrnColor, numWarnings, wrnLabel, resetColor);
+console.log('------------------------------------------------------------');
