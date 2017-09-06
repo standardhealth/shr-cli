@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
@@ -20,10 +20,12 @@
     "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
     "shr-expand": "^5.0.0",
-    "shr-fhir-export": "^5.0.1",
+    "shr-fhir-export": "^5.0.2",
     "shr-json-export": "^5.0.0",
     "shr-models": "^5.0.0",
     "shr-text-import": "^5.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint": "^4.6.1"
+  }
 }
