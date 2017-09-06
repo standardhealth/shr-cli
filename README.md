@@ -27,7 +27,7 @@ $ node . /path/to/shr_spec/spec
 
 The command above will export these formats to the _out_ directory.
 
-It is also possible to override the default logging level, logging format, and output folder:
+It is also possible to override the default logging level or format, skip exports, or override the default output folder:
 ```
 $ node . --help
 
@@ -38,6 +38,7 @@ $ node . --help
     -h, --help               output usage information
     -l, --log-level <level>  the console log level <fatal,error,warn,info,debug,trace> (default: info)
     -m, --log-mode <mode>    the console log mode <short,long,json,off> (default: short)
+    -s, --skip <feature>     skip an export feature <fhir,json,all> (default: <none>)
     -o, --out <out>          the path to the output folder (default: ./out)
 ```
 

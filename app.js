@@ -14,11 +14,17 @@ const shrFE = require('shr-fhir-export');
 // Record the time so we can print elapsed time
 const hrstart = process.hrtime();
 
+function collect(val, list) {
+  list.push(val);
+  return list;
+}
+
 let input;
 program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
+  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,all> (default: <none>)', collect, [])
   .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
@@ -31,6 +37,10 @@ if (typeof input === 'undefined') {
   console.error('\x1b[31m','Missing path to SHR definition folder or file','\x1b[0m');
   program.help();
 }
+
+// Process the skip flags
+const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
+const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
 
 // Create the output folder if necessary
 mkdirp.sync(program.out);
@@ -57,43 +67,57 @@ const logger = bunyan.createLogger({
 
 shrTI.setLogger(logger.child({module: 'shr-text-input'}));
 shrEx.setLogger(logger.child({module: 'shr-expand'}));
-shrJE.setLogger(logger.child({module: 'shr-json-export'}));
-shrFE.setLogger(logger.child({module: 'shr-fhir-export'}));
+if (doJSON) {
+  shrJE.setLogger(logger.child({module: 'shr-json-export'}));
+}
+if (doFHIR) {
+  shrFE.setLogger(logger.child({module: 'shr-fhir-export'}));
+}
 
 // Go!
 logger.info('Starting CLI Import/Export');
-const specifications = shrTI.importFromFilePath(process.argv[2]);
+const specifications = shrTI.importFromFilePath(input);
 const expSpecifications = shrEx.expand(specifications);
 
-const jsonHierarchyResults = shrJE.exportToJSON(specifications);
-const hierarchyPath = `${program.out}/json/shr.json`;
-mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
+if (doJSON) {
+  const jsonHierarchyResults = shrJE.exportToJSON(specifications);
+  const hierarchyPath = `${program.out}/json/shr.json`;
+  mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+  fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
+} else {
+  logger.info('Skipping JSON export');
+}
 
-const fhirResults = shrFE.exportToFHIR(expSpecifications);
-const baseFHIRPath = path.join(program.out, 'fhir');
-const baseFHIRProfilesPath = path.join(baseFHIRPath, 'profiles');
-mkdirp.sync(baseFHIRProfilesPath);
-for (const profile of fhirResults.profiles) {
-  fs.writeFileSync(path.join(baseFHIRProfilesPath, `${profile.id}.json`), JSON.stringify(profile, null, 2));
+if (doFHIR) {
+  const fhirResults = shrFE.exportToFHIR(expSpecifications);
+  const baseFHIRPath = path.join(program.out, 'fhir');
+  const baseFHIRProfilesPath = path.join(baseFHIRPath, 'profiles');
+  mkdirp.sync(baseFHIRProfilesPath);
+  for (const profile of fhirResults.profiles) {
+    fs.writeFileSync(path.join(baseFHIRProfilesPath, `${profile.id}.json`), JSON.stringify(profile, null, 2));
+  }
+  const baseFHIRExtensionsPath = path.join(baseFHIRPath, 'extensions');
+  mkdirp.sync(baseFHIRExtensionsPath);
+  for (const extension of fhirResults.extensions) {
+    fs.writeFileSync(path.join(baseFHIRExtensionsPath, `${extension.id}.json`), JSON.stringify(extension, null, 2));
+  }
+  const baseFHIRCodeSystemsPath = path.join(baseFHIRPath, 'codeSystems');
+  mkdirp.sync(baseFHIRCodeSystemsPath);
+  for (const codeSystem of fhirResults.codeSystems) {
+    fs.writeFileSync(path.join(baseFHIRCodeSystemsPath, `${codeSystem.id}.json`), JSON.stringify(codeSystem, null, 2));
+  }
+  const baseFHIRValueSetsPath = path.join(baseFHIRPath, 'valueSets');
+  mkdirp.sync(baseFHIRValueSetsPath);
+  for (const valueSet of fhirResults.valueSets) {
+    fs.writeFileSync(path.join(baseFHIRValueSetsPath, `${valueSet.id}.json`), JSON.stringify(valueSet, null, 2));
+  }
+  fs.writeFileSync(path.join(baseFHIRPath, `shr_qa.html`), fhirResults.qaHTML);
+  shrFE.exportIG(fhirResults, path.join(baseFHIRPath, 'guide'));
+} else {
+  logger.info('Skipping FHIR export');
 }
-const baseFHIRExtensionsPath = path.join(baseFHIRPath, 'extensions');
-mkdirp.sync(baseFHIRExtensionsPath);
-for (const extension of fhirResults.extensions) {
-  fs.writeFileSync(path.join(baseFHIRExtensionsPath, `${extension.id}.json`), JSON.stringify(extension, null, 2));
-}
-const baseFHIRCodeSystemsPath = path.join(baseFHIRPath, 'codeSystems');
-mkdirp.sync(baseFHIRCodeSystemsPath);
-for (const codeSystem of fhirResults.codeSystems) {
-  fs.writeFileSync(path.join(baseFHIRCodeSystemsPath, `${codeSystem.id}.json`), JSON.stringify(codeSystem, null, 2));
-}
-const baseFHIRValueSetsPath = path.join(baseFHIRPath, 'valueSets');
-mkdirp.sync(baseFHIRValueSetsPath);
-for (const valueSet of fhirResults.valueSets) {
-  fs.writeFileSync(path.join(baseFHIRValueSetsPath, `${valueSet.id}.json`), JSON.stringify(valueSet, null, 2));
-}
-fs.writeFileSync(path.join(baseFHIRPath, `shr_qa.html`), fhirResults.qaHTML);
-shrFE.exportIG(fhirResults, path.join(baseFHIRPath, 'guide'));
+
+logger.info('Finished CLI Import/Export');
 
 let [numErrors, numWarnings] = [0, 0];
 let [errModules, wrnModules] = [{}, {}];
