@@ -72,7 +72,7 @@ First, export a system environment variable called JAVA_OPTS, setting the proxie
 
 On Mac or Linux:
 ```
-$ export JAVA_OPTS=-Dhttp.proxyHost=my.proxy.org -Dhttp.proxyPort=80 -Dhttps.proxyHost=my.proxy.org -Dhttps.proxyPort=80 -DsocksProxyHost=my.proxy.org -DsocksProxyPort=80
+$ export JAVA_OPTS="-Dhttp.proxyHost=my.proxy.org -Dhttp.proxyPort=80 -Dhttps.proxyHost=my.proxy.org -Dhttps.proxyPort=80 -DsocksProxyHost=my.proxy.org -DsocksProxyPort=80"
 ```
 
 On Windows:
@@ -84,12 +84,12 @@ Next, create the IG using the HL7 IG Publisher Tool.
 
 On Mac or Linux:
 ```
-$ java -jar $JAVA_OPTS out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/shr.json
+$ java -jar $JAVA_OPTS out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/data.json
 ```
 
 On Windows:
 ```
-> java -jar %JAVA_OPTS% out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/shr.json
+> java -jar %JAVA_OPTS% out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/data.json
 ```
 
 # License
