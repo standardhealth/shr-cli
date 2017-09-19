@@ -76,7 +76,7 @@ if (doFHIR) {
 
 // Go!
 logger.info('Starting CLI Import/Export');
-const configSpecifications = shrTI.importConfigFromFilePath(process.argv[2]);
+const configSpecifications = shrTI.importConfigFromFilePath(input);
 const specifications = shrTI.importFromFilePath(input, configSpecifications);
 const expSpecifications = shrEx.expand(specifications);
 
@@ -113,7 +113,7 @@ if (doFHIR) {
     fs.writeFileSync(path.join(baseFHIRValueSetsPath, `${valueSet.id}.json`), JSON.stringify(valueSet, null, 2));
   }
   fs.writeFileSync(path.join(baseFHIRPath, `shr_qa.html`), fhirResults.qaHTML);
-  shrFE.exportIG(fhirResults, path.join(baseFHIRPath, 'guide'), configSpecifications);
+  shrFE.exportIG(fhirResults, path.join(baseFHIRPath, 'guide'), configSpecifications, input);
 } else {
   logger.info('Skipping FHIR export');
 }
