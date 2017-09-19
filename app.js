@@ -78,7 +78,7 @@ if (doFHIR) {
 logger.info('Starting CLI Import/Export');
 const configSpecifications = shrTI.importConfigFromFilePath(input);
 const specifications = shrTI.importFromFilePath(input, configSpecifications);
-const expSpecifications = shrEx.expand(specifications);
+const expSpecifications = shrEx.expand(specifications, shrFE);
 
 if (doJSON) {
   const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
