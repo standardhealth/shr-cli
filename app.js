@@ -76,11 +76,12 @@ if (doFHIR) {
 
 // Go!
 logger.info('Starting CLI Import/Export');
-const specifications = shrTI.importFromFilePath(input);
+const configSpecifications = shrTI.importConfigFromFilePath(input);
+const specifications = shrTI.importFromFilePath(input, configSpecifications);
 const expSpecifications = shrEx.expand(specifications);
 
 if (doJSON) {
-  const jsonHierarchyResults = shrJE.exportToJSON(specifications);
+  const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
   const hierarchyPath = `${program.out}/json/shr.json`;
   mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
   fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
@@ -89,7 +90,7 @@ if (doJSON) {
 }
 
 if (doFHIR) {
-  const fhirResults = shrFE.exportToFHIR(expSpecifications);
+  const fhirResults = shrFE.exportToFHIR(expSpecifications, configSpecifications);
   const baseFHIRPath = path.join(program.out, 'fhir');
   const baseFHIRProfilesPath = path.join(baseFHIRPath, 'profiles');
   mkdirp.sync(baseFHIRProfilesPath);
@@ -112,7 +113,7 @@ if (doFHIR) {
     fs.writeFileSync(path.join(baseFHIRValueSetsPath, `${valueSet.id}.json`), JSON.stringify(valueSet, null, 2));
   }
   fs.writeFileSync(path.join(baseFHIRPath, `shr_qa.html`), fhirResults.qaHTML);
-  shrFE.exportIG(fhirResults, path.join(baseFHIRPath, 'guide'));
+  shrFE.exportIG(fhirResults, path.join(baseFHIRPath, 'guide'), configSpecifications, input);
 } else {
   logger.info('Skipping FHIR export');
 }
