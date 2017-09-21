@@ -789,17 +789,17 @@ shr-expand@^5.0.0:
     bunyan "^1.8.9"
     shr-models "^5.0.0"
 
-shr-fhir-export@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.0.2.tgz#642639b61dc7c822339faedea496bd22b1b91237"
+shr-fhir-export@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.1.0.tgz#60d3b609ff1868be152f0ca04386c728e3dac8d3"
   dependencies:
     bunyan "^1.8.9"
     fs-extra "^2.0.0"
     shr-models "^5.0.0"
 
-shr-json-export@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.0.0.tgz#26bc3ec4d590234f9f29dd2ffd8da680b708baa4"
+shr-json-export@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.0.tgz#0ca2f146832815c1e7d430029016f209d1c12346"
   dependencies:
     bunyan "^1.8.9"
     shr-models "^5.0.0"
@@ -808,9 +808,9 @@ shr-models@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.0.0.tgz#ddeefb62d99b630b828401d87e594803d06b9e3b"
 
-shr-text-import@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.0.0.tgz#a86050f15b2043662077375363a119ebad1346ed"
+shr-text-import@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.1.0.tgz#2cbafc3bb1da2215755978e506eb6b454d321626"
   dependencies:
     antlr4 "~4.6.0"
     bunyan "^1.8.9"
