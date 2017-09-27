@@ -23,4 +23,7 @@ echo "shr-fhir-export:  $(git rev-parse --abbrev-ref HEAD)"
 cd ../shr-cli
 echo "shr-cli:          $(git rev-parse --abbrev-ref HEAD)"
 
+cd ../shr_spec
+echo "shr_spec:         $(git rev-parse --abbrev-ref HEAD)"
+
 echo "----------------------------------------------------"
