@@ -67,22 +67,24 @@ const hierarchyPath = `${program.out}/json/shr.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
 
-const baseSchemaNamespace = 'https://standardhealthrecord.org/test/';
+const baseSchemaNamespace = 'https://standardhealthrecord.org/test';
+const baseSchemaNamespaceWithSlash = baseSchemaNamespace + '/';
 const jsonSchemaResults = shrJSE.exportToJSONSchema(specifications, baseSchemaNamespace);
 const jsonSchemaPath = `${program.out}/json-schema/`;
 mkdirp.sync(jsonSchemaPath);
 for (const schemaId in jsonSchemaResults) {
-  const filename = `${schemaId.substring(baseSchemaNamespace.length).replace(/\//g, '.')}.schema.json`;
+  const filename = `${schemaId.substring(baseSchemaNamespaceWithSlash.length).replace(/\//g, '.')}.schema.json`;
   fs.writeFileSync(path.join(jsonSchemaPath, filename), JSON.stringify(jsonSchemaResults[schemaId], null, '  '));
 }
 
 shrJSE.setLogger(logger.child({module: 'shr-json-schema-export-expanded'}));
-const baseSchemaExpandedNamespace = 'https://standardhealthrecord.org/test-expanded/';
+const baseSchemaExpandedNamespace = 'https://standardhealthrecord.org/test-expanded';
+const baseSchemaExpandedNamespaceWithSlash = baseSchemaExpandedNamespace + '/';
 const jsonSchemaExpandedResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaExpandedNamespace, true);
 const jsonSchemaExpandedPath = `${program.out}/json-schema-expanded/`;
 mkdirp.sync(jsonSchemaExpandedPath);
 for (const schemaId in jsonSchemaExpandedResults) {
-  const filename = `${schemaId.substring(baseSchemaExpandedNamespace.length).replace(/\//g, '.')}.schema.json`;
+  const filename = `${schemaId.substring(baseSchemaExpandedNamespaceWithSlash.length).replace(/\//g, '.')}.schema.json`;
   fs.writeFileSync(path.join(jsonSchemaExpandedPath, filename), JSON.stringify(jsonSchemaExpandedResults[schemaId], null, '  '));
 }
 
