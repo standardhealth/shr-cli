@@ -67,13 +67,23 @@ const hierarchyPath = `${program.out}/json/shr.json`;
 mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
 fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
 
-const jsonSchemaResults = shrJSE.exportToJSONSchema(specifications);
+const baseSchemaNamespace = 'https://standardhealthrecord.org/test/';
+const jsonSchemaResults = shrJSE.exportToJSONSchema(specifications, baseSchemaNamespace);
 const jsonSchemaPath = `${program.out}/json-schema/`;
 mkdirp.sync(jsonSchemaPath);
-const baseSchemaNamespace = 'https://standardhealthrecord.org/test/';
 for (const schemaId in jsonSchemaResults) {
   const filename = `${schemaId.substring(baseSchemaNamespace.length).replace(/\//g, '.')}.schema.json`;
   fs.writeFileSync(path.join(jsonSchemaPath, filename), JSON.stringify(jsonSchemaResults[schemaId], null, '  '));
+}
+
+shrJSE.setLogger(logger.child({module: 'shr-json-schema-export-expanded'}));
+const baseSchemaExpandedNamespace = 'https://standardhealthrecord.org/test-expanded/';
+const jsonSchemaExpandedResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaExpandedNamespace, true);
+const jsonSchemaExpandedPath = `${program.out}/json-schema-expanded/`;
+mkdirp.sync(jsonSchemaExpandedPath);
+for (const schemaId in jsonSchemaExpandedResults) {
+  const filename = `${schemaId.substring(baseSchemaExpandedNamespace.length).replace(/\//g, '.')}.schema.json`;
+  fs.writeFileSync(path.join(jsonSchemaExpandedPath, filename), JSON.stringify(jsonSchemaExpandedResults[schemaId], null, '  '));
 }
 
 const fhirResults = shrFE.exportToFHIR(expSpecifications);
