@@ -144,3 +144,14 @@
 | 1343          | Couldn’t find target in slice `$SLICE` | (Exporting) |
 | 1344          | Target resolves to multiple elements but is not sliced |
 | 1345          | Unable to establish namespace for `$FIELD` | (Extensions) |
+
+# Code Number Explanation
+
+***1*** 2 3 4 <br>
+&nbsp;↳&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First digit tells whether it is an warning or error. 0 = warning, 1 = error <br>
+
+1 ***2*** 3 4 <br>
+&nbsp;&nbsp;&nbsp;↳&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Second digit gives the location of the issue: 1 = the grammar and importing of the text files, 2 = the expanding of the specifications, 3 = the exporting of FHIR profiles, 4 = the exporting of the JSON profiles <br>
+
+1 2 ***3 4*** <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳&nbsp;&nbsp; The last two digits are simply for unique identification. <br>
