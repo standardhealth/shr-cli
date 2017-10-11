@@ -23,7 +23,7 @@
 | ------------ | --------------- | -------- |
 | 01001 | No project configuration file found, currently using default EXAMPLE identifiers. Auto-generating a proper 'config.json' in your specifications folder | Open the 'config.json' file and customize it for your project.
 | 01002 | Config file missing key: `$KEY`, using default key: `$DEFAULT VALUE` instead.   | Open the 'config.json' file and add your project specific details for that key.
-| 02001 | Potentially mismatched targets. Based on class `($CLASS)` maps to `$MAPPINGS`.  | You're overwriting an inherited mapping. This is not necessarily an issue, but is definitely something to be cautious of. |
+| 02001 | Potentially mismatched targets: `$CLASS` maps to `$ITEM`, but based on class (`$CLASS`) maps to `$ITEM`, and `$ITEM` is not based on `$ELEMENT` in `$CLASS`.' | You're overwriting an inherited mapping. This is not necessarily an issue, but is definitely something to be cautious of. |
 | 03001 | Trying to map `$PROFILE` to `$CODE`, but `$PROFILE` was previously mapped to it | 
 | 03002 | Choice has equivalent types, so choice options may overwrite or override each other when mapped to FHIR. |
 | 03003 | Overriding extensible value set constraint from `$VS` to `$VS`.  Only allowed when new codes do not overlap meaning of old codes. |
@@ -58,6 +58,10 @@
 | 11020          | Failed to resolve vocabulary for `$NAME`. | 
 | 11021          | Found conflicting vocabularies for `$NAME` in multiple namespaces: `$NAMESPACES` | 
 | 11022          | Found conflicting definitions for `$NAME` in multiple namespaces: `$NAMESPACES` | 
+| 11023          | Elements cannot be based on "Value" keyword |
+| 11024          | Elements cannot use "Value:" modifier and specify "Value" field at same time. |
+| 11025          | Fields cannot be constrained to type "Value" |
+| 11026          | ref(Value) is an unsupported construct; treating as Value without the reference. |
 | 12001          | Cannot resolve element definition.                                 | Element doesn't exist. Double check spelling and inheritance |
 | 12002          | Reference to non-existing base: `$ELEMENT_NAME`                    | Base doesn't exist. Double check spelling and inheritance. |
 | 12003          | No cardinality found for value: `$VALUE`                           | Explicitly define cardinality for that value. |
@@ -144,6 +148,9 @@
 | 13043          | Couldn’t find target in slice `$SLICE` | (Exporting) |
 | 13044          | Target resolves to multiple elements but is not sliced |
 | 13045          | Unable to establish namespace for `$FIELD` | (Extensions) |
+| 13046          | Mapping to `MAP_TARGET`'s `RULE_TARGET`: slice could not be found. |
+| 13047          | Couldn't find sd to unroll | 
+| 13048          | Cannot override code constraint from `$SYSTEM`\|`$CODE` to `$SYSTEM`\|`$CODE`' |
 
 # Code Number Explanation
 
