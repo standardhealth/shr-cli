@@ -782,39 +782,39 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
-shr-expand@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.0.0.tgz#669c4add8a0d474c85434cd137e7b6ff023e091a"
+shr-expand@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.1.0.tgz#4f3fa3cd182dfe731220bb68583c542c2fb22b82"
   dependencies:
     bunyan "^1.8.9"
-    shr-models "^5.0.0"
+    shr-models "^5.1.0"
 
-shr-fhir-export@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.1.0.tgz#60d3b609ff1868be152f0ca04386c728e3dac8d3"
+shr-fhir-export@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.2.0.tgz#b4c54bf190931177a5b994ef5bf1b0d3b54e079b"
   dependencies:
     bunyan "^1.8.9"
     fs-extra "^2.0.0"
-    shr-models "^5.0.0"
+    shr-models "^5.1.0"
 
-shr-json-export@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.0.tgz#0ca2f146832815c1e7d430029016f209d1c12346"
+shr-json-export@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.1.tgz#b2dd3af1503fa0a416da697962adb0a1a7a5933f"
   dependencies:
     bunyan "^1.8.9"
-    shr-models "^5.0.0"
+    shr-models "^5.1.0"
 
-shr-models@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.0.0.tgz#ddeefb62d99b630b828401d87e594803d06b9e3b"
-
-shr-text-import@^5.1.0:
+shr-models@^5.1.0:
   version "5.1.0"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.1.0.tgz#2cbafc3bb1da2215755978e506eb6b454d321626"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.1.0.tgz#3f9ef0e7ba929ea440fd07f2f31f905866ac4e03"
+
+shr-text-import@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.2.0.tgz#c37c4f838ee87b9fb9f717916062782a336704fd"
   dependencies:
     antlr4 "~4.6.0"
     bunyan "^1.8.9"
-    shr-models "^5.0.0"
+    shr-models "^5.1.0"
 
 signal-exit@^3.0.2:
   version "3.0.2"
