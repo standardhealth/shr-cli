@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "5.0.0",
+  "version": "5.2.0",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
@@ -10,7 +10,7 @@
   },
   "main": "app.js",
   "scripts": {
-    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/shr.json",
+    "ig:publish": "java -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/data.json",
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
@@ -19,12 +19,14 @@
     "bunyan": "^1.8.9",
     "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
-    "shr-expand": "^5.0.0",
-    "shr-fhir-export": "^5.0.0",
-    "shr-json-export": "^5.0.0",
+    "shr-expand": "https://github.com/standardhealth/shr-expand#model-inheritance",
+    "shr-fhir-export": "^5.2.0",
+    "shr-json-export": "^5.1.1",
     "shr-json-schema-export": "https://github.com/standardhealth/shr-json-schema-export",
-    "shr-models": "^5.0.0",
-    "shr-text-import": "^5.0.0"
+    "shr-models": "https://github.com/standardhealth/shr-models#model-inheritance",
+    "shr-text-import": "^5.2.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint": "^4.6.1"
+  }
 }

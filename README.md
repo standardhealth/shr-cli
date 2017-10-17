@@ -27,7 +27,7 @@ $ node . /path/to/shr_spec/spec
 
 The command above will export these formats to the _out_ directory.
 
-It is also possible to override the default logging level, logging format, and output folder:
+It is also possible to override the default logging level or format, skip exports, or override the default output folder:
 ```
 $ node . --help
 
@@ -38,6 +38,7 @@ $ node . --help
     -h, --help               output usage information
     -l, --log-level <level>  the console log level <fatal,error,warn,info,debug,trace> (default: info)
     -m, --log-mode <mode>    the console log mode <short,long,json,off> (default: short)
+    -s, --skip <feature>     skip an export feature <fhir,json,json-schema,all> (default: <none>)
     -o, --out <out>          the path to the output folder (default: ./out)
 ```
 
@@ -71,7 +72,7 @@ First, export a system environment variable called JAVA_OPTS, setting the proxie
 
 On Mac or Linux:
 ```
-$ export JAVA_OPTS=-Dhttp.proxyHost=my.proxy.org -Dhttp.proxyPort=80 -Dhttps.proxyHost=my.proxy.org -Dhttps.proxyPort=80 -DsocksProxyHost=my.proxy.org -DsocksProxyPort=80
+$ export JAVA_OPTS="-Dhttp.proxyHost=my.proxy.org -Dhttp.proxyPort=80 -Dhttps.proxyHost=my.proxy.org -Dhttps.proxyPort=80 -DsocksProxyHost=my.proxy.org -DsocksProxyPort=80"
 ```
 
 On Windows:
@@ -83,12 +84,12 @@ Next, create the IG using the HL7 IG Publisher Tool.
 
 On Mac or Linux:
 ```
-$ java -jar $JAVA_OPTS out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/shr.json
+$ java -jar $JAVA_OPTS out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/data.json
 ```
 
 On Windows:
 ```
-> java -jar %JAVA_OPTS% out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/shr.json
+> java -jar %JAVA_OPTS% out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/data.json
 ```
 
 # License
