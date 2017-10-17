@@ -69,7 +69,7 @@ fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  ')
 
 const baseSchemaNamespace = 'https://standardhealthrecord.org/test';
 const baseSchemaNamespaceWithSlash = baseSchemaNamespace + '/';
-const jsonSchemaResults = shrJSE.exportToJSONSchema(specifications, baseSchemaNamespace);
+const jsonSchemaResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaNamespace);
 const jsonSchemaPath = `${program.out}/json-schema/`;
 mkdirp.sync(jsonSchemaPath);
 for (const schemaId in jsonSchemaResults) {
