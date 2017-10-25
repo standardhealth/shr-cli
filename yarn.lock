@@ -769,6 +769,12 @@ shr-expand@^5.2.6:
   version "5.2.6"
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.2.6.tgz#47b82c0eb31c974e9fcfcdfc6938952804ac3bdb"
 
+"shr-es6-export@https://github.com/standardhealth/shr-es6-export":
+  version "5.0.0"
+  resolved "https://github.com/standardhealth/shr-es6-export#65b388267ee9c2bd49ece74191eb8539badda012"
+  dependencies:
+    shr-models "^5.1.0"
+
 shr-fhir-export@^5.3.7:
   version "5.3.7"
   resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.3.7.tgz#72c33d48c7c8c056f5e50cc93f087c9e03b6ae2b"

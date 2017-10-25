@@ -9,6 +9,7 @@ const shrTI = require('shr-text-import');
 const shrEx = require('shr-expand');
 const shrJE = require('shr-json-export');
 const shrJSE = require('shr-json-schema-export');
+const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
 const LogCounter = require('./logcounter');
 
@@ -46,7 +47,8 @@ if (typeof input === 'undefined') {
 // Process the skip flags
 const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
 const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
-const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-shcema' && a.toLowerCase() != 'all');
+const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
+const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
 
 // Create the output folder if necessary
 mkdirp.sync(program.out);
@@ -97,6 +99,25 @@ if (doJSON) {
 } else {
   logger.info('Skipping JSON export');
 }
+
+if (doES6) {
+  const es6Results = shrEE.exportToES6(expSpecifications, configSpecifications);
+  const es6Path = path.join(program.out, 'es6');
+  const handleNS = (obj, fpath) => {
+    mkdirp.sync(fpath);
+    for (const key of Object.keys(obj)) {
+      if (key.endsWith('.js')) {
+        fs.writeFileSync(path.join(fpath, key), obj[key]);
+      } else {
+        handleNS(obj[key], path.join(fpath, key));
+      }
+    }
+  };
+  handleNS(es6Results, es6Path);
+} else {
+  logger.info('Skipping ES6 export');
+}
+
 
 if (doFHIR) {
   const fhirResults = shrFE.exportToFHIR(expSpecifications, configSpecifications);
