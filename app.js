@@ -13,7 +13,7 @@ const shrFE = require('shr-fhir-export');
 
 /* eslint-disable no-console */
 
-sanityCheckModules({shrTI, shrEx, shrJE, shrFE })
+sanityCheckModules({shrTI, shrEx, shrJE, shrJSE, shrFE })
 
 // Record the time so we can print elapsed time
 const hrstart = process.hrtime();
