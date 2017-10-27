@@ -19,12 +19,12 @@
     "bunyan": "^1.8.9",
     "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
-    "shr-expand": "https://github.com/standardhealth/shr-expand#model-inheritance",
-    "shr-fhir-export": "^5.2.0",
-    "shr-json-export": "^5.1.1",
+    "shr-expand": "https://github.com/standardhealth/shr-expand#sanity-check",
+    "shr-fhir-export": "https://github.com/standardhealth/shr-fhir-export#sanity-check",
+    "shr-json-export": "https://github.com/standardhealth/shr-json-export#sanity-check",
     "shr-json-schema-export": "https://github.com/standardhealth/shr-json-schema-export",
-    "shr-models": "https://github.com/standardhealth/shr-models#model-inheritance",
-    "shr-text-import": "^5.2.0"
+    "shr-models": "https://github.com/standardhealth/shr-models#sanity-check",
+    "shr-text-import": "https://github.com/standardhealth/shr-text-import#sanity-check"
   },
   "devDependencies": {
     "eslint": "^4.6.1"
