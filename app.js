@@ -4,12 +4,15 @@ const mkdirp = require('mkdirp');
 const bunyan = require('bunyan');
 const program = require('commander');
 const bps = require('@ojolabs/bunyan-prettystream');
+const { sanityCheckModules } = require('shr-models');
 const shrTI = require('shr-text-import');
 const shrEx = require('shr-expand');
 const shrJE = require('shr-json-export');
 const shrFE = require('shr-fhir-export');
 
 /* eslint-disable no-console */
+
+sanityCheckModules({shrTI, shrEx, shrJE, shrFE })
 
 // Record the time so we can print elapsed time
 const hrstart = process.hrtime();
