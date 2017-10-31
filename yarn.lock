@@ -782,46 +782,46 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
-"shr-expand@https://github.com/standardhealth/shr-expand#model-inheritance":
-  version "5.1.0"
-  resolved "https://github.com/standardhealth/shr-expand#2df5483d4aa131a415d1f09c9db9e6bd873bef54"
+shr-expand@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.2.0.tgz#378d3cc20d4f51413fbfcb4fc0418b338003e901"
   dependencies:
     bunyan "^1.8.9"
-    shr-models "https://github.com/standardhealth/shr-models#model-inheritance"
+    shr-models "^5.2.0"
 
-shr-fhir-export@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.2.0.tgz#b4c54bf190931177a5b994ef5bf1b0d3b54e079b"
+shr-fhir-export@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.2.1.tgz#d938c0783c94ba74c9e32af6e0285ecc8491374c"
   dependencies:
     bunyan "^1.8.9"
     fs-extra "^2.0.0"
-    shr-models "^5.1.0"
+    shr-models "^5.2.0"
 
-shr-json-export@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.1.tgz#b2dd3af1503fa0a416da697962adb0a1a7a5933f"
+shr-json-export@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.2.tgz#e5d4271dc4a5cc728b2a42ecee255101d964f384"
   dependencies:
     bunyan "^1.8.9"
-    shr-models "^5.1.0"
+    shr-models "^5.2.0"
 
 "shr-json-schema-export@https://github.com/standardhealth/shr-json-schema-export":
   version "5.2.0-beta.1"
-  resolved "https://github.com/standardhealth/shr-json-schema-export#1428509f91c6f9be97ac3a4cf5d7837c7d49a8bf"
+  resolved "https://github.com/standardhealth/shr-json-schema-export#5ed91605c874a86b1991c208609804a276e938da"
   dependencies:
     bunyan "^1.8.9"
-    shr-models "https://github.com/standardhealth/shr-models#model-inheritance"
+    shr-models "^5.2.0"
 
-shr-models@^5.1.0, "shr-models@https://github.com/standardhealth/shr-models#model-inheritance":
-  version "5.1.0"
-  resolved "https://github.com/standardhealth/shr-models#6e7d731f95f4208592a952a7f44913614400fee0"
-
-shr-text-import@^5.2.0:
+shr-models@^5.2.0:
   version "5.2.0"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.2.0.tgz#c37c4f838ee87b9fb9f717916062782a336704fd"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.2.0.tgz#3dba6f113f65a16250de2012f6e4d4bbf692e0ed"
+
+shr-text-import@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.2.1.tgz#71e803e94733b33c9ad0244f38586ec4ee068ba9"
   dependencies:
     antlr4 "~4.6.0"
     bunyan "^1.8.9"
-    shr-models "^5.1.0"
+    shr-models "^5.2.0"
 
 signal-exit@^3.0.2:
   version "3.0.2"
