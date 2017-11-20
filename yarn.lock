@@ -782,9 +782,9 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
-shr-expand@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.2.0.tgz#378d3cc20d4f51413fbfcb4fc0418b338003e901"
+shr-expand@5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.2.1.tgz#a1165544c730f656f19419ea361064ec096a3fb7"
   dependencies:
     bunyan "^1.8.9"
     shr-models "^5.2.0"

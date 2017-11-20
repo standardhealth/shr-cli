@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "5.2.2",
+  "version": "5.2.3",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
@@ -19,7 +19,7 @@
     "bunyan": "^1.8.9",
     "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
-    "shr-expand": "^5.2.0",
+    "shr-expand": "5.2.1",
     "shr-fhir-export": "5.2.2",
     "shr-json-export": "^5.1.2",
     "shr-models": "^5.2.0",
