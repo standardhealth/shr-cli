@@ -782,16 +782,16 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
-shr-expand@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.2.0.tgz#378d3cc20d4f51413fbfcb4fc0418b338003e901"
+shr-expand@5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.2.1.tgz#a1165544c730f656f19419ea361064ec096a3fb7"
   dependencies:
     bunyan "^1.8.9"
     shr-models "^5.2.0"
 
-shr-fhir-export@^5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.2.1.tgz#d938c0783c94ba74c9e32af6e0285ecc8491374c"
+shr-fhir-export@5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.2.2.tgz#1e4df8b3471251d3c2ce1d9084e7781a3b65298c"
   dependencies:
     bunyan "^1.8.9"
     fs-extra "^2.0.0"
