@@ -805,8 +805,8 @@ shr-json-export@^5.1.2:
     shr-models "^5.2.0"
 
 "shr-json-schema-export@https://github.com/standardhealth/shr-json-schema-export":
-  version "5.2.0-beta.1"
-  resolved "https://github.com/standardhealth/shr-json-schema-export#5ed91605c874a86b1991c208609804a276e938da"
+  version "5.2.0-beta.2"
+  resolved "https://github.com/standardhealth/shr-json-schema-export#f7a0edafb137677ef04947e4857ca22b43882ab4"
   dependencies:
     bunyan "^1.8.9"
     shr-models "^5.2.0"
