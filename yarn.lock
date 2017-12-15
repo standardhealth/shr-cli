@@ -769,9 +769,9 @@ shr-expand@^5.2.3:
   version "5.2.3"
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.2.3.tgz#b99d3d42691a31fa321c0aac22b5e0b1ffff7ade"
 
-shr-fhir-export@^5.3.2:
+"shr-fhir-export@git://github.com/standardhealth/shr-fhir-export#fix_72":
   version "5.3.2"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.3.2.tgz#1c1e1ae82d50bc124701c042f54f582a03887852"
+  resolved "git://github.com/standardhealth/shr-fhir-export#6dfe9cad73927fa7e92b823157e712cc033fd982"
   dependencies:
     fs-extra "^2.0.0"
 
@@ -779,9 +779,9 @@ shr-json-export@^5.1.3:
   version "5.1.3"
   resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.3.tgz#ea99fd3bfeb47562f122488748c05f0e10fcb3a0"
 
-shr-models@^5.2.1:
+"shr-models@git://github.com/standardhealth/shr-models#fix_72":
   version "5.2.1"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.2.1.tgz#23108d369a0be9fa2518d9be4c1e53685d9dd776"
+  resolved "git://github.com/standardhealth/shr-models#0576d3be8c1a802db5c72d55a5142c5684914f12"
 
 shr-text-import@^5.2.2:
   version "5.2.2"
