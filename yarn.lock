@@ -783,9 +783,9 @@ shr-models@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.2.1.tgz#23108d369a0be9fa2518d9be4c1e53685d9dd776"
 
-shr-text-import@^5.2.2:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.2.2.tgz#bb4894dbb857ede614c156f5fc7ba2c3bfc41d05"
+shr-text-import@^5.2.3:
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.2.3.tgz#0af683af80e1580fc84226b1a9376f075da6dfc3"
   dependencies:
     antlr4 "~4.6.0"
 
