@@ -86,7 +86,7 @@ const expSpecifications = shrEx.expand(specifications, shrFE);
 
 if (doJSON) {
   const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
-  const hierarchyPath = `${program.out}/json/definitons.json`;
+  const hierarchyPath = `${program.out}/json/definitions.json`;
   mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
   fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
 } else {
