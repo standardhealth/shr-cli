@@ -84,9 +84,66 @@ const configSpecifications = shrTI.importConfigFromFilePath(input);
 const specifications = shrTI.importFromFilePath(input, configSpecifications);
 const expSpecifications = shrEx.expand(specifications, shrFE);
 
+//canonicaljson() {
+var doCanonicalJson = true;
+
+if (doCanonicalJson) {
+  //data elements 
+
+  for (const de of expSpecifications.dataElements.all) {
+    let namespace = de.identifier.namespace.replace(/\./, '-');
+    let fqn = de.identifier.fqn.replace(/\./g, '-');
+
+    const hierarchyPath = `${program.out}/canonicaljson/${namespace}/${fqn}.json`;
+    mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+    fs.writeFileSync(hierarchyPath, JSON.stringify(de, null, '  '));
+  }
+
+  //valuesets
+
+  for (const vs of expSpecifications.valueSets.all) {
+    let namespace = vs.identifier.namespace.replace(/\./, '-');
+    let name = vs.identifier.name.replace(/\./g, '-');;
+  
+    const hierarchyPath = `${program.out}/canonicaljson/${namespace}/valuesets/${name}.json`;
+    mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+    fs.writeFileSync(hierarchyPath, JSON.stringify(vs, null, '  '));
+  }
+
+  //mappings
+
+  for (const mapping of [...expSpecifications.maps._targetMap][0][1].all) {
+    let namespace = mapping.identifier.namespace.replace(/\./, '-');
+    let name = mapping.identifier.name;
+
+    const hierarchyPath = `${program.out}/canonicaljson/${namespace}/mappings/${name}-mapping.json`;
+    mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+    fs.writeFileSync(hierarchyPath, JSON.stringify(mapping, null, '  '));
+  }
+
+    //meta files
+    let versionInfo = {
+      "CAMEO_version": "5.2.1",
+      "Canonical_JSON_version": "0.9"
+    };
+  
+    let projectMetaOutput = Object.assign({}, configSpecifications, versionInfo); //project meta information
+    const hierarchyPath = `${program.out}/canonicaljson/project.json`;
+    mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+    fs.writeFileSync(hierarchyPath, JSON.stringify(projectMetaOutput, null, '  '));
+  
+    for (const ns of expSpecifications.namespaces.all) { //namespace files
+      let namespace = ns.namespace.replace(/\./, '-');
+  
+      const hierarchyPath = `${program.out}/canonicaljson/${namespace}/${namespace}.json`;
+      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(ns, null, '  '));
+    }  
+}
+  
 if (doJSON) {
   const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
-  const hierarchyPath = `${program.out}/json/definitons.json`;
+  const hierarchyPath = `${program.out}/json/definitions.json`;
   mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
   fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
 } else {
