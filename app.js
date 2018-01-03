@@ -28,7 +28,7 @@ program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
-  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,all> (default: <none>)', collect, [])
+  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,canjson,all> (default: <none>)', collect, [])
   .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
@@ -45,6 +45,7 @@ if (typeof input === 'undefined') {
 // Process the skip flags
 const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
 const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
+const doCanJSON = program.skip.every(a => a.toLowerCase() != 'canjson' && a.toLowerCase() != 'all');
 
 // Create the output folder if necessary
 mkdirp.sync(program.out);
@@ -84,10 +85,8 @@ const configSpecifications = shrTI.importConfigFromFilePath(input);
 const specifications = shrTI.importFromFilePath(input, configSpecifications);
 const expSpecifications = shrEx.expand(specifications, shrFE);
 
-//canonicaljson() {
-var doCanonicalJson = true;
-
-if (doCanonicalJson) {
+//canonicaljson
+if (doCanJSON) {
   //data elements 
 
   for (const de of expSpecifications.dataElements.all) {
