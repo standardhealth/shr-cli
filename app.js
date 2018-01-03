@@ -123,7 +123,7 @@ if (doCanJSON) {
     //meta files
     let versionInfo = {
       "CAMEO_version": "5.2.1",
-      "Canonical_JSON_version": "0.9"
+      "Canonical_JSON_version": "1.0"
     };
   
     let projectMetaOutput = Object.assign({}, configSpecifications, versionInfo); //project meta information
