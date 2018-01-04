@@ -10,6 +10,7 @@ const shrEx = require('shr-expand');
 const shrJE = require('shr-json-export');
 const shrJSE = require('shr-json-schema-export');
 const shrFE = require('shr-fhir-export');
+const LogCounter = require('./logcounter');
 
 /* eslint-disable no-console */
 
@@ -61,8 +62,8 @@ if (lm == 'short' || lm == 'long') {
   streams.push({ level: ll, stream: process.stdout });
 }
 // Setup a ringbuffer for counting the number of errors at the end
-const ringBuffer = new bunyan.RingBuffer({ limit: 500 });
-streams.push({ level: 'warn', type: 'raw', stream: ringBuffer});
+const logCounter = new LogCounter();
+streams.push({ level: 'warn', type: 'raw', stream: logCounter});
 // Always do a full JSON log
 streams.push({ level: 'trace', path: path.join(program.out, 'out.log') });
 const logger = bunyan.createLogger({
@@ -90,7 +91,7 @@ const expSpecifications = shrEx.expand(specifications, shrFE);
 
 if (doJSON) {
   const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
-  const hierarchyPath = `${program.out}/json/definitons.json`;
+  const hierarchyPath = `${program.out}/json/definitions.json`;
   mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
   fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
 } else {
@@ -152,31 +153,22 @@ if (doJSONSchema) {
 }
 logger.info('Finished CLI Import/Export');
 
-let [numErrors, numWarnings] = [0, 0];
-let [errModules, wrnModules] = [{}, {}];
-for (const r of ringBuffer.records) {
-  if (r.level >= 50) {
-    numErrors++;
-    if (r.module) errModules[r.module] = true;
-  } else if (r.level >= 40) {
-    numWarnings++;
-    if (r.module) wrnModules[r.module] = true;
-  }
-}
+const errCounter = logCounter.error;
+const wrnCounter = logCounter.warn;
 let [errColor, errLabel, wrnColor, wrnLabel, resetColor] = ['\x1b[32m', 'errors', '\x1b[32m', 'warnings', '\x1b[0m'];
-if (numErrors > 0) {
+if (errCounter.count > 0) {
   errColor = '\x1b[31m'; // red
-  errLabel = `errors (${Object.keys(errModules).join(', ')})`;
+  errLabel = `errors (${errCounter.modules.join(', ')})`;
 }
-if (numWarnings > 0) {
+if (wrnCounter.count > 0) {
   wrnColor = '\x1b[35m'; // magenta
-  wrnLabel = `warnings (${Object.keys(wrnModules).join(', ')})`;
+  wrnLabel = `warnings (${wrnCounter.modules.join(', ')})`;
 }
 
 // Get the elapsed time
 const hrend = process.hrtime(hrstart);
 console.log('------------------------------------------------------------');
 console.log('Elapsed time: %d.%ds', hrend[0], Math.floor(hrend[1]/1000000));
-console.log('%s%d %s%s', errColor, numErrors, errLabel, resetColor);
-console.log('%s%d %s%s', wrnColor, numWarnings, wrnLabel, resetColor);
+console.log('%s%d %s%s', errColor, errCounter.count, errLabel, resetColor);
+console.log('%s%d %s%s', wrnColor, wrnCounter.count, wrnLabel, resetColor);
 console.log('------------------------------------------------------------');

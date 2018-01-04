@@ -64,6 +64,8 @@ After exporting the SHR definitions, the FHIR IG Publisher tool can be used to c
 $ yarn run ig:publish
 ```
 
+NOTE: The FHIR IG publishing tool uses a _lot_ of memory when processing the full set of SHR definitions.  The yarn script above will allocated up to 8GB of RAM.
+
 # Creating the FHIR Implementation Guide Using an HTTP Proxy
 
 If your system requires a proxy to access the internet, you'll need to take a more complex approach than above.
@@ -84,12 +86,12 @@ Next, create the IG using the HL7 IG Publisher Tool.
 
 On Mac or Linux:
 ```
-$ java -jar $JAVA_OPTS out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/data.json
+$ java $JAVA_OPTS -Xms4g -Xmx8g -jar out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/data.json
 ```
 
 On Windows:
 ```
-> java -jar %JAVA_OPTS% out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/data.json
+> java %JAVA_OPTS% -Xms4g -Xmx8g -jar out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/data.json
 ```
 
 # License
