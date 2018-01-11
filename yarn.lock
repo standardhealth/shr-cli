@@ -765,13 +765,13 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
-shr-expand@^5.2.3:
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.2.3.tgz#b99d3d42691a31fa321c0aac22b5e0b1ffff7ade"
+shr-expand@^5.2.6:
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.2.6.tgz#47b82c0eb31c974e9fcfcdfc6938952804ac3bdb"
 
-shr-fhir-export@^5.3.4:
-  version "5.3.4"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.3.4.tgz#990277d1204bcbd2f18c3a544e5e10a04cc3fa50"
+shr-fhir-export@^5.3.7:
+  version "5.3.7"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.3.7.tgz#72c33d48c7c8c056f5e50cc93f087c9e03b6ae2b"
   dependencies:
     fs-extra "^2.0.0"
 
