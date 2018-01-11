@@ -128,9 +128,13 @@ if (doFHIR) {
 }
 
 if (doJSONSchema) {
+  let typeURL = configSpecifications.entryTypeURL;
+  if (!typeURL) {
+    typeURL = 'http://nowhere.invalid/';
+  }
   const baseSchemaNamespace = 'https://standardhealthrecord.org/test';
   const baseSchemaNamespaceWithSlash = baseSchemaNamespace + '/';
-  const jsonSchemaResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaNamespace);
+  const jsonSchemaResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaNamespace, typeURL);
   const jsonSchemaPath = `${program.out}/json-schema/`;
   mkdirp.sync(jsonSchemaPath);
   for (const schemaId in jsonSchemaResults) {
@@ -141,7 +145,7 @@ if (doJSONSchema) {
   shrJSE.setLogger(logger.child({module: 'shr-json-schema-export-expanded'}));
   const baseSchemaExpandedNamespace = 'https://standardhealthrecord.org/test-expanded';
   const baseSchemaExpandedNamespaceWithSlash = baseSchemaExpandedNamespace + '/';
-  const jsonSchemaExpandedResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaExpandedNamespace, true);
+  const jsonSchemaExpandedResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaExpandedNamespace, typeURL, true);
   const jsonSchemaExpandedPath = `${program.out}/json-schema-expanded/`;
   mkdirp.sync(jsonSchemaExpandedPath);
   for (const schemaId in jsonSchemaExpandedResults) {
