@@ -132,7 +132,7 @@ if (doJSONSchema) {
   if (!typeURL) {
     typeURL = 'http://nowhere.invalid/';
   }
-  const baseSchemaNamespace = 'https://standardhealthrecord.org/test';
+  const baseSchemaNamespace = 'https://standardhealthrecord.org/schema';
   const baseSchemaNamespaceWithSlash = baseSchemaNamespace + '/';
   const jsonSchemaResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaNamespace, typeURL);
   const jsonSchemaPath = `${program.out}/json-schema/`;
@@ -141,9 +141,10 @@ if (doJSONSchema) {
     const filename = `${schemaId.substring(baseSchemaNamespaceWithSlash.length).replace(/\//g, '.')}.schema.json`;
     fs.writeFileSync(path.join(jsonSchemaPath, filename), JSON.stringify(jsonSchemaResults[schemaId], null, '  '));
   }
-  
+
+// Uncomment the following to get expanded schemas
 //   shrJSE.setLogger(logger.child({module: 'shr-json-schema-export-expanded'}));
-//   const baseSchemaExpandedNamespace = 'https://standardhealthrecord.org/test-expanded';
+//   const baseSchemaExpandedNamespace = 'https://standardhealthrecord.org/schema-expanded';
 //   const baseSchemaExpandedNamespaceWithSlash = baseSchemaExpandedNamespace + '/';
 //   const jsonSchemaExpandedResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaExpandedNamespace, typeURL, true);
 //   const jsonSchemaExpandedPath = `${program.out}/json-schema-expanded/`;
