@@ -142,16 +142,16 @@ if (doJSONSchema) {
     fs.writeFileSync(path.join(jsonSchemaPath, filename), JSON.stringify(jsonSchemaResults[schemaId], null, '  '));
   }
   
-  shrJSE.setLogger(logger.child({module: 'shr-json-schema-export-expanded'}));
-  const baseSchemaExpandedNamespace = 'https://standardhealthrecord.org/test-expanded';
-  const baseSchemaExpandedNamespaceWithSlash = baseSchemaExpandedNamespace + '/';
-  const jsonSchemaExpandedResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaExpandedNamespace, typeURL, true);
-  const jsonSchemaExpandedPath = `${program.out}/json-schema-expanded/`;
-  mkdirp.sync(jsonSchemaExpandedPath);
-  for (const schemaId in jsonSchemaExpandedResults) {
-    const filename = `${schemaId.substring(baseSchemaExpandedNamespaceWithSlash.length).replace(/\//g, '.')}.schema.json`;
-    fs.writeFileSync(path.join(jsonSchemaExpandedPath, filename), JSON.stringify(jsonSchemaExpandedResults[schemaId], null, '  '));
-  }
+//   shrJSE.setLogger(logger.child({module: 'shr-json-schema-export-expanded'}));
+//   const baseSchemaExpandedNamespace = 'https://standardhealthrecord.org/test-expanded';
+//   const baseSchemaExpandedNamespaceWithSlash = baseSchemaExpandedNamespace + '/';
+//   const jsonSchemaExpandedResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaExpandedNamespace, typeURL, true);
+//   const jsonSchemaExpandedPath = `${program.out}/json-schema-expanded/`;
+//   mkdirp.sync(jsonSchemaExpandedPath);
+//   for (const schemaId in jsonSchemaExpandedResults) {
+//     const filename = `${schemaId.substring(baseSchemaExpandedNamespaceWithSlash.length).replace(/\//g, '.')}.schema.json`;
+//     fs.writeFileSync(path.join(jsonSchemaExpandedPath, filename), JSON.stringify(jsonSchemaExpandedResults[schemaId], null, '  '));
+//   }
 } else {
   logger.info('Skipping JSON Schema export');
 }
