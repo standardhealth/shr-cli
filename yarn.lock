@@ -765,15 +765,13 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
+shr-es6-export@^5.2.0-alpha.1:
+  version "5.2.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.2.0-alpha.1.tgz#bd4e71ef41fa3eb2a977cf2e8da180f322b85a13"
+
 shr-expand@^5.2.6:
   version "5.2.6"
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.2.6.tgz#47b82c0eb31c974e9fcfcdfc6938952804ac3bdb"
-
-"shr-es6-export@https://github.com/standardhealth/shr-es6-export":
-  version "5.0.0"
-  resolved "https://github.com/standardhealth/shr-es6-export#65b388267ee9c2bd49ece74191eb8539badda012"
-  dependencies:
-    shr-models "^5.1.0"
 
 shr-fhir-export@^5.3.7:
   version "5.3.7"
