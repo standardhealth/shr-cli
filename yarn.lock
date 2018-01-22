@@ -704,6 +704,10 @@ require-uncached@^1.0.3:
     caller-path "^0.1.0"
     resolve-from "^1.0.0"
 
+reserved-words@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/reserved-words/-/reserved-words-0.1.2.tgz#00a0940f98cd501aeaaac316411d9adc52b31ab1"
+
 resolve-from@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-1.0.1.tgz#26cbfe935d1aeeeabb29bc3fe5aeb01e93d44226"
@@ -765,9 +769,11 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
-shr-es6-export@^5.2.0-alpha.2:
-  version "5.2.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.2.0-alpha.2.tgz#6377e3bf8849c388b18bd26c7c9ad24d734f0fa2"
+shr-es6-export@^5.2.0-alpha.3:
+  version "5.2.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.2.0-alpha.3.tgz#1d6c686500ed55c9a6c1c2d89fee160e32334b58"
+  dependencies:
+    reserved-words "^0.1.2"
 
 shr-expand@^5.2.6:
   version "5.2.6"

@@ -19,7 +19,7 @@
     "bunyan": "^1.8.12",
     "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
-    "shr-es6-export": "^5.2.0-alpha.2",
+    "shr-es6-export": "^5.2.0-alpha.3",
     "shr-expand": "^5.2.6",
     "shr-fhir-export": "^5.3.7",
     "shr-json-export": "^5.1.3",
