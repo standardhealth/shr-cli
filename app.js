@@ -15,7 +15,8 @@ const LogCounter = require('./logcounter');
 
 /* eslint-disable no-console */
 
-sanityCheckModules({shrTI, shrEx, shrJE, shrJSE, shrFE });
+// NOTE: shr-es6-export does not currently support the sanity check
+sanityCheckModules({shrTI, shrEx, shrJE, shrJSE, /*shrEE,*/ shrFE });
 
 // Record the time so we can print elapsed time
 const hrstart = process.hrtime();
@@ -30,7 +31,7 @@ program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
-  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,json-schema,all> (default: <none>)', collect, [])
+  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,json-schema,es6,all> (default: <none>)', collect, [])
   .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
@@ -84,6 +85,7 @@ if (doFHIR) {
 if (doJSONSchema) {
   shrJSE.setLogger(logger.child({module: 'shr-json-schema-export'}));
 }
+// NOTE: shr-es6-export does not currently support a Bunyan logger
 
 // Go!
 logger.info('Starting CLI Import/Export');
