@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "5.3.3",
+  "version": "5.4.0",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
