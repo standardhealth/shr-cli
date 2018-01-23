@@ -22,6 +22,20 @@ yarn link shr-models
 yarn link shr-test-helpers
 yarn link
 
+cd ../shr-json-schema-export
+yarn link shr-models
+yarn link shr-expand
+yarn link shr-test-helpers
+yarn link
+
+cd ../shr-es6-export
+yarn link shr-models
+yarn link shr-text-import
+yarn link shr-expand
+yarn link shr-json-schema-export
+yarn link shr-test-helpers
+yarn link
+
 cd ../shr-fhir-export
 yarn link shr-models
 yarn link shr-test-helpers
@@ -32,4 +46,5 @@ yarn link shr-models
 yarn link shr-expand
 yarn link shr-text-import
 yarn link shr-json-export
+yarn link shr-es6-export
 yarn link shr-fhir-export
