@@ -38,7 +38,7 @@ $ node . --help
     -h, --help               output usage information
     -l, --log-level <level>  the console log level <fatal,error,warn,info,debug,trace> (default: info)
     -m, --log-mode <mode>    the console log mode <short,long,json,off> (default: short)
-    -s, --skip <feature>     skip an export feature <fhir,json,all> (default: <none>)
+    -s, --skip <feature>     skip an export feature <fhir,json,json-schema,es6,all> (default: <none>)
     -o, --out <out>          the path to the output folder (default: ./out)
 ```
 
