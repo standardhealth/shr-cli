@@ -100,6 +100,10 @@
 | 14001          | Unsupported value set rule type: `$s` |
 | 14002          | Unknown type for value `$VALUE` |
 | 14003          | Unknown type for constraint `$CONSTRAINT` |
+| 15001          | Unable to successfully serialize element `$ELEMENT` into CIMCORE, failing with error `$ERROR_MSG`. |
+| 15002          | Unable to successfully serialize value set `$VALUE_SET` into CIMCORE, failing with error `$ERROR_MSG`. |
+| 15003          | Unable to successfully serialize mapping `$MAPPING` into CIMCORE, failing with error `$ERROR_MSG`. |
+| 15004          | Unable to successfully serialize namespace meta data `$NAMESPACE` into CIMCORE, failing with error `$ERROR_MSG`. |
 
 ### Mapping Errors
 
@@ -160,7 +164,7 @@
 &nbsp;↳&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First digit tells whether it is an warning or error. 0 = warning, 1 = error <br>
 
 1 ***2*** 3 4 5 <br>
-&nbsp;&nbsp;&nbsp;↳&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Second digit gives the location of the issue: 1 = the grammar and importing of the text files, 2 = the expanding of the specifications, 3 = the exporting of FHIR profiles, 4 = the exporting of the JSON profiles <br>
+&nbsp;&nbsp;&nbsp;↳&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Second digit gives the location of the issue: 1 = the grammar and importing of the text files, 2 = the expanding of the specifications, 3 = the exporting of FHIR profiles, 4 = the exporting of the JSON profiles, 5 = the exporting of CIMCORE files <br>
 
 1 2 ***3 4 5*** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳&nbsp;&nbsp; The last two digits are simply for unique identification. <br>

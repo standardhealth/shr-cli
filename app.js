@@ -101,8 +101,12 @@ if (doCIMCORE) {
     let fqn = de.identifier.fqn.replace(/\./g, '-');
 
     const hierarchyPath = `${program.out}/cimcore/${namespace}/${fqn}.json`;
-    mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-    fs.writeFileSync(hierarchyPath, JSON.stringify(de, null, '  '));
+    try {
+      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(de, null, '  '));
+      } catch (error) {
+      logger.error('Unable to successfully serialize element %s into CIMCORE, failing with error %s. ERROR_CODE:15001', name, error);
+    }
   }
 
   //valuesets
@@ -111,8 +115,12 @@ if (doCIMCORE) {
     let name = vs.identifier.name.replace(/\./g, '-');;
 
     const hierarchyPath = `${program.out}/cimcore/${namespace}/valuesets/${name}.json`;
-    mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-    fs.writeFileSync(hierarchyPath, JSON.stringify(vs, null, '  '));
+    try {
+      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(vs, null, '  '));
+    } catch (error) {
+      logger.error('Unable to successfully serialize value set %s into CIMCORE, failing with error %s. ERROR_CODE:15002', name, error);
+    }
   }
 
   //mappings
@@ -121,8 +129,12 @@ if (doCIMCORE) {
     let name = mapping.identifier.name;
 
     const hierarchyPath = `${program.out}/cimcore/${namespace}/mappings/${name}-mapping.json`;
-    mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-    fs.writeFileSync(hierarchyPath, JSON.stringify(mapping, null, '  '));
+    try {
+      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(mapping, null, '  '));
+    } catch (error) {
+      logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error %s. ERROR_CODE:15003', name, error);
+    }
   }
 
   //meta namespace files
@@ -130,8 +142,12 @@ if (doCIMCORE) {
     let namespace = ns.namespace.replace(/\./, '-');
 
     const hierarchyPath = `${program.out}/cimcore/${namespace}/${namespace}.json`;
-    mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-    fs.writeFileSync(hierarchyPath, JSON.stringify(ns, null, '  '));
+    try {
+      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(ns, null, '  '));
+    } catch (error) {
+      logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error %s. ERROR_CODE:15004', namespace, error);
+    }
   }  
 
   //meta project file
