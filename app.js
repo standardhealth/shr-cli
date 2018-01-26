@@ -136,7 +136,7 @@ if (doCIMCORE) {
 
   //meta project file
   let versionInfo = {
-    "CAMEO_version": "5.4.0",
+    "CIMPL_version": "5.4.0",
     "Canonical_JSON_version": "1.0"
   };
 
