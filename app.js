@@ -105,7 +105,7 @@ if (doCIMCORE) {
       mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
       fs.writeFileSync(hierarchyPath, JSON.stringify(de, null, '  '));
       } catch (error) {
-      logger.error('Unable to successfully serialize element %s into CIMCORE, failing with error %s. ERROR_CODE:15001', name, error);
+      logger.error('Unable to successfully serialize element %s into CIMCORE, failing with error "%s". ERROR_CODE:15001', de.identifier.fqn, error);
     }
   }
 
@@ -119,7 +119,7 @@ if (doCIMCORE) {
       mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
       fs.writeFileSync(hierarchyPath, JSON.stringify(vs, null, '  '));
     } catch (error) {
-      logger.error('Unable to successfully serialize value set %s into CIMCORE, failing with error %s. ERROR_CODE:15002', name, error);
+      logger.error('Unable to successfully serialize value set %s into CIMCORE, failing with error "%s". ERROR_CODE:15002', vs.identifier.fqn, error);
     }
   }
 
@@ -133,7 +133,7 @@ if (doCIMCORE) {
       mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
       fs.writeFileSync(hierarchyPath, JSON.stringify(mapping, null, '  '));
     } catch (error) {
-      logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error %s. ERROR_CODE:15003', name, error);
+      logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error "%s". ERROR_CODE:15003', mapping.identifier.fqn, error);
     }
   }
 
@@ -146,7 +146,7 @@ if (doCIMCORE) {
       mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
       fs.writeFileSync(hierarchyPath, JSON.stringify(ns, null, '  '));
     } catch (error) {
-      logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error %s. ERROR_CODE:15004', namespace, error);
+      logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error "%s". ERROR_CODE:15004', namespace, error);
     }
   }  
 
