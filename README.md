@@ -2,7 +2,7 @@
 
 The Standard Health Record (SHR) initiative is working to create a single, high-quality health record for every individual in the United States.  For more information, see [standardhealthrecord.org](http://standardhealthrecord.org/).
 
-This GitHub repository contains a Node.js command-line interface for parsing SHR text definitions and exporting them as FHIR profiles, JSON schema, ES6 classes, or a JSON document (for website generation).  Future versions of the CLI may support additional capabilities.
+This GitHub repository contains a Node.js command-line interface for parsing SHR text definitions and exporting them as FHIR profiles, [CIMCORE](https://github.com/standardhealth/shr-cli/wiki/CIMCORE-Documentation) JSON serialized files, JSON schema, ES6 classes, or a JSON document (for website generation).  Future versions of the CLI may support additional capabilities.
 
 The SHR text definitions and grammar files can be found in the [shr_spec](https://github.com/standardhealth/shr_spec) repo.  As the SHR text format (and content files) are still evolving, so is this toolset.
 
@@ -38,7 +38,7 @@ $ node . --help
     -h, --help               output usage information
     -l, --log-level <level>  the console log level <fatal,error,warn,info,debug,trace> (default: info)
     -m, --log-mode <mode>    the console log mode <short,long,json,off> (default: short)
-    -s, --skip <feature>     skip an export feature <fhir,json,json-schema,es6,all> (default: <none>)
+    -s, --skip <feature>     skip an export feature <fhir,json,cimcore,json-schema,es6,all> (default: <none>)
     -o, --out <out>          the path to the output folder (default: ./out)
 ```
 

@@ -31,7 +31,7 @@ program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
-  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,json-schema,es6,all> (default: <none>)', collect, [])
+  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,all> (default: <none>)', collect, [])
   .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
@@ -48,6 +48,7 @@ if (typeof input === 'undefined') {
 // Process the skip flags
 const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
 const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
+const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
 const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
 const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
 
@@ -93,6 +94,77 @@ const configSpecifications = shrTI.importConfigFromFilePath(input);
 const specifications = shrTI.importFromFilePath(input, configSpecifications);
 const expSpecifications = shrEx.expand(specifications, shrFE);
 
+if (doCIMCORE) {
+  //data elements 
+  for (const de of expSpecifications.dataElements.all) {
+    let namespace = de.identifier.namespace.replace(/\./, '-');
+    let fqn = de.identifier.fqn.replace(/\./g, '-');
+
+    const hierarchyPath = `${program.out}/cimcore/${namespace}/${fqn}.json`;
+    try {
+      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(de, null, '  '));
+      } catch (error) {
+      logger.error('Unable to successfully serialize element %s into CIMCORE, failing with error "%s". ERROR_CODE:15001', de.identifier.fqn, error);
+    }
+  }
+
+  //valuesets
+  for (const vs of expSpecifications.valueSets.all) {
+    let namespace = vs.identifier.namespace.replace(/\./, '-');
+    let name = vs.identifier.name.replace(/\./g, '-');;
+
+    const hierarchyPath = `${program.out}/cimcore/${namespace}/valuesets/${name}.json`;
+    try {
+      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(vs, null, '  '));
+    } catch (error) {
+      logger.error('Unable to successfully serialize value set %s into CIMCORE, failing with error "%s". ERROR_CODE:15002', vs.identifier.fqn, error);
+    }
+  }
+
+  //mappings
+  for (const mapping of [...expSpecifications.maps._targetMap][0][1].all) {
+    let namespace = mapping.identifier.namespace.replace(/\./, '-');
+    let name = mapping.identifier.name;
+
+    const hierarchyPath = `${program.out}/cimcore/${namespace}/mappings/${name}-mapping.json`;
+    try {
+      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(mapping, null, '  '));
+    } catch (error) {
+      logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error "%s". ERROR_CODE:15003', mapping.identifier.fqn, error);
+    }
+  }
+
+  //meta namespace files
+  for (const ns of expSpecifications.namespaces.all) { //namespace files
+    let namespace = ns.namespace.replace(/\./, '-');
+
+    const hierarchyPath = `${program.out}/cimcore/${namespace}/${namespace}.json`;
+    try {
+      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(ns, null, '  '));
+    } catch (error) {
+      logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error "%s". ERROR_CODE:15004', namespace, error);
+    }
+  }  
+
+  //meta project file
+  let versionInfo = {
+    "CIMPL_version": "5.4.0",
+    "Canonical_JSON_version": "1.0"
+  };
+
+  let projectMetaOutput = Object.assign({}, configSpecifications, versionInfo); //project meta information
+  const hierarchyPath = `${program.out}/cimcore/project.json`;
+  mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+  fs.writeFileSync(hierarchyPath, JSON.stringify(projectMetaOutput, null, '  '));
+
+} else {
+  logger.info('Skipping CIMORE export');
+}
+  
 if (doJSON) {
   const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
   const hierarchyPath = `${program.out}/json/definitions.json`;
