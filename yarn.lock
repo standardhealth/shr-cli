@@ -775,9 +775,9 @@ shr-es6-export@^5.2.0:
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@^5.2.7:
-  version "5.2.7"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.2.7.tgz#510cbf479d5f7920c9247b68b4915e288ea6d962"
+shr-expand@~5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.3.0.tgz#c19539d99b75c5986b62216b422618c3f6491391"
 
 shr-fhir-export@^5.3.7:
   version "5.3.7"
@@ -793,9 +793,9 @@ shr-json-schema-export@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.2.0.tgz#02910ee6c0de23e910b01047224edea441c9fc68"
 
-shr-models@^5.2.2:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.2.2.tgz#42b9f13deded480628529e22bca09af546f8ba81"
+shr-models@~5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.3.0.tgz#e2416ca103e5ad9a434d85c20b40a7a516ce70e7"
 
 shr-text-import@^5.2.3:
   version "5.2.3"
