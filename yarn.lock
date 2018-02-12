@@ -769,9 +769,9 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
-shr-es6-export@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.2.0.tgz#7a7df106545abbf889fc5cfa0e7143e72f2b83b0"
+shr-es6-export@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.2.1.tgz#0dfc33392a7ae3a161f8b257b6c043dafa8af803"
   dependencies:
     reserved-words "^0.1.2"
 
@@ -779,19 +779,19 @@ shr-expand@~5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.3.0.tgz#c19539d99b75c5986b62216b422618c3f6491391"
 
-shr-fhir-export@^5.3.7:
-  version "5.3.7"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.3.7.tgz#72c33d48c7c8c056f5e50cc93f087c9e03b6ae2b"
+shr-fhir-export@^5.3.8:
+  version "5.3.8"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.3.8.tgz#b699176a3c6c2e482580304ba7ecbc39029520b4"
   dependencies:
     fs-extra "^2.0.0"
 
-shr-json-export@^5.1.3:
-  version "5.1.3"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.3.tgz#ea99fd3bfeb47562f122488748c05f0e10fcb3a0"
+shr-json-export@^5.1.4:
+  version "5.1.4"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.4.tgz#9b1cc379002366db70ef529a39b8220253a860ee"
 
-shr-json-schema-export@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.2.0.tgz#02910ee6c0de23e910b01047224edea441c9fc68"
+shr-json-schema-export@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.2.1.tgz#2022a19b1e0f9ccb0c06b69e8e056bfc350e6f3a"
 
 shr-models@~5.3.0:
   version "5.3.0"
