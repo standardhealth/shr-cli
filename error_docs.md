@@ -24,13 +24,13 @@
 | 01001 | No project configuration file found, currently using default EXAMPLE identifiers. Auto-generating a proper 'config.json' in your specifications folder | Open the 'config.json' file and customize it for your project.
 | 01002 | Config file missing key: `$KEY`, using default key: `$DEFAULT VALUE` instead.   | Open the 'config.json' file and add your project specific details for that key.
 | 02001 | Potentially mismatched targets: `$CLASS` maps to `$ITEM`, but based on class (`$CLASS`) maps to `$ITEM`, and `$ITEM` is not based on `$ELEMENT` in `$CLASS`.' | You're overwriting an inherited mapping. This is not necessarily an issue, but is definitely something to be cautious of. |
-| 03001 | Trying to map `$PROFILE` to `$CODE`, but `$PROFILE` was previously mapped to it | 
+| 03001 | Trying to map `$PROFILE` to `$CODE`, but `$PROFILE` was previously mapped to it |
 | 03002 | Choice has equivalent types, so choice options may overwrite or override each other when mapped to FHIR. |
 | 03003 | Overriding extensible value set constraint from `$VS` to `$VS`.  Only allowed when new codes do not overlap meaning of old codes. |
 | 03004 | Element profiled on Basic. Consider a more specific mapping. | The Basic profile should not be used in most cases. Consider a more specific profile mapping that categorizes the Element being mapped. |
-| 03005 | No mapping to '`$ELEMENT PATH`'. This property is core to the target resource and usually should be mapped. |  
+| 03005 | No mapping to '`$ELEMENT PATH`'. This property is core to the target resource and usually should be mapped. |
 | 03006 | The `$PROPERTY` property is not bound to a value set, fixed to a code, or fixed to a quantity unit. This property is core to the target resource and usually should be constrained |
-| 04001 | Unsupported code system: '`$CODESYSTEM`' | 
+| 04001 | Unsupported code system: '`$CODESYSTEM`' |
 
 # All Error Codes
 
@@ -54,10 +54,10 @@
 | 11016          | mismatched input `$INPUT` expecting `$LIST_OF_KEYWORDS` | This is usually a typo issue. Investigate spelling and keywords used around the specificied text input.
 | 11017          | Cannot resolve path without namespaces | There was a failure to parse the namespace. Ensure the namespace is correctly defined.
 | 11018          | Failed to resolve path for `$NAME`. |
-| 11019          | Found conflicting path for `$NAME` in multiple namespaces: `$NAMESPACES` | 
-| 11020          | Failed to resolve vocabulary for `$NAME`. | 
-| 11021          | Found conflicting vocabularies for `$NAME` in multiple namespaces: `$NAMESPACES` | 
-| 11022          | Found conflicting definitions for `$NAME` in multiple namespaces: `$NAMESPACES` | 
+| 11019          | Found conflicting path for `$NAME` in multiple namespaces: `$NAMESPACES` |
+| 11020          | Failed to resolve vocabulary for `$NAME`. |
+| 11021          | Found conflicting vocabularies for `$NAME` in multiple namespaces: `$NAMESPACES` |
+| 11022          | Found conflicting definitions for `$NAME` in multiple namespaces: `$NAMESPACES` |
 | 11023          | Elements cannot be based on "Value" keyword |
 | 11024          | Elements cannot use "Value:" modifier and specify "Value" field at same time. |
 | 11025          | Fields cannot be constrained to type "Value" |
@@ -155,8 +155,18 @@
 | 13044          | Target resolves to multiple elements but is not sliced |
 | 13045          | Unable to establish namespace for `$FIELD` | (Extensions) |
 | 13046          | Mapping to `MAP_TARGET`'s `RULE_TARGET`: slice could not be found. |
-| 13047          | Couldn't find sd to unroll | 
+| 13047          | Couldn't find sd to unroll |
 | 13048          | Cannot override code constraint from `$SYSTEM`\|`$CODE` to `$SYSTEM`\|`$CODE`' |
+| 13049          | Unexpected error processing mapping to FHIR. |
+| 13050          | Unexpected error processing mapping rule. |
+| 13051          | Unexpected error adding extension. |
+| 13054          | Using profile that is currently in the middle of processing: `$PROFILE_ID`. |
+| 13055          | Using extension that is currently in the middle of processing: `$EXTENSION_ID`. |
+| 13056          | Can't fix `$TARGET` to `$VALUE` since `$TARGET` is not one of: `$ALLOWABLE_TYPES`. |
+| 13057          | Could not fix `$TARGET` to `$VALUE`; failed to detect compatible type for value `$VALUE`. |
+| 13058          | Cannot fix `$TARGET` to `$VALUE` since it is not a `$TYPE` type. |
+| 13059          | Cannot fix `$TARGET` to `$VALUE` since it is already fixed to `$OTHER_VALUE`. |
+| 13060          | Could not determine how to map nested value (`$ELEMENT_PATH`) to FHIR profile. |
 
 # Code Number Explanation
 
