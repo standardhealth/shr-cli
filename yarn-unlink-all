@@ -2,6 +2,7 @@
 
 yarn unlink shr-fhir-export
 yarn unlink shr-es6-export
+yarn unlink shr-json-schema-export
 yarn unlink shr-json-export
 yarn unlink shr-text-import
 yarn unlink shr-expand
