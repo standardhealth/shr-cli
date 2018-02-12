@@ -59,12 +59,12 @@ For more information on Bunyan and Bunyan CLI, see the Bunyan documentation.
 
 # Creating the FHIR Implementation Guide
 
-After exporting the SHR definitions, the FHIR IG Publisher tool can be used to create a FHIR implementation guide, containing HTML documentation, bundled definitions, and more.  This requires that the Java Runtime Environment (JRE) or Java SDK (JSDK) are installed on your system.  It also requires Jekyll ([Mac/Linux](https://jekyllrb.com/) / [Windows](http://jekyll-windows.juthilo.com/1-ruby-and-devkit/)). After ensuring they are installed, run the following command:
+After exporting the SHR definitions, the FHIR IG Publisher tool can be used to create a FHIR implementation guide, containing HTML documentation, bundled definitions, and more.  This requires that the Java Runtime Environment (JRE) 8/9 or Java SDK (JSDK) are installed on your system.  It also requires Jekyll ([Mac/Linux](https://jekyllrb.com/) / [Windows](http://jekyll-windows.juthilo.com/1-ruby-and-devkit/)). After ensuring they are installed, run the following command:
 ```
 $ yarn run ig:publish
 ```
 
-NOTE: The FHIR IG publishing tool uses a _lot_ of memory when processing the full set of SHR definitions.  The yarn script above will allocated up to 8GB of RAM.
+NOTE: The FHIR IG publishing tool uses a _lot_ of memory when processing the full set of SHR definitions.  The yarn script above will allocated up to 8GB of RAM. A minimum of 4GB of RAM is recommended to run the tool.
 
 # Creating the FHIR Implementation Guide Using an HTTP Proxy
 
