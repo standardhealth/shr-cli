@@ -15,8 +15,7 @@ const LogCounter = require('./logcounter');
 
 /* eslint-disable no-console */
 
-// NOTE: shr-es6-export does not currently support the sanity check
-sanityCheckModules({shrTI, shrEx, shrJE, shrJSE, /*shrEE,*/ shrFE });
+sanityCheckModules({shrTI, shrEx, shrJE, shrJSE, shrEE, shrFE });
 
 // Record the time so we can print elapsed time
 const hrstart = process.hrtime();
