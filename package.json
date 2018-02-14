@@ -19,7 +19,7 @@
     "bunyan": "^1.8.12",
     "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
-    "shr-es6-export": "^5.2.1",
+    "shr-es6-export": "https://github.com/standardhealth/shr-es6-export#curation",
     "shr-expand": "~5.3.0",
     "shr-fhir-export": "^5.3.8",
     "shr-json-export": "^5.1.4",
