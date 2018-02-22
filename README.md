@@ -14,8 +14,8 @@ To run the SHR command-line interface, you need to first download the _shr-cli_ 
 
 To run the command-line interface, you must perform the following steps to install its dependencies:
 
-1. Install [Node.js](https://nodejs.org/en/download/)
-2. Install [Yarn](https://yarnpkg.com/en/docs/install)
+1. Install [Node.js](https://nodejs.org/en/download/) (LTS edition, currently 8.x)
+2. Install [Yarn](https://yarnpkg.com/en/docs/install) (1.3.x or above)
 3. Execute the following from this project's root directory: `yarn`
 
 # Exporting SHR to JSON and FHIR
