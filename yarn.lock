@@ -775,13 +775,13 @@ shr-es6-export@^5.2.1:
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@~5.3.0:
+shr-expand@standardhealth/shr-expand#underscore_kw:
   version "5.3.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.3.0.tgz#c19539d99b75c5986b62216b422618c3f6491391"
+  resolved "https://codeload.github.com/standardhealth/shr-expand/tar.gz/6c811e98979a0e7484a13799034e80baae3572a5"
 
-shr-fhir-export@^5.3.8:
+shr-fhir-export@standardhealth/shr-fhir-export#underscore_kw:
   version "5.3.8"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.3.8.tgz#b699176a3c6c2e482580304ba7ecbc39029520b4"
+  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/39280e3aa252fa4c986f6fc9e1f28aa077215531"
   dependencies:
     fs-extra "^2.0.0"
 
@@ -793,13 +793,13 @@ shr-json-schema-export@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.2.1.tgz#2022a19b1e0f9ccb0c06b69e8e056bfc350e6f3a"
 
-shr-models@~5.3.0:
+shr-models@standardhealth/shr-models#underscore_kw:
   version "5.3.0"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.3.0.tgz#e2416ca103e5ad9a434d85c20b40a7a516ce70e7"
+  resolved "https://codeload.github.com/standardhealth/shr-models/tar.gz/bc825be96868efef1c30daa3cb7f8df163185be4"
 
-shr-text-import@^5.2.3:
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.2.3.tgz#0af683af80e1580fc84226b1a9376f075da6dfc3"
+shr-text-import@standardhealth/shr-text-import#underscore_kw:
+  version "5.2.4"
+  resolved "https://codeload.github.com/standardhealth/shr-text-import/tar.gz/249639d8f333a9d11e0b771a6c02879917a6fcac"
   dependencies:
     antlr4 "~4.6.0"
 
