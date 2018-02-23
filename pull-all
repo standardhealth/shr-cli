@@ -1,60 +1,41 @@
 #!/usr/bin/env bash
 
+cd ../shr_spec
+echo "===================== shr_spec ====================="
+git pull
+
 cd ../shr-models
 echo "==================== shr-models ===================="
-yarn link
+git pull
 
 cd ../shr-test-helpers
 echo "================= shr-test-helpers ================="
-yarn link shr-models
-yarn link
+git pull
 
 cd ../shr-expand
 echo "==================== shr-expand ===================="
-yarn link shr-models
-yarn link shr-test-helpers
-yarn link
+git pull
 
 cd ../shr-text-import
 echo "================= shr-text-import =================="
-yarn link shr-models
-yarn link shr-test-helpers
-yarn link
+git pull
 
 cd ../shr-json-export
 echo "================= shr-json-export =================="
-yarn link shr-models
-yarn link shr-test-helpers
-yarn link
+git pull
 
 cd ../shr-json-schema-export
 echo "============== shr-json-schema-export =============="
-yarn link shr-models
-yarn link shr-expand
-yarn link shr-test-helpers
-yarn link
+git pull
 
 cd ../shr-es6-export
 echo "================== shr-es6-export =================="
-yarn link shr-models
-yarn link shr-text-import
-yarn link shr-expand
-yarn link shr-json-schema-export
-yarn link shr-test-helpers
-yarn link
+git pull
 
 cd ../shr-fhir-export
 echo "================= shr-fhir-export =================="
-yarn link shr-models
-yarn link shr-test-helpers
-yarn link
+git pull
 
 cd ../shr-cli
 echo "===================== shr-cli ======================"
-yarn link shr-models
-yarn link shr-expand
-yarn link shr-text-import
-yarn link shr-json-export
-yarn link shr-json-schema-export
-yarn link shr-es6-export
-yarn link shr-fhir-export
+git pull

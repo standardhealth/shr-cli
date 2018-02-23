@@ -1,39 +1,46 @@
 #!/usr/bin/env bash
 
-yarn cache clean
-
 cd ../shr-models
+echo "==================== shr-models ===================="
 rm -rf node_modules
 yarn
 
 cd ../shr-test-helpers
+echo "================= shr-test-helpers ================="
 rm -rf node_modules
 yarn
 
 cd ../shr-expand
+echo "==================== shr-expand ===================="
 rm -rf node_modules
 yarn
 
 cd ../shr-text-import
+echo "================= shr-text-import =================="
 rm -rf node_modules
 yarn
 
 cd ../shr-json-export
+echo "================= shr-json-export =================="
 rm -rf node_modules
 yarn
 
 cd ../shr-json-schema-export
+echo "============== shr-json-schema-export =============="
 rm -rf node_modules
 yarn
 
 cd ../shr-es6-export
+echo "================== shr-es6-export =================="
 rm -rf node_modules
 yarn
 
 cd ../shr-fhir-export
+echo "================= shr-fhir-export =================="
 rm -rf node_modules
 yarn
 
 cd ../shr-cli
+echo "===================== shr-cli ======================"
 rm -rf node_modules
 yarn

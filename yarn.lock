@@ -769,19 +769,19 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
-shr-es6-export@^5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.2.1.tgz#0dfc33392a7ae3a161f8b257b6c043dafa8af803"
+shr-es6-export@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.3.0.tgz#a7624216e42b7407a2e5f7270c74754980a71c63"
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@~5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.3.0.tgz#c19539d99b75c5986b62216b422618c3f6491391"
+shr-expand@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.4.0.tgz#0e71525b2ffc4cf63268c910da257042e49f14d5"
 
-shr-fhir-export@^5.3.8:
-  version "5.3.8"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.3.8.tgz#b699176a3c6c2e482580304ba7ecbc39029520b4"
+shr-fhir-export@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.4.0.tgz#3e91942b90ea884b700a677d6f34b3938d4ab431"
   dependencies:
     fs-extra "^2.0.0"
 
@@ -793,13 +793,13 @@ shr-json-schema-export@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.2.1.tgz#2022a19b1e0f9ccb0c06b69e8e056bfc350e6f3a"
 
-shr-models@~5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.3.0.tgz#e2416ca103e5ad9a434d85c20b40a7a516ce70e7"
+shr-models@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.4.0.tgz#6fc2542dbdb900a7e0a7d172962ce540deda190a"
 
-shr-text-import@^5.2.3:
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.2.3.tgz#0af683af80e1580fc84226b1a9376f075da6dfc3"
+shr-text-import@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.3.0.tgz#30b03ad00c68fbc5404111b5af3bcd99cb49b06e"
   dependencies:
     antlr4 "~4.6.0"
 

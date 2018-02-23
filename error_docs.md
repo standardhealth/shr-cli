@@ -167,6 +167,7 @@
 | 13058          | Cannot fix `$TARGET` to `$VALUE` since it is not a `$TYPE` type. |
 | 13059          | Cannot fix `$TARGET` to `$VALUE` since it is already fixed to `$OTHER_VALUE`. |
 | 13060          | Could not determine how to map nested value (`$ELEMENT_PATH`) to FHIR profile. |
+| 13061          | Mapping _Concept sub-fields is currently not supported. |
 
 # Code Number Explanation
 
