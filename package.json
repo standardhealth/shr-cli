@@ -19,13 +19,13 @@
     "bunyan": "^1.8.12",
     "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
-    "shr-es6-export": "^5.2.1",
-    "shr-expand": "standardhealth/shr-expand#underscore_kw",
-    "shr-fhir-export": "standardhealth/shr-fhir-export#underscore_kw",
+    "shr-es6-export": "^5.3.0",
+    "shr-expand": "^5.4.0",
+    "shr-fhir-export": "^5.4.0",
     "shr-json-export": "^5.1.4",
     "shr-json-schema-export": "^5.2.1",
-    "shr-models": "standardhealth/shr-models#underscore_kw",
-    "shr-text-import": "standardhealth/shr-text-import#underscore_kw"
+    "shr-models": "^5.4.0",
+    "shr-text-import": "^5.3.0"
   },
   "devDependencies": {
     "eslint": "^4.6.1"
