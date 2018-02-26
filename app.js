@@ -96,6 +96,8 @@ const expSpecifications = shrEx.expand(specifications, shrFE);
 
 // console.log(expSpecifications);
 
+const cimcoreimport = shrTI.importCIMCOREFromFilePath(input, expSpecifications);
+
 if (doCIMCORE) {
   //data elements 
   for (const de of expSpecifications.dataElements.all) {
@@ -154,9 +156,6 @@ if (doCIMCORE) {
 } else {
   logger.info('Skipping CIMORE export');
 }
-
-const cimcoreimport = shrTI.importCIMCOREFromFilePath(input, expSpecifications);
-
   
 if (doJSON) {
   const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
