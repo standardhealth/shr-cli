@@ -238,6 +238,11 @@ if (doFHIR) {
   for (const valueSet of fhirResults.valueSets) {
     fs.writeFileSync(path.join(baseFHIRValueSetsPath, `${valueSet.id}.json`), JSON.stringify(valueSet, null, 2));
   }
+  const baseFHIRModelsPath = path.join(baseFHIRPath, 'logical');
+  mkdirp.sync(baseFHIRModelsPath);
+  for (const model of fhirResults.models) {
+    fs.writeFileSync(path.join(baseFHIRModelsPath, `${model.id}.json`), JSON.stringify(model, null, 2));
+  }
   fs.writeFileSync(path.join(baseFHIRPath, `shr_qa.html`), fhirResults.qaHTML);
   shrFE.exportIG(fhirResults, path.join(baseFHIRPath, 'guide'), configSpecifications, input);
 } else {
