@@ -94,12 +94,10 @@ const configSpecifications = shrTI.importConfigFromFilePath(input);
 const specifications = shrTI.importFromFilePath(input, configSpecifications);
 const expSpecifications = shrEx.expand(specifications, shrFE);
 
-// console.log(expSpecifications);
-
-const cimcoreimport = shrTI.importCIMCOREFromFilePath(input, expSpecifications);
+console.log(expSpecifications);
 
 if (doCIMCORE) {
-  //data elements 
+  //data elements
   for (const de of expSpecifications.dataElements.all) {
     let namespace = de.identifier.namespace.replace(/\./, '-');
     let fqn = de.identifier.fqn.replace(/\./g, '-');
@@ -113,7 +111,7 @@ if (doCIMCORE) {
   //valuesets
   for (const vs of expSpecifications.valueSets.all) {
     let namespace = vs.identifier.namespace.replace(/\./, '-');
-    let name = vs.identifier.name.replace(/\./g, '-');;
+    let name = vs.identifier.name.replace(/\./g, '-');
     let out = Object.assign({ 'fileType': 'ValueSet' }, vs.toJSON());
 
     const hierarchyPath = `${program.out}/cimcore/${namespace}/valuesets/${name}.json`;
@@ -140,7 +138,7 @@ if (doCIMCORE) {
     const hierarchyPath = `${program.out}/cimcore/${namespace}/${namespace}.json`;
     mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
     fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
-  }  
+  }
 
   //meta project file
   let versionInfo = {
@@ -156,7 +154,10 @@ if (doCIMCORE) {
 } else {
   logger.info('Skipping CIMORE export');
 }
-  
+
+const cimcoreimport = shrTI.importCIMCOREFromFilePath(input, expSpecifications);
+
+
 if (doJSON) {
   const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
   const hierarchyPath = `${program.out}/json/definitions.json`;
