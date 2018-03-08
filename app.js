@@ -94,7 +94,7 @@ const configSpecifications = shrTI.importConfigFromFilePath(input);
 const specifications = shrTI.importFromFilePath(input, configSpecifications);
 const expSpecifications = shrEx.expand(specifications, shrFE);
 
-console.log(expSpecifications);
+// console.log(expSpecifications);
 
 if (doCIMCORE) {
   //data elements
@@ -142,7 +142,7 @@ if (doCIMCORE) {
 
   //meta project file
   let versionInfo = {
-    'CAMEO_version': '5.4.0',
+    'CIMPL_version': '5.4.0',
     'Canonical_JSON_version': '1.0'
   };
 
