@@ -552,6 +552,10 @@ lodash@^4.17.4, lodash@^4.3.0:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
+lodash@^4.17.5:
+  version "4.17.5"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
+
 lru-cache@^4.0.1:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-4.1.2.tgz#45234b2e6e2f2b33da125624c4664929a0224c3f"
@@ -776,11 +780,12 @@ shr-expand@^5.4.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.4.0.tgz#0e71525b2ffc4cf63268c910da257042e49f14d5"
 
-shr-fhir-export@^5.4.0:
+shr-fhir-export@standardhealth/shr-fhir-export#logical_models:
   version "5.4.0"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.4.0.tgz#3e91942b90ea884b700a677d6f34b3938d4ab431"
+  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/22d1cc3b541b4357196f6bdc7c096bd8f405c341"
   dependencies:
     fs-extra "^2.0.0"
+    lodash "^4.17.5"
 
 shr-json-export@^5.1.4:
   version "5.1.4"
@@ -798,13 +803,13 @@ shr-json-schema-export@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.2.1.tgz#2022a19b1e0f9ccb0c06b69e8e056bfc350e6f3a"
 
-shr-models@^5.4.0:
+shr-models@standardhealth/shr-models#logical_models:
   version "5.4.0"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.4.0.tgz#6fc2542dbdb900a7e0a7d172962ce540deda190a"
+  resolved "https://codeload.github.com/standardhealth/shr-models/tar.gz/cd3b0ad011d212f8fd15d67be12dc35335d033ff"
 
-shr-text-import@^5.3.0:
+shr-text-import@standardhealth/shr-text-import#logical_models:
   version "5.3.0"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.3.0.tgz#30b03ad00c68fbc5404111b5af3bcd99cb49b06e"
+  resolved "https://codeload.github.com/standardhealth/shr-text-import/tar.gz/3d22434daf6875d15a6563b1cbe04de14c42cea0"
   dependencies:
     antlr4 "~4.6.0"
 
