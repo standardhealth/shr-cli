@@ -782,7 +782,7 @@ shr-expand@^5.4.0:
 
 shr-fhir-export@standardhealth/shr-fhir-export#logical_models:
   version "5.4.0"
-  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/22d1cc3b541b4357196f6bdc7c096bd8f405c341"
+  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/ce092cb9c00bb15c14636e4cf506c3a2e56c1f1f"
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
