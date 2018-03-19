@@ -46,11 +46,11 @@ if (typeof input === 'undefined') {
 }
 
 // Process the skip flags
-const doFHIR = false && program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
-const doJSON = false && program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
+const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
+const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
 const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
-const doJSONSchema = false && program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
-const doES6 = false && program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
+const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
+const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
 
 // Create the output folder if necessary
 mkdirp.sync(program.out);
@@ -143,7 +143,7 @@ if (doCIMCORE) {
   //meta project file
   let versionInfo = {
     'CIMPL_version': '5.4.0',
-    'Canonical_JSON_version': '1.0'
+    'CIMCORE_version': '1.0'
   };
 
   let projectMetaOutput = Object.assign({'fileType':'ProjectInfo'}, configSpecifications, versionInfo); //project meta information
@@ -154,9 +154,6 @@ if (doCIMCORE) {
 } else {
   logger.info('Skipping CIMORE export');
 }
-
-const cimcoreimport = shrTI.importCIMCOREFromFilePath(input, expSpecifications);
-
 
 if (doJSON) {
   const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
