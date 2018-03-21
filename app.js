@@ -12,6 +12,7 @@ const shrJSE = require('shr-json-schema-export');
 const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
 const shrJDE = require('shr-json-javadoc');
+const shrAE = require('../shr-adl-exporter');
 const LogCounter = require('./logcounter');
 const SpecificationsFilter = require('./filter');
 
@@ -51,10 +52,11 @@ if (typeof input === 'undefined') {
 // Process the skip flags
 const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
 const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
-const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
 const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
 const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
 const doModelDoc = program.skip.every(a => a.toLowerCase() != 'model-doc' && a.toLowerCase() != 'all');
+const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
+const doADL = program.skip.every(a => a.toLowerCase() != 'adl' && a.toLowerCase() != 'all');
 
 // Process the de-duplicate error flag
 
@@ -95,7 +97,10 @@ if (doJSONSchema) {
   shrJSE.setLogger(logger.child({module: 'shr-json-schema-export'}));
 }
 if (doModelDoc) {
-  shrJDE.setLogger(logger.child({module: 'shr-json-javadoc'}));
+  shrJDE.setLogger(logger.child({ module: 'shr-json-javadoc' }));
+}
+if (doADL) {
+  shrAE.setLogger(logger.child({module: 'shr-adl-export'}));
 }
 // NOTE: shr-es6-export does not currently support a Bunyan logger
 
@@ -215,6 +220,10 @@ if (doCIMCORE) {
   }
 } else {
   logger.info('Skipping CIMCORE export');
+}
+
+if (doADL) {
+  shrAE.generateADLtoPath(expSpecifications, configSpecifications, program.out);
 }
 
 if (doJSON) {
