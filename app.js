@@ -94,17 +94,54 @@ const specifications = shrTI.importFromFilePath(input, configSpecifications);
 const expSpecifications = shrEx.expand(specifications, shrFE);
 
 if (doCIMCORE) {
+  var cimcoreSpecifications = {
+    'dataElements': [],
+    'valueSets': [],
+    'mappings': [],
+    'namespaces': {},
+  };
+  const baseCIMCOREPath = `${program.out}/cimcore/`;
+
+  //meta project file
+  let versionInfo = {
+    'CIMPL_version': '5.6.0',
+    'CIMCORE_version': '1.1'
+  };
+
+  let projectMetaOutput = Object.assign({ 'fileType': 'ProjectInfo' }, configSpecifications, versionInfo); //project meta information
+  cimcoreSpecifications['projectInfo'] = projectMetaOutput;
+
+  const hierarchyPath = `${program.out}/cimcore/project.json`;
+  mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+  fs.writeFileSync(hierarchyPath, JSON.stringify(projectMetaOutput, null, '  '));
+
+  //meta namespace files
+  for (const ns of expSpecifications.namespaces.all) { //namespace files
+    let namespace = ns.namespace.replace(/\./, '-');
+    let out = Object.assign({ 'fileType': 'Namespace' }, ns.toJSON());
+    cimcoreSpecifications.namespaces[ns.namespace] = ns.description;
+
+    const hierarchyPath = `${baseCIMCOREPath}/${namespace}/${namespace}.json`;
+    try {
+      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
+    } catch (error) {
+      logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error "%s". ERROR_CODE:15004', namespace, error);
+    }
+  }
+
   //data elements
   for (const de of expSpecifications.dataElements.all) {
     let namespace = de.identifier.namespace.replace(/\./, '-');
     let fqn = de.identifier.fqn.replace(/\./g, '-');
     let out = Object.assign({ 'fileType': 'DataElement' }, de.toJSON());
+    cimcoreSpecifications.dataElements.push(out);
 
-    const hierarchyPath = `${program.out}/cimcore/${namespace}/${fqn}.json`;
+    const hierarchyPath = `${baseCIMCOREPath}/${namespace}/${fqn}.json`;
     try {
       mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
       fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
-      } catch (error) {
+    } catch (error) {
       logger.error('Unable to successfully serialize element %s into CIMCORE, failing with error "%s". ERROR_CODE:15001', de.identifier.fqn, error);
     }
   }
@@ -114,13 +151,14 @@ if (doCIMCORE) {
     let namespace = vs.identifier.namespace.replace(/\./, '-');
     let name = vs.identifier.name.replace(/\./g, '-');
     let out = Object.assign({ 'fileType': 'ValueSet' }, vs.toJSON());
+    cimcoreSpecifications.valueSets.push(out);
 
-    const hierarchyPath = `${program.out}/cimcore/${namespace}/valuesets/${name}.json`;
+    const hierarchyPath = `${baseCIMCOREPath}/${namespace}/valuesets/${name}.json`;
     try {
       mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
       fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
-      } catch (error) {
-        logger.error('Unable to successfully serialize value set %s into CIMCORE, failing with error "%s". ERROR_CODE:15002', vs.identifier.fqn, error);
+    } catch (error) {
+      logger.error('Unable to successfully serialize value set %s into CIMCORE, failing with error "%s". ERROR_CODE:15002', vs.identifier.fqn, error);
     }
   }
 
@@ -129,8 +167,9 @@ if (doCIMCORE) {
     let namespace = mapping.identifier.namespace.replace(/\./, '-');
     let name = mapping.identifier.name;
     let out = Object.assign({ 'fileType': 'Mapping' }, mapping.toJSON());
+    cimcoreSpecifications.mappings.push(out);
 
-    const hierarchyPath = `${program.out}/cimcore/${namespace}/mappings/${name}-mapping.json`;
+    const hierarchyPath = `${baseCIMCOREPath}/${namespace}/mappings/${name}-mapping.json`;
     try {
       mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
       fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
@@ -138,32 +177,6 @@ if (doCIMCORE) {
       logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error "%s". ERROR_CODE:15003', mapping.identifier.fqn, error);
     }
   }
-
-  //meta namespace files
-  for (const ns of expSpecifications.namespaces.all) { //namespace files
-    let namespace = ns.namespace.replace(/\./, '-');
-    let out = Object.assign({ 'fileType': 'Namespace' }, ns.toJSON());
-
-    const hierarchyPath = `${program.out}/cimcore/${namespace}/${namespace}.json`;
-    try {
-      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-      fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
-    } catch (error) {
-      logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error "%s". ERROR_CODE:15004', namespace, error);
-    }  
-  }
-
-  //meta project file
-  let versionInfo = {
-    'CIMPL_version': '5.4.0',
-    'CIMCORE_version': '1.1'
-  };
-
-  let projectMetaOutput = Object.assign({'fileType':'ProjectInfo'}, configSpecifications, versionInfo); //project meta information
-  const hierarchyPath = `${program.out}/cimcore/project.json`;
-  mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-  fs.writeFileSync(hierarchyPath, JSON.stringify(projectMetaOutput, null, '  '));
-
 } else {
   logger.info('Skipping CIMORE export');
 }
