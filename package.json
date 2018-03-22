@@ -24,7 +24,7 @@
     "shr-expand": "standardhealth/shr-expand#logical_models",
     "shr-fhir-export": "standardhealth/shr-fhir-export#logical_models",
     "shr-json-export": "^5.1.4",
-    "shr-json-javadoc": "^1.2.2",
+    "shr-json-javadoc": "^1.2.3",
     "shr-json-schema-export": "^5.2.1",
     "shr-models": "standardhealth/shr-models#logical_models",
     "shr-text-import": "standardhealth/shr-text-import#logical_models"
