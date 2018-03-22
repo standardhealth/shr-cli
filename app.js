@@ -184,16 +184,6 @@ if (doCIMCORE) {
   logger.info('Skipping CIMORE export');
 }
 
-if (doModelDoc && cimcoreSpecifications.dataElements.length > 0) {
-  const hierarchyPath = `${program.out}/modeldoc`;
-  const fhirPath = `${program.out}/fhir/guide/pages/modeldoc`;
-  const javadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath);
-  shrJDE.exportToPath(javadocResults, hierarchyPath);
-  if (configSpecifications.igModelDoc == true) {
-    shrJDE.exportToPath(javadocResults, fhirPath);
-  }
-}
-
 if (doJSON) {
   const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
   const hierarchyPath = `${program.out}/json/definitions.json`;
@@ -280,6 +270,20 @@ if (doJSONSchema) {
 } else {
   logger.info('Skipping JSON Schema export');
 }
+
+if (doModelDoc && cimcoreSpecifications.dataElements.length > 0) {
+  const hierarchyPath = `${program.out}/modeldoc`;
+  const fhirPath = `${program.out}/fhir/guide/pages/modeldoc`;
+  const javadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath);
+  shrJDE.exportToPath(javadocResults, hierarchyPath);
+  if (configSpecifications.igModelDoc == true) {
+    shrJDE.exportToPath(javadocResults, fhirPath);
+  }
+} else {
+  logger.info('Skipping Model Docs export');
+}
+
+
 logger.info('Finished CLI Import/Export');
 
 const errCounter = logCounter.error;
