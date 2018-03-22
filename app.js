@@ -84,6 +84,9 @@ if (doJSON) {
 if (doFHIR) {
   shrFE.setLogger(logger.child({module: 'shr-fhir-export'}));
 }
+if (doJSONSchema) {
+  shrJSE.setLogger(logger.child({module: 'shr-json-schema-export'}));
+}
 if (doModelDoc) {
   shrJDE.setLogger(logger.child({module: 'shr-json-javadoc'}));
 }
