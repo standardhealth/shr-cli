@@ -11,6 +11,7 @@ const shrJE = require('shr-json-export');
 const shrJSE = require('shr-json-schema-export');
 const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
+const shrJDE = require('shr-json-javadoc');
 const LogCounter = require('./logcounter');
 
 /* eslint-disable no-console */
@@ -30,7 +31,7 @@ program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
-  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,all> (default: <none>)', collect, [])
+  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all> (default: <none>)', collect, [])
   .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
@@ -50,6 +51,7 @@ const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCas
 const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
 const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
 const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
+const doModelDoc = program.skip.every(a => a.toLowerCase() != 'model-doc' && a.toLowerCase() != 'all');
 
 // Create the output folder if necessary
 mkdirp.sync(program.out);
@@ -82,8 +84,8 @@ if (doJSON) {
 if (doFHIR) {
   shrFE.setLogger(logger.child({module: 'shr-fhir-export'}));
 }
-if (doJSONSchema) {
-  shrJSE.setLogger(logger.child({module: 'shr-json-schema-export'}));
+if (doModelDoc) {
+  shrJDE.setLogger(logger.child({module: 'shr-json-javadoc'}));
 }
 // NOTE: shr-es6-export does not currently support a Bunyan logger
 
@@ -99,6 +101,7 @@ if (doCIMCORE) {
     'valueSets': [],
     'mappings': [],
     'namespaces': {},
+    //also includes 'projectInfo'
   };
   const baseCIMCOREPath = `${program.out}/cimcore/`;
 
@@ -119,7 +122,7 @@ if (doCIMCORE) {
   for (const ns of expSpecifications.namespaces.all) { //namespace files
     let namespace = ns.namespace.replace(/\./, '-');
     let out = Object.assign({ 'fileType': 'Namespace' }, ns.toJSON());
-    cimcoreSpecifications.namespaces[ns.namespace] = ns.description;
+    cimcoreSpecifications.namespaces[ns.namespace] = out;
 
     const hierarchyPath = `${baseCIMCOREPath}/${namespace}/${namespace}.json`;
     try {
@@ -179,6 +182,16 @@ if (doCIMCORE) {
   }
 } else {
   logger.info('Skipping CIMORE export');
+}
+
+if (doModelDoc && cimcoreSpecifications.dataElements.length > 0) {
+  const hierarchyPath = `${program.out}/modeldoc`;
+  const fhirPath = `${program.out}/fhir/guide/pages/modeldoc`;
+  const javadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath);
+  shrJDE.exportToPath(javadocResults, hierarchyPath);
+  if (configSpecifications.igModelDoc == true) {
+    shrJDE.exportToPath(javadocResults, fhirPath);
+  }
 }
 
 if (doJSON) {

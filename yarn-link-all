@@ -34,6 +34,10 @@ yarn link shr-expand
 yarn link shr-test-helpers
 yarn link
 
+cd ../shr-json-javadoc
+echo "============== shr-json-javadoc ===================="
+yarn link
+
 cd ../shr-es6-export
 echo "================== shr-es6-export =================="
 yarn link shr-models
@@ -56,5 +60,6 @@ yarn link shr-expand
 yarn link shr-text-import
 yarn link shr-json-export
 yarn link shr-json-schema-export
+yarn link shr-json-javadoc
 yarn link shr-es6-export
 yarn link shr-fhir-export
