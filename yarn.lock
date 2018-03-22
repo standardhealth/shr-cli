@@ -776,13 +776,13 @@ shr-es6-export@^5.3.0:
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@^5.4.0:
+shr-expand@standardhealth/shr-expand#logical_models:
   version "5.4.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.4.0.tgz#0e71525b2ffc4cf63268c910da257042e49f14d5"
+  resolved "https://codeload.github.com/standardhealth/shr-expand/tar.gz/dcc0ec89de48eff6ad5c40c128e1ba90457ef03d"
 
 shr-fhir-export@standardhealth/shr-fhir-export#logical_models:
   version "5.4.0"
-  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/ce092cb9c00bb15c14636e4cf506c3a2e56c1f1f"
+  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/e52ca2ade3f1549361e9d090786d2139d801cb3f"
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
@@ -805,7 +805,7 @@ shr-json-schema-export@^5.2.1:
 
 shr-models@standardhealth/shr-models#logical_models:
   version "5.4.0"
-  resolved "https://codeload.github.com/standardhealth/shr-models/tar.gz/cd3b0ad011d212f8fd15d67be12dc35335d033ff"
+  resolved "https://codeload.github.com/standardhealth/shr-models/tar.gz/c90fd75bc776088b5bf59a63e3d7e38e78d9435d"
 
 shr-text-import@standardhealth/shr-text-import#logical_models:
   version "5.3.0"
