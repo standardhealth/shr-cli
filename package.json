@@ -11,6 +11,7 @@
   "main": "app.js",
   "scripts": {
     "ig:publish": "java -Xms4g -Xmx8g -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/ig.json",
+    "ig:open": "opener ./out/fhir/guide/output/index.html",
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
@@ -23,12 +24,13 @@
     "shr-expand": "standardhealth/shr-expand#logical_models",
     "shr-fhir-export": "standardhealth/shr-fhir-export#logical_models",
     "shr-json-export": "^5.1.4",
-    "shr-json-schema-export": "^5.2.1",
     "shr-json-javadoc": "^1.2.2",
+    "shr-json-schema-export": "^5.2.1",
     "shr-models": "standardhealth/shr-models#logical_models",
     "shr-text-import": "standardhealth/shr-text-import#logical_models"
   },
   "devDependencies": {
-    "eslint": "^4.6.1"
+    "eslint": "^4.6.1",
+    "opener": "^1.4.3"
   }
 }
