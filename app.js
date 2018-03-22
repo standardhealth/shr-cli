@@ -11,6 +11,7 @@ const shrJE = require('shr-json-export');
 const shrJSE = require('shr-json-schema-export');
 const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
+const shrJDE = require('shr-json-javadoc');
 const LogCounter = require('./logcounter');
 
 /* eslint-disable no-console */
@@ -30,7 +31,7 @@ program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
-  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,all> (default: <none>)', collect, [])
+  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all> (default: <none>)', collect, [])
   .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
@@ -50,6 +51,7 @@ const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCas
 const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
 const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
 const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
+const doModelDoc = program.skip.every(a => a.toLowerCase() != 'model-doc' && a.toLowerCase() != 'all');
 
 // Create the output folder if necessary
 mkdirp.sync(program.out);
@@ -85,6 +87,9 @@ if (doFHIR) {
 if (doJSONSchema) {
   shrJSE.setLogger(logger.child({module: 'shr-json-schema-export'}));
 }
+if (doModelDoc) {
+  shrJDE.setLogger(logger.child({module: 'shr-json-javadoc'}));
+}
 // NOTE: shr-es6-export does not currently support a Bunyan logger
 
 // Go!
@@ -94,16 +99,55 @@ const specifications = shrTI.importFromFilePath(input, configSpecifications);
 const expSpecifications = shrEx.expand(specifications, shrFE);
 
 if (doCIMCORE) {
-  //data elements 
+  var cimcoreSpecifications = {
+    'dataElements': [],
+    'valueSets': [],
+    'mappings': [],
+    'namespaces': {},
+    //also includes 'projectInfo'
+  };
+  const baseCIMCOREPath = `${program.out}/cimcore/`;
+
+  //meta project file
+  let versionInfo = {
+    'CIMPL_version': '5.6.0',
+    'CIMCORE_version': '1.1'
+  };
+
+  let projectMetaOutput = Object.assign({ 'fileType': 'ProjectInfo' }, configSpecifications, versionInfo); //project meta information
+  cimcoreSpecifications['projectInfo'] = projectMetaOutput;
+
+  const hierarchyPath = `${program.out}/cimcore/project.json`;
+  mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+  fs.writeFileSync(hierarchyPath, JSON.stringify(projectMetaOutput, null, '  '));
+
+  //meta namespace files
+  for (const ns of expSpecifications.namespaces.all) { //namespace files
+    let namespace = ns.namespace.replace(/\./, '-');
+    let out = Object.assign({ 'fileType': 'Namespace' }, ns.toJSON());
+    cimcoreSpecifications.namespaces[ns.namespace] = out;
+
+    const hierarchyPath = `${baseCIMCOREPath}/${namespace}/${namespace}.json`;
+    try {
+      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
+    } catch (error) {
+      logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error "%s". ERROR_CODE:15004', namespace, error);
+    }
+  }
+
+  //data elements
   for (const de of expSpecifications.dataElements.all) {
     let namespace = de.identifier.namespace.replace(/\./, '-');
     let fqn = de.identifier.fqn.replace(/\./g, '-');
+    let out = Object.assign({ 'fileType': 'DataElement' }, de.toJSON());
+    cimcoreSpecifications.dataElements.push(out);
 
-    const hierarchyPath = `${program.out}/cimcore/${namespace}/${fqn}.json`;
+    const hierarchyPath = `${baseCIMCOREPath}/${namespace}/${fqn}.json`;
     try {
       mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-      fs.writeFileSync(hierarchyPath, JSON.stringify(de, null, '  '));
-      } catch (error) {
+      fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
+    } catch (error) {
       logger.error('Unable to successfully serialize element %s into CIMCORE, failing with error "%s". ERROR_CODE:15001', de.identifier.fqn, error);
     }
   }
@@ -111,12 +155,14 @@ if (doCIMCORE) {
   //valuesets
   for (const vs of expSpecifications.valueSets.all) {
     let namespace = vs.identifier.namespace.replace(/\./, '-');
-    let name = vs.identifier.name.replace(/\./g, '-');;
+    let name = vs.identifier.name.replace(/\./g, '-');
+    let out = Object.assign({ 'fileType': 'ValueSet' }, vs.toJSON());
+    cimcoreSpecifications.valueSets.push(out);
 
-    const hierarchyPath = `${program.out}/cimcore/${namespace}/valuesets/${name}.json`;
+    const hierarchyPath = `${baseCIMCOREPath}/${namespace}/valuesets/${name}.json`;
     try {
       mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-      fs.writeFileSync(hierarchyPath, JSON.stringify(vs, null, '  '));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
     } catch (error) {
       logger.error('Unable to successfully serialize value set %s into CIMCORE, failing with error "%s". ERROR_CODE:15002', vs.identifier.fqn, error);
     }
@@ -126,44 +172,21 @@ if (doCIMCORE) {
   for (const mapping of [...expSpecifications.maps._targetMap][0][1].all) {
     let namespace = mapping.identifier.namespace.replace(/\./, '-');
     let name = mapping.identifier.name;
+    let out = Object.assign({ 'fileType': 'Mapping' }, mapping.toJSON());
+    cimcoreSpecifications.mappings.push(out);
 
-    const hierarchyPath = `${program.out}/cimcore/${namespace}/mappings/${name}-mapping.json`;
+    const hierarchyPath = `${baseCIMCOREPath}/${namespace}/mappings/${name}-mapping.json`;
     try {
       mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-      fs.writeFileSync(hierarchyPath, JSON.stringify(mapping, null, '  '));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
     } catch (error) {
       logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error "%s". ERROR_CODE:15003', mapping.identifier.fqn, error);
     }
   }
-
-  //meta namespace files
-  for (const ns of expSpecifications.namespaces.all) { //namespace files
-    let namespace = ns.namespace.replace(/\./, '-');
-
-    const hierarchyPath = `${program.out}/cimcore/${namespace}/${namespace}.json`;
-    try {
-      mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-      fs.writeFileSync(hierarchyPath, JSON.stringify(ns, null, '  '));
-    } catch (error) {
-      logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error "%s". ERROR_CODE:15004', namespace, error);
-    }
-  }  
-
-  //meta project file
-  let versionInfo = {
-    "CIMPL_version": "5.4.0",
-    "Canonical_JSON_version": "1.0"
-  };
-
-  let projectMetaOutput = Object.assign({}, configSpecifications, versionInfo); //project meta information
-  const hierarchyPath = `${program.out}/cimcore/project.json`;
-  mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-  fs.writeFileSync(hierarchyPath, JSON.stringify(projectMetaOutput, null, '  '));
-
 } else {
   logger.info('Skipping CIMORE export');
 }
-  
+
 if (doJSON) {
   const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
   const hierarchyPath = `${program.out}/json/definitions.json`;
@@ -250,6 +273,20 @@ if (doJSONSchema) {
 } else {
   logger.info('Skipping JSON Schema export');
 }
+
+if (doModelDoc && cimcoreSpecifications.dataElements.length > 0) {
+  const hierarchyPath = `${program.out}/modeldoc`;
+  const fhirPath = `${program.out}/fhir/guide/pages/modeldoc`;
+  const javadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath);
+  shrJDE.exportToPath(javadocResults, hierarchyPath);
+  if (configSpecifications.igModelDoc == true) {
+    shrJDE.exportToPath(javadocResults, fhirPath);
+  }
+} else {
+  logger.info('Skipping Model Docs export');
+}
+
+
 logger.info('Finished CLI Import/Export');
 
 const errCounter = logCounter.error;
