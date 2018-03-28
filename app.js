@@ -285,7 +285,8 @@ if (doModelDoc && cimcoreSpecifications.dataElements.length > 0) {
   const javadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath);
   shrJDE.exportToPath(javadocResults, hierarchyPath);
   if (configSpecifications.igModelDoc == true) {
-    shrJDE.exportToPath(javadocResults, fhirPath);
+    const igJavadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath, true);
+    shrJDE.exportToPath(igJavadocResults, fhirPath);
   }
 } else {
   logger.info('Skipping Model Docs export');
