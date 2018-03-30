@@ -791,9 +791,9 @@ shr-json-export@^5.1.4:
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.4.tgz#9b1cc379002366db70ef529a39b8220253a860ee"
 
-shr-json-javadoc@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-1.3.2.tgz#8b19511b52027a528f9ea99005df0174cadbc12d"
+shr-json-javadoc@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-1.3.3.tgz#7c1485c65be85cf46f100dfe43fccdecf5ac16bd"
   dependencies:
     bluebird "^3.5.1"
     ejs "^2.5.7"
