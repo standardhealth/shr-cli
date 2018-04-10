@@ -238,8 +238,13 @@ if (doFHIR) {
   for (const valueSet of fhirResults.valueSets) {
     fs.writeFileSync(path.join(baseFHIRValueSetsPath, `${valueSet.id}.json`), JSON.stringify(valueSet, null, 2));
   }
+  const baseFHIRModelsPath = path.join(baseFHIRPath, 'logical');
+  mkdirp.sync(baseFHIRModelsPath);
+  for (const model of fhirResults.models) {
+    fs.writeFileSync(path.join(baseFHIRModelsPath, `${model.id}.json`), JSON.stringify(model, null, 2));
+  }
   fs.writeFileSync(path.join(baseFHIRPath, `shr_qa.html`), fhirResults.qaHTML);
-  shrFE.exportIG(fhirResults, path.join(baseFHIRPath, 'guide'), configSpecifications, input);
+  shrFE.exportIG(expSpecifications, fhirResults, path.join(baseFHIRPath, 'guide'), configSpecifications, input);
 } else {
   logger.info('Skipping FHIR export');
 }
@@ -280,7 +285,8 @@ if (doModelDoc && cimcoreSpecifications.dataElements.length > 0) {
   const javadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath);
   shrJDE.exportToPath(javadocResults, hierarchyPath);
   if (configSpecifications.igModelDoc == true) {
-    shrJDE.exportToPath(javadocResults, fhirPath);
+    const igJavadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath, true);
+    shrJDE.exportToPath(igJavadocResults, fhirPath);
   }
 } else {
   logger.info('Skipping Model Docs export');
