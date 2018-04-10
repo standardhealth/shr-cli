@@ -776,13 +776,13 @@ shr-es6-export@^5.3.1:
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@standardhealth/shr-expand#logical_models:
-  version "5.4.0"
-  resolved "https://codeload.github.com/standardhealth/shr-expand/tar.gz/1afc31c655ab7676ad6964f82163af5cfd3cc232"
+shr-expand@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.5.0.tgz#add3fd793d97350bdb9ae8f1ff195ab41226a9e2"
 
-shr-fhir-export@standardhealth/shr-fhir-export#logical_models:
-  version "5.4.0"
-  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/4cf0531d8931f587b40517fc632743672a7443e8"
+shr-fhir-export@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.5.0.tgz#5d34154fefd7e76fb8bafe1024df1f0220a14889"
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
@@ -799,17 +799,17 @@ shr-json-javadoc@^1.3.3:
     ejs "^2.5.7"
     ncp "^2.0.0"
 
-shr-json-schema-export@standardhealth/shr-json-schema-export#logical_models:
-  version "5.2.1"
-  resolved "https://codeload.github.com/standardhealth/shr-json-schema-export/tar.gz/b21ef8b56908f06ca9048a8f2d2cb0e1fda44403"
+shr-json-schema-export@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.2.2.tgz#20141775d14ff717bbfe220b05fe4cd2135ecfbc"
 
-shr-models@standardhealth/shr-models#logical_models:
-  version "5.4.0"
-  resolved "https://codeload.github.com/standardhealth/shr-models/tar.gz/c90fd75bc776088b5bf59a63e3d7e38e78d9435d"
+shr-models@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.5.0.tgz#41c163bfb22aa39678c2bafebccccb50a8574a3a"
 
-shr-text-import@standardhealth/shr-text-import#logical_models:
-  version "5.3.0"
-  resolved "https://codeload.github.com/standardhealth/shr-text-import/tar.gz/2102af271fadd46cedf8af4652f7858a08062e1b"
+shr-text-import@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.3.1.tgz#e17ed61830cbeb675692b1ae1c79501f1117f0ff"
   dependencies:
     antlr4 "~4.6.0"
 
