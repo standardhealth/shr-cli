@@ -45,6 +45,7 @@ yarn link shr-text-import
 yarn link shr-expand
 yarn link shr-json-schema-export
 yarn link shr-test-helpers
+yarn link shr-fhir-export
 yarn link
 
 cd ../shr-fhir-export
