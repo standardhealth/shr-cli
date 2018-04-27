@@ -284,7 +284,7 @@ if (doModelDoc && cimcoreSpecifications.dataElements.length > 0) {
   const fhirPath = `${program.out}/fhir/guide/pages/modeldoc`;
   const javadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath);
   shrJDE.exportToPath(javadocResults, hierarchyPath);
-  if (configSpecifications.igModelDoc == true) {
+  if (doFHIR && configSpecifications.igModelDoc == true) {
     const igJavadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath, true);
     shrJDE.exportToPath(igJavadocResults, fhirPath);
   }
