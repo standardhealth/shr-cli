@@ -97,6 +97,7 @@
 | 12035          | Found multiple matches for field `$FIELD`                          | Please use fully qualified identifier. |
 | 12036          | Could not find expanded definition of `$ELEMENT`. Inheritance calculations will be incomplete. | Double check `shr.base.Entry` is defined within the specifications. |
 | 12037          | Could not find based on element `$ELEMENT` for child element `$ELEMENT`. | Double check the `basedOn` element is defined within the specifications and correctly referenced. |
+| 12038          | Found conflicting field names `$NAME` on element `$ELEMENT`. Fields are from `$NAMESPACES`. | Elements with clashing names in their hierarchy are not supported. |
 | 14001          | Unsupported value set rule type: `$s` |
 | 14002          | Unknown type for value `$VALUE` |
 | 14003          | Unknown type for constraint `$CONSTRAINT` |
