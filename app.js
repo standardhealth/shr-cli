@@ -35,6 +35,7 @@ program
   .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all> (default: <none>)', collect, [])
   .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
   .option('-c, --config <config>', 'the name of the config file (default: config.json)', 'config.json')
+  .option('-d, --duplicate', 'show duplicate error messages (default: false)')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
     input = pathToShrDefs;
@@ -54,6 +55,10 @@ const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLo
 const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
 const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
 const doModelDoc = program.skip.every(a => a.toLowerCase() != 'model-doc' && a.toLowerCase() != 'all');
+
+// Process the de-duplicate error flag
+
+const showDuplicateErrors = program.duplicate;
 
 // Create the output folder if necessary
 mkdirp.sync(program.out);
@@ -97,6 +102,7 @@ if (doModelDoc) {
 // Go!
 logger.info('Starting CLI Import/Export');
 const configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
+configSpecifications.showDuplicateErrors = showDuplicateErrors;
 let specifications = shrTI.importFromFilePath(input, configSpecifications);
 let expSpecifications = shrEx.expand(specifications, shrFE);
 

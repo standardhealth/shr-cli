@@ -41,6 +41,7 @@ $ node . --help
     -s, --skip <feature>     skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all> (default: <none>)
     -o, --out <out>          the path to the output folder (default: ./out)
     -c, --config <config>', 'the name of the config file (default: config.json)
+    -d, --duplicate'         show duplicate error messages (default: false)
 ```
 
 For example:
