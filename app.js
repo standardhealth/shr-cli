@@ -13,6 +13,7 @@ const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
 const shrJDE = require('shr-json-javadoc');
 const LogCounter = require('./logcounter');
+const SpecificationsFilter = require('./filter');
 
 /* eslint-disable no-console */
 
@@ -95,8 +96,19 @@ if (doModelDoc) {
 // Go!
 logger.info('Starting CLI Import/Export');
 const configSpecifications = shrTI.importConfigFromFilePath(input);
-const specifications = shrTI.importFromFilePath(input, configSpecifications);
-const expSpecifications = shrEx.expand(specifications, shrFE);
+let specifications = shrTI.importFromFilePath(input, configSpecifications);
+let expSpecifications = shrEx.expand(specifications, shrFE);
+
+let filter = false;
+if (configSpecifications.igPrimarySelectionStrategy != null) {
+  filter = configSpecifications.igPrimarySelectionStrategy.filter;
+}
+
+if (filter) {
+  const specificationsFilter = new SpecificationsFilter(specifications, expSpecifications, configSpecifications);
+  [specifications, expSpecifications] = specificationsFilter.filter();
+}
+
 
 if (doCIMCORE) {
   var cimcoreSpecifications = {
