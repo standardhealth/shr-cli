@@ -6,7 +6,7 @@ class SpecificationsFilter {
     this._specs = specifications;
     this._expSpecs = expSpecifications;
     this._config = configSpecifications;
-    this._deDependencies = new Set();
+    this._deDependencies = new IdentifierSet();
     this._processedDataElements = [];
     this._vsDependencies = new Set();
     this._csDependencies = new Set();
@@ -175,6 +175,29 @@ class SpecificationsFilter {
     });
   }
 
+}
+
+/**
+ * IdentifierSet contains a set of Identifiers with the guarantee that there are no duplicates.
+ * This class mimics a few of the useful functions found on JavaScript's Set class.
+ */
+class IdentifierSet {
+  constructor() {
+    this._map = new Map();
+  }
+
+  add(identifier) {
+    this._map.set(identifier.fqn, identifier);
+    return this;
+  }
+
+  has(identifier) {
+    return this._map.has(identifier.fqn);
+  }
+
+  forEach(callback) {
+    this._map.forEach(v => callback(v, v, this));
+  }
 }
 
 module.exports = SpecificationsFilter;
