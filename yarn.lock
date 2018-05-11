@@ -917,9 +917,9 @@ showdown@^1.8.6:
   dependencies:
     yargs "^10.0.3"
 
-shr-es6-export@^5.3.1:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.3.1.tgz#292f23e957c55f1d870df94b87201b6876ec6e44"
+shr-es6-export@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.4.0.tgz#c26c1cce3d20b5d49fe1a7d9cf995489223c2a9b"
   dependencies:
     reserved-words "^0.1.2"
 
@@ -947,9 +947,9 @@ shr-json-javadoc@^1.4.2:
     ncp "^2.0.0"
     showdown "^1.8.6"
 
-shr-json-schema-export@^5.2.3:
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.2.3.tgz#78726dba0359e99a46683710783d2b74f756925a"
+shr-json-schema-export@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.0.tgz#2b1f1dd918381c23b4ebbca9946c0dc85dc227ce"
 
 shr-models@^5.5.2:
   version "5.5.2"
