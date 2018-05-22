@@ -17,17 +17,17 @@ class SpecificationsFilter {
   filter() {
     // get filter config data
     let strategy = '';
-    let primary = [];
-    if (this._config.igPrimarySelectionStrategy != null) {
-      strategy = this._config.igPrimarySelectionStrategy.strategy;
-      primary = this._config.igPrimarySelectionStrategy.primary;
+    let target = [];
+    if (this._config.filterStrategy != null) {
+      strategy = this._config.filterStrategy.strategy;
+      target = this._config.filterStrategy.target;
     }
 
     // recursively find dependencies for each data element in specifications
     // if element matches filter criteria
     for (const element of this._expSpecs.dataElements.all) {
-      if (((strategy === "element") && (primary.includes(element.identifier.name)))
-      || ((strategy === "namespace") && (primary.includes(element.identifier.namespace)))) {
+      if (((strategy === "element") && (target.includes(element.identifier.name)))
+      || ((strategy === "namespace") && (target.includes(element.identifier.namespace)))) {
         this.findDataElementDependenciesRecursive(element.identifier);
       }
     }
