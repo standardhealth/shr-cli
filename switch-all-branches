@@ -1,72 +1,168 @@
 #!/bin/bash
-
-br="$1"
-
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 BLUE='\033[0;36m'
 NC='\033[0m' # No Color
+YLW='\033[38;5;227m'
+DIM='\033[90m'
 
-function git_branches()
-{
-    echo ; cd ../ ;
-
-    for sub in *; do
-        if [[ $sub == shr* ]]; then
-            [[ -d "${sub}/.git" ]] || continue
-            
-            curr_br="git rev-parse --abbrev-ref HEAD"
-            old=$(cd $sub; $curr_br);
-
-            # Abort at:
-            # 1. Empty branches
-            # 2. Branches that don't exist on that repo, both local and remotely
-            if [[ $br == "" || $(cd $sub; git branch -a | grep -m 1 $br | tr -d '*'' ' | sed 's/^remotes\/origin\///') != $br ]] ; then
-             outputBr="$(cd $sub; $curr_br)";
-
-            
-            # Skip check out when already on branch
-            elif [[ $br == $old ]] ; then   
-             outputBr="$BLUE$(cd $sub; $curr_br)$NC";
-
-            #After all checks pass, go to sub
-            else   
-             outputBr="$(cd $sub; git checkout $br &>/dev/null; ( [[ $($curr_br) == $br ]] && echo -n $GREEN && echo -n $($curr_br) && echo -n $NC ) ||  ( echo -n $RED && echo -n $($curr_br) && echo -n $NC ) )";
-            fi
-
-            printf "%-18s [$(echo -e $outputBr)] \n" "$sub"
-        fi
-    done
-
-    echo
-}
+fetchNeeded=false
+pullClean=false
+onlyShowDiffs=false
+prefix="^shr"
 
 usage="
-usage: $(basename "$0") [-h] [branch] 
+usage: $(basename "$0") [-h] [-s] [-f] [-p] [-d] [-c] [branch]
 
-This command switches all \"shr*\" repositories to the given branch. If no branch is passed, it shows the current branch for each repo."
+This command switches all \"shr*\" repositories to the given branch. If no branch is passed, it shows the current branch for each repo.
+
+Options:
+    -h
+        Displays help menu.
+    -s [regular expression]
+        Allows you to selectively manage repositories that match a regular expression. (Note: This defaults to \"^shr*\" for selecting shr tooling repositories.)
+    -c [regular expression]
+        Allows you to selectively manage repositories that are currently on a matching branch.
+    -f
+        Fetches from origin.
+    -p
+        Pulls in changes from origin (only for repositories without uncommitted changes)
+    -d
+        Only show repositories that differ from origin."
 
 br_colors="
 Key to branch colors:
 $(echo $GREEN)    Green $NC= successfully changed
-$(echo  $BLUE)    Blue $NC= already on branch 
+$(echo  $BLUE)    Blue $NC= already on branch
 $(echo   $RED)    Red $NC= not changed, unstaged changes in current brance
 $(echo    $NC)    No color = branch doesn't exist on repo"
 
-while getopts ':h' option; do
+star_help="
+    * = uncommitted changes on branch
+    $(echo $YLW)*${NC} = branch out of sync with remote (could be local committed changes, or upstream changes; branch needs push and/or pull)
+    $(echo $RED)*${NC} = branch has uncommited local changes"
+
+while getopts ':hfps:c:d' option;
+do
   case "$option" in
-    h) echo -e "$usage";
-       echo -e "$br_colors";
-       br="$2"
-       break;
+    h)
+       echo -e "$usage\n$br_colors\n$star_help\n";
+
+       if [[ $2 == "" ]] ; then
+        exit 1;
+       fi
        ;;
-   \?) printf "illegal option: -%s\n" "$OPTARG" >&2
-       echo -e "$usage" >&2
+    f)
+       echo -e "${YLW}Fetching remotes${NC}"
+       fetchNeeded=true;
+       ;;
+    p)
+       echo -e "${YLW}Pulling clean remotes${NC}"
+       pullClean=true;
+       ;;
+    s)
+       prefix=$OPTARG
+       ;;
+    c)
+       selectBranch=$OPTARG
+       ;;
+    d)
+       echo -e "${YLW}Only showing repos with diffs${NC}"
+       onlyShowDiffs=true;
+       ;;
+   \?) printf "illegal option: -%s\n" "$OPTARG" 1>&2
+       echo -e "$usage" 1>&2
        exit 1
        ;;
+    : )
+      echo "Invalid option: $OPTARG requires an argument" 1>&2
+      ;;
   esac
 done
 shift $((OPTIND - 1))
 
+inputBr="$1"
+
+function git_branches()
+{
+    echo; cd ../;
+    spacing=24;
+
+    for sub in *; do
+      if [[ $sub =~ ${prefix}.* ]]; then
+        [[ -d "${sub}/.git" ]] || continue
+
+
+        curr_br="git rev-parse --abbrev-ref HEAD"
+        old=$(cd $sub; $curr_br);
+        # Abort if branch selectively flag exists and current branch
+        # does not match selected branch
+        if [[ $selectBranch && ! $old =~ $selectBranch ]]; then
+          continue;
+        fi
+
+        # If the fetch flag is raised
+        if $fetchNeeded; then
+          cd $sub; git remote update origin --prune &>/dev/null; cd ../
+        fi
+
+        changed="";
+        br=$inputBr;
+        br_nostar=${br//\*}
+        matchedbr=$(cd $sub; git branch -a | grep -s -m 1 $br_nostar 2>/dev/null | tr -d '*'' ' | sed 's/^remotes\/origin\///'); #closest matched branch, both local and remote
+        remote=$(cd $sub; git branch -a | grep remotes | grep -s -m 1 $br_nostar 2>/dev/null | tr -d '*'' ' ); #closest matched remote
+
+        if [[ $br != "" && $br == *\* && $matchedbr == ${br%?}* ]]; then
+          br=$matchedbr
+        fi
+
+        # Abort at:
+        # 1. Empty branches
+        # 2. Branches that don't exist on that repo, both local and remotely
+        if [[ $br == "" || $matchedbr != $br ]] ; then
+          outputBr="$(cd $sub; $curr_br)";
+        # Skip check out when already on branch
+        elif [[ $br == $old ]] ; then
+          outputBr="$BLUE$(cd $sub; $curr_br)$NC";
+
+        #After all checks pass, go to sub
+        else
+         outputBr="$(cd $sub; git checkout $br &>/dev/null; ( [[ $($curr_br) == $br ]] && echo -n $GREEN && echo -n $($curr_br) && echo -n $NC ) ||  ( echo -n $RED && echo -n $($curr_br) && echo -n $NC ) )";
+        fi
+
+        #Check if there are uncommitted changes in repo
+        if [[ -n $(cd $sub; git status -s) ]]; then
+          if $pullClean; then
+            echo -e "\n${DIM}---------------------------------$NC"
+            echo -e "${RED}Skipping $sub${NC}"
+          fi
+          changed="${RED}*${NC}";
+        elif $pullClean ; then
+          echo -e "\n${DIM}---------------------------------$NC"
+          echo -e "${YLW}Pulling $sub${NC}"
+          cd $sub; git pull; cd ../;
+        fi
+
+        #check if repo is out of sync with remote
+        remote=$(cd $sub; git branch -a | grep remotes | grep -s -m 1 $($curr_br) 2>/dev/null | tr -d '*'' ' )
+        if [[ $remote != "" && -n $(cd $sub; git diff --shortstat $($curr_br)..remotes/origin/$($curr_br)) ]]; then
+          changed="${changed}${YLW}*${NC}";
+        fi
+
+        # #adjust spacing if needed
+        # if (( ${#sub} > $spacing )) ; then
+        #  spacing=${#sub}
+        # fi
+        if $onlyShowDiffs; then
+          [[ $changed != "" ]] || continue
+        fi
+
+
+          printf "%-${spacing}s [$(echo -e $outputBr)]$changed \n" "$sub"
+      fi
+    done
+
+    echo
+}
 
 git_branches
