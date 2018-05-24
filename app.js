@@ -110,7 +110,6 @@ if (filter) {
   [specifications, expSpecifications] = specificationsFilter.filter();
 }
 
-
 if (doCIMCORE) {
   var cimcoreSpecifications = {
     'dataElements': [],
