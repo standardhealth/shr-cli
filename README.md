@@ -27,7 +27,7 @@ $ node . /path/to/shr_spec/spec
 
 The command above will export these formats to the _out_ directory.
 
-It is also possible to override the default logging level or format, skip exports, or override the default output folder:
+It is also possible to override the default logging level or format, skip exports, override the default output folder, or change the configuration file to use:
 ```
 $ node . --help
 
@@ -40,11 +40,12 @@ $ node . --help
     -m, --log-mode <mode>    the console log mode <short,long,json,off> (default: short)
     -s, --skip <feature>     skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all> (default: <none>)
     -o, --out <out>          the path to the output folder (default: ./out)
+    -c, --config <config>', 'the name of the config file (default: config.json)
 ```
 
 For example:
 ```
-node . ../shr_spec/spec -l error -o out2
+node . ../shr_spec/spec -l error -o out2 -c other_config.json
 ```
 
 # Advanced Logging
@@ -93,6 +94,50 @@ On Windows:
 ```
 > java %JAVA_OPTS% -Xms4g -Xmx8g -jar out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/ig.json
 ```
+
+# Configuration File
+
+The SHR tools require a configuration file in the path to the SHR specification definitions. Configuration files *must* end in the characters `config.json` or `config.txt` or else they will not be recognized by the tools.
+
+If a configuration file name is specified using the `-c` command line option, the SHR tools look for a file with this name in the specification definitions directory. If no configuration file is specified at startup, the SHR tools look for a file called `config.json` in this directory. If the desired file doesn't exist, the tools use the first configuration file found in the specification definitions directory. If no configuration file exists in this directory, a default `config.json` file is auto-generated and used.
+
+The contents of the configuration file are as follows:
+
+|Parameter            |Type    |Description                                                    |
+|:--------------------|:-------|:--------------------------------------------------------------|
+|`projectName`        |`string`|The name of the project.                                       |
+|`projectShorthand`   |`string`|A shorthand name for the project.                              |
+|`projectURL`         |`string`|The primary URL for the project.                               |
+|`fhirURL`            |`string`|The FHIR IG URL for the project.                               |
+|`entryTypeURL`       |`string`|The root URL for the JSON schema `EntryType` field.            |
+|`implementationGuide`|`{}`    |An object containing configuration for IG publishing.          |
+|`filterStrategy`     |`{}`    |An object containing configuration for specification filtering.|
+|`publisher`          |`string`|The name of the publisher for the project.                     |
+|`contact`            |`[]`    |The array of FHIR `ContactPoint`s to reach about the project.  |
+
+The contents of the `implementationGuide` object are as follows:
+
+|Parameter                 |Type     |Description                                                    |
+|:-------------------------|:--------|:--------------------------------------------------------------|
+|`includeLogicalModels`    |`boolean`|A value indicating whether to include logical models in the IG.|
+|`includeModelDoc`         |`boolean`|A value indicating whether to include the model doc in the IG. |
+|`indexContent`            |`string` |The name of the file to place the IG index content.            |
+|`primarySelectionStrategy`|`{}`     |The strategy for selection of what is primary in the IG.       |
+
+The contents of the `implementationGuide` object's `primarySelectionStrategy` object are as follows:
+
+|Parameter |Type    |Description                                                                                                 |
+|:---------|:-------|:-----------------------------------------------------------------------------------------------------------|
+|`strategy`|`string`|The strategy to follow for primary selection (`"namespace"` or default `"entry"`).                          |
+|`primary` |`[]    `|An array of strings containing the namespaces to select as primary (only used for `"namespace"` `strategy`).|
+
+The contents of the `filterStrategy` object are as follows:
+
+|Parameter |Type     |Description                                                             |
+|:---------|:--------|:-----------------------------------------------------------------------|
+|`filter`  |`boolean`|A value indicating whether to enable filtering.                         |
+|`strategy`|`string` |The strategy for specification filtering (`"namespace"` or `"element"`).|
+|`target`  |`[]`     |An array of strings containing the names for what to filter.            |
 
 # License
 

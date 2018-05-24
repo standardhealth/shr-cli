@@ -34,6 +34,7 @@ program
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
   .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all> (default: <none>)', collect, [])
   .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
+  .option('-c, --config <config>', 'the name of the config file (default: config.json)', 'config.json')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
     input = pathToShrDefs;
@@ -95,20 +96,19 @@ if (doModelDoc) {
 
 // Go!
 logger.info('Starting CLI Import/Export');
-const configSpecifications = shrTI.importConfigFromFilePath(input);
+const configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
 let specifications = shrTI.importFromFilePath(input, configSpecifications);
 let expSpecifications = shrEx.expand(specifications, shrFE);
 
 let filter = false;
-if (configSpecifications.igPrimarySelectionStrategy != null) {
-  filter = configSpecifications.igPrimarySelectionStrategy.filter;
+if (configSpecifications.filterStrategy != null) {
+  filter = configSpecifications.filterStrategy.filter;
 }
 
 if (filter) {
   const specificationsFilter = new SpecificationsFilter(specifications, expSpecifications, configSpecifications);
   [specifications, expSpecifications] = specificationsFilter.filter();
 }
-
 
 if (doCIMCORE) {
   var cimcoreSpecifications = {
@@ -296,7 +296,7 @@ if (doModelDoc && cimcoreSpecifications.dataElements.length > 0) {
   const fhirPath = `${program.out}/fhir/guide/pages/modeldoc`;
   const javadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath);
   shrJDE.exportToPath(javadocResults, hierarchyPath);
-  if (doFHIR && configSpecifications.igModelDoc == true) {
+  if (doFHIR && configSpecifications.implementationGuide.includeModelDoc == true) {
     const igJavadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath, true);
     shrJDE.exportToPath(igJavadocResults, fhirPath);
   }
