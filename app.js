@@ -372,7 +372,7 @@ if (wrnCounter.count > 0) {
 const hrend = process.hrtime(hrstart);
 console.log('------------------------------------------------------------');
 console.log('Elapsed time: %d.%ds', hrend[0], Math.floor(hrend[1]/1000000));
-console.log('%s%d %s%s', errColor, ftlCounter.count, ftlLabel, resetColor);
+if (ftlCounter.count > 0) console.log('%s%d %s%s', errColor, ftlCounter.count, ftlLabel, resetColor);
 console.log('%s%d %s%s', errColor, errCounter.count, errLabel, resetColor);
 console.log('%s%d %s%s', wrnColor, wrnCounter.count, wrnLabel, resetColor);
 console.log('------------------------------------------------------------');
