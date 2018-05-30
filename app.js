@@ -205,7 +205,7 @@ if (doCIMCORE) {
       }
     }
   } catch (error) {
-    logger.error('Failure in CIMCORE export. Aborting with error message: %s', error);
+    logger.fatal('Failure in CIMCORE export. Aborting with error message: %s', error);
     failedExports.push('CIMCORE');
   }
 } else {
@@ -219,8 +219,8 @@ if (doJSON) {
     mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
     fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
   } catch (error) {
-    logger.error('Failure in JSON export. Aborting with error message: %s', error);
-    failedExports.push('JSON');
+    logger.fatal('Failure in JSON export. Aborting with error message: %s', error);
+    failedExports.push('shr-json-export');
   }
 } else {
   logger.info('Skipping JSON export');
@@ -242,8 +242,8 @@ if (doES6) {
     };
     handleNS(es6Results, es6Path);
   } catch (error) {
-    logger.error('Failure in ES6 export. Aborting with error message: %s', error);
-    failedExports.push('ES6');
+    logger.fatal('Failure in ES6 export. Aborting with error message: %s', error);
+    failedExports.push('shr-es6-export');
   }
 } else {
   logger.info('Skipping ES6 export');
@@ -282,8 +282,8 @@ if (doFHIR) {
     fs.writeFileSync(path.join(baseFHIRPath, `shr_qa.html`), fhirResults.qaHTML);
     shrFE.exportIG(expSpecifications, fhirResults, path.join(baseFHIRPath, 'guide'), configSpecifications, input);
   } catch (error) {
-    logger.error('Failure in FHIR export. Aborting with error message: %s', error);
-    failedExports.push('FHIR');
+    logger.fatal('Failure in FHIR export. Aborting with error message: %s', error);
+    failedExports.push('shr-fhir-export');
   }
 } else {
   logger.info('Skipping FHIR export');
@@ -318,8 +318,8 @@ if (doJSONSchema) {
   //   }
 
   } catch (error) {
-    logger.error('Failure in JSON Schema export. Aborting with error message: %s', error);
-    failedExports.push('JSON Schema');
+    logger.fatal('Failure in JSON Schema export. Aborting with error message: %s', error);
+    failedExports.push('shr-json-schema-export');
   }
 } else {
   logger.info('Skipping JSON Schema export');
@@ -337,12 +337,12 @@ if (doModelDoc) {
         shrJDE.exportToPath(igJavadocResults, fhirPath);
       }
     } catch (error) {
-      logger.error('Failure in Model Doc export. Aborting with error message: %s', error);
-      failedExports.push('Model Doc');
+      logger.fatal('Failure in Model Doc export. Aborting with error message: %s', error);
+      failedExports.push('shr-model-doc');
     }
   } else {
-    logger.error('CIMCORE is required for generating Model Doc. Skipping Model Docs export.');
-    failedExports.push('Model Doc');
+    logger.fatal('CIMCORE is required for generating Model Doc. Skipping Model Docs export.');
+    failedExports.push('shr-model-doc');
   }
 } else {
   logger.info('Skipping Model Docs export');
@@ -351,15 +351,17 @@ if (doModelDoc) {
 
 logger.info('Finished CLI Import/Export');
 
+const ftlCounter = logCounter.fatal;
 const errCounter = logCounter.error;
 const wrnCounter = logCounter.warn;
-let [errColor, errLabel, wrnColor, wrnLabel, resetColor, failLabel] = ['\x1b[32m', 'errors', '\x1b[32m', 'warnings', '\x1b[0m', ''];
+let [errColor, errLabel, wrnColor, wrnLabel, resetColor, ftlLabel] = ['\x1b[32m', 'errors', '\x1b[32m', 'warnings', '\x1b[0m', 'fatal errors'];
+if (ftlCounter.count > 0) {
+  // logger.fatal('');
+  ftlLabel = `fatal errors (${failedExports.join(', ')})`;
+}
 if (errCounter.count > 0) {
   errColor = '\x1b[31m'; // red
-  if (failedExports.length > 0) {
-    failLabel = `failure in ${failedExports.length} exporter(s) [${failedExports.join(', ')}]`;
-  }
-  errLabel = `errors (${errCounter.modules.join(', ')}${failLabel})`;
+  errLabel = `errors (${errCounter.modules.join(', ')})`;
 }
 if (wrnCounter.count > 0) {
   wrnColor = '\x1b[35m'; // magenta
@@ -370,6 +372,7 @@ if (wrnCounter.count > 0) {
 const hrend = process.hrtime(hrstart);
 console.log('------------------------------------------------------------');
 console.log('Elapsed time: %d.%ds', hrend[0], Math.floor(hrend[1]/1000000));
+console.log('%s%d %s%s', errColor, ftlCounter.count, ftlLabel, resetColor);
 console.log('%s%d %s%s', errColor, errCounter.count, errLabel, resetColor);
 console.log('%s%d %s%s', wrnColor, wrnCounter.count, wrnLabel, resetColor);
 console.log('------------------------------------------------------------');
