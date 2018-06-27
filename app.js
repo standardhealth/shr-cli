@@ -38,6 +38,7 @@ program
   .option('-o, --out <out>', `the path to the output folder (default: ${path.join('.', 'out')})`, path.join('.', 'out'))
   .option('-c, --config <config>', 'the name of the config file (default: config.json)', 'config.json')
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
+  .option('-i, --import-cimcore', 'import CIMCORE files instead of CIMPL (default: false)')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
     input = pathToShrDefs;
@@ -64,6 +65,7 @@ const doADL = program.adl;
 // Process the de-duplicate error flag
 
 const showDuplicateErrors = program.duplicate;
+const importCimcore = program.importCimcore;
 
 // Create the output folder if necessary
 mkdirp.sync(program.out);
@@ -114,8 +116,15 @@ if (!configSpecifications) {
   process.exit(1);
 }
 configSpecifications.showDuplicateErrors = showDuplicateErrors;
-let specifications = shrTI.importFromFilePath(input, configSpecifications);
-let expSpecifications = shrEx.expand(specifications, shrFE);
+let specifications;
+let expSpecifications;
+if (!importCimcore) {
+  specifications = shrTI.importFromFilePath(input, configSpecifications);
+  expSpecifications = shrEx.expand(specifications, shrFE);
+} else {
+  specifications = expSpecifications = shrTI.importCIMCOREFromFilePath(`./out/cimcore/`);
+}
+
 
 let filter = false;
 if (configSpecifications.filterStrategy != null) {
@@ -372,7 +381,6 @@ if (doModelDoc) {
 } else {
   logger.info('Skipping Model Docs export');
 }
-
 
 logger.info('Finished CLI Import/Export');
 
