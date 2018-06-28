@@ -111,19 +111,25 @@ if (doADL) {
 
 // Go!
 logger.info('Starting CLI Import/Export');
-const configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
-if (!configSpecifications) {
-  process.exit(1);
-}
-configSpecifications.showDuplicateErrors = showDuplicateErrors;
+let configSpecifications;
 let specifications;
 let expSpecifications;
 if (!importCimcore) {
+  configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
+  if (!configSpecifications) {
+    logger.fatal('Project configuration not found! Exiting the program. ERROR_CODE:11032');
+    process.exit(1);
+  }
   specifications = shrTI.importFromFilePath(input, configSpecifications);
   expSpecifications = shrEx.expand(specifications, shrFE);
 } else {
-  specifications = expSpecifications = shrTI.importCIMCOREFromFilePath(`./out/cimcore/`);
+  [configSpecifications, expSpecifications] = shrTI.importCIMCOREFromFilePath(`./cimcore-input/cimcore/`);
+  if (!configSpecifications) {
+    logger.fatal('Project configuration not found! Exiting the program. ERROR_CODE:11032');
+    process.exit(1);
+  }
 }
+configSpecifications.showDuplicateErrors = showDuplicateErrors;
 
 
 let filter = false;
@@ -247,14 +253,19 @@ if (doADL) {
 }
 
 if (doJSON) {
-  try {
-    const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
-    const hierarchyPath = path.join(program.out, 'json', 'definitions.json');
-    mkdirp.sync(path.dirname(hierarchyPath));
-    fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
-  } catch (error) {
-    logger.fatal('Failure in JSON export. Aborting with error message: %s', error);
-    failedExports.push('shr-json-export');
+  if (!importCimcore) {
+    try {
+      const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
+      const hierarchyPath = path.join(program.out, 'json', 'definitions.json');
+      mkdirp.sync(path.dirname(hierarchyPath));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
+    } catch (error) {
+      logger.fatal('Failure in JSON export. Aborting with error message: %s', error);
+      failedExports.push('shr-json-export');
+    }
+  } else {
+    //Skipping website generation legacy output for imported cimcore.
+    logger.info('Using imported CIMCORE, skipping JSON export');
   }
 } else {
   logger.info('Skipping JSON export');
