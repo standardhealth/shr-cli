@@ -123,7 +123,7 @@ if (!importCimcore) {
   specifications = shrTI.importFromFilePath(input, configSpecifications);
   expSpecifications = shrEx.expand(specifications, shrFE);
 } else {
-  [configSpecifications, expSpecifications] = shrTI.importCIMCOREFromFilePath(`./cimcore-input/cimcore/`);
+  [configSpecifications, expSpecifications] = shrTI.importCIMCOREFromFilePath(input);
   if (!configSpecifications) {
     logger.fatal('Project configuration not found! Exiting the program. ERROR_CODE:11032');
     process.exit(1);
