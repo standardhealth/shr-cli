@@ -118,18 +118,10 @@ let specifications;
 let expSpecifications;
 if (!importCimcore) {
   configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
-  if (!configSpecifications) {
-    logger.fatal('Project configuration not found! Exiting the program. ERROR_CODE:11032');
-    process.exit(1);
-  }
   specifications = shrTI.importFromFilePath(input, configSpecifications);
   expSpecifications = shrEx.expand(specifications, shrFE);
 } else {
   [configSpecifications, expSpecifications] = shrTI.importCIMCOREFromFilePath(input);
-  if (!configSpecifications) {
-    logger.fatal('Project configuration not found! Exiting the program. ERROR_CODE:11032');
-    process.exit(1);
-  }
 }
 configSpecifications.showDuplicateErrors = showDuplicateErrors;
 
