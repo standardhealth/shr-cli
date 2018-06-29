@@ -12,7 +12,7 @@ const shrJSE = require('shr-json-schema-export');
 const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
 const shrJDE = require('shr-json-javadoc');
-const shrAE = require('../shr-adl-exporter');
+const shrAE = require('../shr-adl-bmm-exporter');
 const LogCounter = require('./logcounter');
 const SpecificationsFilter = require('./filter');
 
@@ -126,9 +126,10 @@ if (filter) {
 
 const failedExports = [];
 
+let cimcoreSpecifications;
 if (doCIMCORE) {
   try {
-    var cimcoreSpecifications = {
+    cimcoreSpecifications = {
       'dataElements': [],
       'valueSets': [],
       'mappings': [],
@@ -227,6 +228,7 @@ if (doADL) {
     shrAE.generateADLtoPath(expSpecifications, configSpecifications, program.out);
   } catch (error) {
     logger.fatal('Failure in ADL export. Aborting with error message: %s', error);
+    failedExports.push('shr-adl-bmm-export');
   }
 } else {
   logger.info('Skipping ADL export');
@@ -374,7 +376,7 @@ logger.info('Finished CLI Import/Export');
 const ftlCounter = logCounter.fatal;
 const errCounter = logCounter.error;
 const wrnCounter = logCounter.warn;
-let [errColor, errLabel, wrnColor, wrnLabel, resetColor, ftlLabel] = ['\x1b[32m', 'errors', '\x1b[32m', 'warnings', '\x1b[0m', 'fatal errors'];
+let [errColor, errLabel, wrnColor, wrnLabel, resetColor, ftlColor, ftlLabel] = ['\x1b[32m', 'errors', '\x1b[32m', 'warnings', '\x1b[0m', '\x1b[31m', 'fatal errors'];
 if (ftlCounter.count > 0) {
   // logger.fatal('');
   ftlLabel = `fatal errors (${failedExports.join(', ')})`;
@@ -392,7 +394,7 @@ if (wrnCounter.count > 0) {
 const hrend = process.hrtime(hrstart);
 console.log('------------------------------------------------------------');
 console.log('Elapsed time: %d.%ds', hrend[0], Math.floor(hrend[1]/1000000));
-if (ftlCounter.count > 0) console.log('%s%d %s%s', errColor, ftlCounter.count, ftlLabel, resetColor);
+if (ftlCounter.count > 0) console.log('%s%d %s%s', ftlColor, ftlCounter.count, ftlLabel, resetColor);
 console.log('%s%d %s%s', errColor, errCounter.count, errLabel, resetColor);
 console.log('%s%d %s%s', wrnColor, wrnCounter.count, wrnLabel, resetColor);
 console.log('------------------------------------------------------------');
