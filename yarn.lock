@@ -927,9 +927,9 @@ shr-expand@^5.5.1:
   version "5.5.1"
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.5.1.tgz#e8d3c0cebe9bf05d663f2e90d7ff439b39f1a82c"
 
-shr-fhir-export@^5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.6.0.tgz#3e3e3398c7cb7cfc5ac1aa8a96ae26da10e94fd1"
+shr-fhir-export@^5.6.1:
+  version "5.6.1"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.6.1.tgz#acb6380380d7b626c7d8b73cd8358d035fcc6e98"
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
@@ -955,9 +955,9 @@ shr-models@^5.5.2:
   version "5.5.2"
   resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.5.2.tgz#8871fa8626278a53dc729fc04512aaf2acf91b94"
 
-shr-text-import@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.4.0.tgz#9b131b279e2af6aad61709b13ea0f2286a229487"
+shr-text-import@^5.4.1:
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.4.1.tgz#ee708eef697b285f5c7decda5dc982e07c58fd38"
   dependencies:
     antlr4 "~4.6.0"
 
