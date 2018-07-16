@@ -102,6 +102,9 @@ if (doModelDoc) {
 // Go!
 logger.info('Starting CLI Import/Export');
 const configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
+if (!configSpecifications) {
+  process.exit(1);
+}
 configSpecifications.showDuplicateErrors = showDuplicateErrors;
 let specifications = shrTI.importFromFilePath(input, configSpecifications);
 let expSpecifications = shrEx.expand(specifications, shrFE);

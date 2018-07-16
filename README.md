@@ -98,9 +98,9 @@ On Windows:
 
 # Configuration File
 
-The SHR tools require a configuration file in the path to the SHR specification definitions. Configuration files *must* end in the characters `config.json` or `config.txt` or else they will not be recognized by the tools.
+The SHR tools require a configuration file in the path to the SHR specification definitions. Configuration files *must* be valid JSON, have at least the `projectName` property, and use the `.json` file extension.
 
-If a configuration file name is specified using the `-c` command line option, the SHR tools look for a file with this name in the specification definitions directory. If no configuration file is specified at startup, the SHR tools look for a file called `config.json` in this directory. If the desired file doesn't exist, the tools use the first configuration file found in the specification definitions directory. If no configuration file exists in this directory, a default `config.json` file is auto-generated and used.
+If a configuration file name is specified using the `-c` command line option, the SHR tools look for a file with this name in the specification definitions directory. If it cannot be found or it is an invalid configuration file, an error is returned. If no configuration file is specified at startup, the SHR tools look for a file called `config.json` in this directory. If it is not found, a default `config.json` file is auto-generated and used.
 
 The contents of the configuration file are as follows:
 
