@@ -65,6 +65,10 @@ const doADL = program.adl;
 // Process the CIMPL 6 export flag
 const doCIMPL6 = program.exportCimpl6;
 
+// Process the CIMPL 5 export flag
+
+const doCIMPL5 = program.exportCimpl5;
+
 // Process the de-duplicate error flag
 
 const showDuplicateErrors = program.duplicate;
