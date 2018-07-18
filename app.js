@@ -39,6 +39,7 @@ program
   .option('-c, --config <config>', 'the name of the config file (default: config.json)', 'config.json')
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
   .option('-i, --import-cimcore', 'import CIMCORE files instead of CIMPL (default: false)')
+  .option('--export-cimpl-5', 'export CIMPL 5 files generated  from input (default: false)')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
     input = pathToShrDefs;
@@ -61,6 +62,10 @@ const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLo
 
 // Process the ADL flag
 const doADL = program.adl;
+
+// Process the CIMPL 5 export flag
+
+const doCIMPL5 = program.exportCimpl5;
 
 // Process the de-duplicate error flag
 
@@ -272,6 +277,18 @@ if (doJSON) {
 } else {
   logger.info('Skipping JSON export');
 }
+
+if (doCIMPL5) {
+  logger.info('Exporting CIMPL 5');
+  try {
+    const cimpl5Path = path.join(program.out, 'cimpl5');
+    expSpecifications.toCIMPL5(cimpl5Path);
+    logger.info('Exported %s namespaces to CIMPL 5.', expSpecifications.namespaces.all.length);
+  } catch (error) {
+    logger.fatal('Failure in CIMPL 5 export. Aborting with error message: %s', error);
+    failedExports.push('cimpl-5-export');
+  }
+} // the CIMPL 5 export is opt-in, so we are omitting the 'skip' info log.
 
 let fhirResults = null;
 if (doES6 || doFHIR){
