@@ -296,6 +296,18 @@ if (doES6 || doFHIR){
   fhirResults = shrFE.exportToFHIR(expSpecifications, configSpecifications);
 }
 
+if (doCIMPL6) {
+  logger.info('Exporting CIMPL 6');
+  try {
+    const cimpl6Path = path.join(program.out, 'cimpl6');
+    expSpecifications.toCIMPL6(cimpl6Path);
+    logger.info('Exported %s namespaces to CIMPL 6.', expSpecifications.namespaces.all.length);
+  } catch (error) {
+    logger.fatal('Failure in CIMPL 6 export. Aborting with error message: %s', error);
+    failedExports.push('cimpl-6-export');
+  }
+} // the CIMPL 6 export is opt-in, so we are omitting the 'skip' info log.
+
 if (doES6) {
   try {
     const es6Results = shrEE.exportToES6(expSpecifications, fhirResults);
