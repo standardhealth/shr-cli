@@ -40,6 +40,7 @@ program
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
   .option('-i, --import-cimcore', 'import CIMCORE files instead of CIMPL (default: false)')
   .option('--export-cimpl-5', 'export CIMPL 5 files generated  from input (default: false)')
+  .option('--export-cimpl-6', 'export CIMPL 6 files generated  from input (default: false)')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
     input = pathToShrDefs;
@@ -51,7 +52,6 @@ if (typeof input === 'undefined') {
   console.error('\x1b[31m','Missing path to SHR definition folder or file','\x1b[0m');
   program.help();
 }
-
 // Process the skip flags
 const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
 const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
@@ -64,8 +64,9 @@ const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLo
 const doADL = program.adl;
 
 // Process the CIMPL 5 export flag
-
 const doCIMPL5 = program.exportCimpl5;
+// Process the CIMPL 5 export flag
+const doCIMPL6 = program.exportCimpl6;
 
 // Process the de-duplicate error flag
 
@@ -118,7 +119,11 @@ if (doES6) {
 
 // Go!
 logger.info('Starting CLI Import/Export');
-let configSpecifications;
+let configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
+if (!configSpecifications) {
+  process.exit(1);
+}
+configSpecifications.showDuplicateErrors = showDuplicateErrors;
 let specifications;
 let expSpecifications;
 if (!importCimcore) {
@@ -289,6 +294,18 @@ if (doCIMPL5) {
     failedExports.push('cimpl-5-export');
   }
 } // the CIMPL 5 export is opt-in, so we are omitting the 'skip' info log.
+
+if (doCIMPL6) {
+  logger.info('Exporting CIMPL 6');
+  try {
+    const cimpl6Path = path.join(program.out, 'cimpl6');
+    expSpecifications.toCIMPL6(cimpl6Path);
+    logger.info('Exported %s namespaces to CIMPL 6.', expSpecifications.namespaces.all.length);
+  } catch (error) {
+    logger.fatal('Failure in CIMPL 6 export. Aborting with error message: %s', error);
+    failedExports.push('cimpl-6-export');
+  }
+} // the CIMPL 6 export is opt-in, so we are omitting the 'skip' info log.
 
 let fhirResults = null;
 if (doES6 || doFHIR){
