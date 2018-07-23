@@ -193,18 +193,24 @@ if (doCIMCORE) {
     }
 
     //mappings
-    for (const mapping of [...expSpecifications.maps._targetMap][0][1].all) {
-      let namespace = mapping.identifier.namespace.replace(/\./, '-');
-      let name = mapping.identifier.name;
-      let out = Object.assign({ 'fileType': 'Mapping' }, mapping.toJSON());
-      cimcoreSpecifications.mappings.push(out);
+    for (const target of expSpecifications.maps.targets) {
+      for (const mapping of expSpecifications.maps.getTargetMapSpecifications(target).all) {
+        let namespace = mapping.identifier.namespace.replace(/\./, '-');
+        let name = mapping.identifier.name;
+        if (expSpecifications.maps.targets.length > 1) {
+          // Need to add the target to the name to make it unique
+          name += `-${target}`;
+        }
+        let out = Object.assign({ 'fileType': 'Mapping' }, mapping.toJSON());
+        cimcoreSpecifications.mappings.push(out);
 
-      const hierarchyPath = `${baseCIMCOREPath}/${namespace}/mappings/${name}-mapping.json`;
-      try {
-        mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
-        fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
-      } catch (error) {
-        logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error "%s". ERROR_CODE:15003', mapping.identifier.fqn, error);
+        const hierarchyPath = path.join(baseCIMCOREPath, namespace, 'mappings', `${name}-mapping.json`);
+        try {
+          mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+          fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
+        } catch (error) {
+          logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error "%s". ERROR_CODE:15003', mapping.identifier.fqn, error);
+        }
       }
     }
   } catch (error) {
