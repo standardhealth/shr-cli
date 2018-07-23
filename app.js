@@ -68,6 +68,7 @@ const doCIMPL6 = program.exportCimpl6;
 // Process the CIMPL 5 export flag
 
 const doCIMPL5 = program.exportCimpl5;
+const doCIMPL6 = program.exportCimpl6;
 
 // Process the de-duplicate error flag
 
