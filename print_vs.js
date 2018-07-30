@@ -17,7 +17,8 @@ module.exports = function printValueSets(specs, config, out) {
           if (!vsMap.has(vs.valueSet)) {
             vsMap.set(vs.valueSet, new Map());
           }
-          const usedBy = `${de.identifier.fqn} (${i == 0 ? 'Value' : f.identifier.name})`;
+          const cstPath = vs.path.length > 0 ? `.${vs.path.map(id => id.name).join('.')}` : '';
+          const usedBy = `${de.identifier.fqn} (${i == 0 ? 'Value' : f.effectiveIdentifier.name}${cstPath})`;
           vsMap.get(vs.valueSet).set(usedBy, true);
         }
       }
