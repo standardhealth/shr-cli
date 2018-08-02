@@ -62,6 +62,11 @@
 | 11024          | Elements cannot use "Value:" modifier and specify "Value" field at same time. |
 | 11025          | Fields cannot be constrained to type "Value" |
 | 11026          | ref(Value) is an unsupported construct; treating as Value without the reference. |
+| 11027          | Unable to import property `$FQN`, unknown value type: `$VALUE_TYPE` | The type either does not exist, or the import tool needs to be updated.
+| 11028          | Unable to import unknown constraint type: `$CONSTRAINT_TYPE`| The type either does not exist, or the import tool needs to be updated.
+| 11029          | Unable to import mapping, unknown rule type: `$RULE_TYPE` | The type either does not exist, or the import tool needs to be updated.
+| 11030          | Unable to import VS rule, unknown rule type: `$RULE_TYPE` | The type either does not exist, or the import tool needs to be updated.
+| 11031          | Unable to import FixedValueConstraint, unknown fixed value type: `$RULE_TYPE` | The value type either does not exist, or the import tool needs to be updated.
 | 12001          | Cannot resolve element definition.                                 | Element doesn't exist. Double check spelling and inheritance |
 | 12002          | Reference to non-existing base: `$ELEMENT_NAME`                    | Base doesn't exist. Double check spelling and inheritance. |
 | 12003          | No cardinality found for value: `$VALUE`                           | Explicitly define cardinality for that value. |
