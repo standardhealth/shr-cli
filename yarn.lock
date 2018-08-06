@@ -923,13 +923,13 @@ shr-es6-export@^5.4.1:
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@^5.5.1:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.5.1.tgz#e8d3c0cebe9bf05d663f2e90d7ff439b39f1a82c"
+shr-expand@^5.5.2-beta.1:
+  version "5.5.2-beta.1"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.5.2-beta.1.tgz#25baa7e4363ebcef1734210253b17da1e4ec1d4f"
 
-shr-fhir-export@^5.7.0-beta.2:
-  version "5.7.0-beta.2"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.7.0-beta.2.tgz#7b05d5b3aa61243b4c4c8c833ae92557351deb1c"
+shr-fhir-export@^5.7.0-beta.3:
+  version "5.7.0-beta.3"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.7.0-beta.3.tgz#40b5c7e3a609bba172fbdc73deab4c29b523520d"
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
