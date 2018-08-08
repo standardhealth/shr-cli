@@ -33,7 +33,7 @@ program
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
   .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all> (default: <none>)', collect, [])
-  .option('-o, --out <out>', 'the path to the output folder (default: ./out)', './out')
+  .option('-o, --out <out>', `the path to the output folder (default: ${path.join('.', 'out')})`, path.join('.', 'out'))
   .option('-c, --config <config>', 'the name of the config file (default: config.json)', 'config.json')
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
   .arguments('<path-to-shr-defs>')
@@ -130,7 +130,7 @@ if (doCIMCORE) {
       'namespaces': {},
     //also includes 'projectInfo'
     };
-    const baseCIMCOREPath = `${program.out}/cimcore/`;
+    const baseCIMCOREPath = path.join(program.out, 'cimcore');
 
     //meta project file
     let versionInfo = {
@@ -141,8 +141,8 @@ if (doCIMCORE) {
     let projectMetaOutput = Object.assign({ 'fileType': 'ProjectInfo' }, configSpecifications, versionInfo); //project meta information
     cimcoreSpecifications['projectInfo'] = projectMetaOutput;
 
-    const hierarchyPath = `${program.out}/cimcore/project.json`;
-    mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+    const hierarchyPath = path.join(program.out, 'cimcore', 'project.json');
+    mkdirp.sync(path.dirname(hierarchyPath));
     fs.writeFileSync(hierarchyPath, JSON.stringify(projectMetaOutput, null, '  '));
 
     //meta namespace files
@@ -151,9 +151,9 @@ if (doCIMCORE) {
       let out = Object.assign({ 'fileType': 'Namespace' }, ns.toJSON());
       cimcoreSpecifications.namespaces[ns.namespace] = out;
 
-      const hierarchyPath = `${baseCIMCOREPath}/${namespace}/${namespace}.json`;
+      const hierarchyPath = path.join(baseCIMCOREPath, namespace, `${namespace}.json`);
       try {
-        mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+        mkdirp.sync(path.dirname(hierarchyPath));
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
         logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error "%s". ERROR_CODE:15004', namespace, error);
@@ -167,9 +167,9 @@ if (doCIMCORE) {
       let out = Object.assign({ 'fileType': 'DataElement' }, de.toJSON());
       cimcoreSpecifications.dataElements.push(out);
 
-      const hierarchyPath = `${baseCIMCOREPath}/${namespace}/${fqn}.json`;
+      const hierarchyPath = path.join(baseCIMCOREPath, namespace, `${fqn}.json`);
       try {
-        mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+        mkdirp.sync(path.dirname(hierarchyPath));
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
         logger.error('Unable to successfully serialize element %s into CIMCORE, failing with error "%s". ERROR_CODE:15001', de.identifier.fqn, error);
@@ -183,9 +183,9 @@ if (doCIMCORE) {
       let out = Object.assign({ 'fileType': 'ValueSet' }, vs.toJSON());
       cimcoreSpecifications.valueSets.push(out);
 
-      const hierarchyPath = `${baseCIMCOREPath}/${namespace}/valuesets/${name}.json`;
+      const hierarchyPath = path.join(baseCIMCOREPath, namespace, 'valuesets', `${name}.json`);
       try {
-        mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+        mkdirp.sync(path.dirname(hierarchyPath));
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
         logger.error('Unable to successfully serialize value set %s into CIMCORE, failing with error "%s". ERROR_CODE:15002', vs.identifier.fqn, error);
@@ -202,7 +202,7 @@ if (doCIMCORE) {
 
         const hierarchyPath = path.join(baseCIMCOREPath, namespace, 'mappings', target, `${name}-mapping.json`);
         try {
-          mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+          mkdirp.sync(path.dirname(hierarchyPath));
           fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
         } catch (error) {
           logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error "%s". ERROR_CODE:15003', mapping.identifier.fqn, error);
@@ -220,8 +220,8 @@ if (doCIMCORE) {
 if (doJSON) {
   try {
     const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
-    const hierarchyPath = `${program.out}/json/definitions.json`;
-    mkdirp.sync(hierarchyPath.substring(0, hierarchyPath.lastIndexOf('/')));
+    const hierarchyPath = path.join(program.out, 'json', 'definitions.json');
+    mkdirp.sync(path.dirname(hierarchyPath));
     fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
   } catch (error) {
     logger.fatal('Failure in JSON export. Aborting with error message: %s', error);
@@ -303,7 +303,7 @@ if (doJSONSchema) {
     const baseSchemaNamespace = 'https://standardhealthrecord.org/schema';
     const baseSchemaNamespaceWithSlash = baseSchemaNamespace + '/';
     const jsonSchemaResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaNamespace, typeURL);
-    const jsonSchemaPath = `${program.out}/json-schema/`;
+    const jsonSchemaPath = path.join(program.out, 'json-schema');
     mkdirp.sync(jsonSchemaPath);
     for (const schemaId in jsonSchemaResults) {
       const filename = `${schemaId.substring(baseSchemaNamespaceWithSlash.length).replace(/\//g, '.')}.schema.json`;
@@ -315,7 +315,7 @@ if (doJSONSchema) {
   //   const baseSchemaExpandedNamespace = 'https://standardhealthrecord.org/schema-expanded';
   //   const baseSchemaExpandedNamespaceWithSlash = baseSchemaExpandedNamespace + '/';
   //   const jsonSchemaExpandedResults = shrJSE.exportToJSONSchema(expSpecifications, baseSchemaExpandedNamespace, typeURL, true);
-  //   const jsonSchemaExpandedPath = `${program.out}/json-schema-expanded/`;
+  //   const jsonSchemaExpandedPath = path.join(program.out, 'json-schema-expanded');
   //   mkdirp.sync(jsonSchemaExpandedPath);
   //   for (const schemaId in jsonSchemaExpandedResults) {
   //     const filename = `${schemaId.substring(baseSchemaExpandedNamespaceWithSlash.length).replace(/\//g, '.')}.schema.json`;
@@ -333,8 +333,8 @@ if (doJSONSchema) {
 if (doModelDoc) {
   if (doCIMCORE) {
     try {
-      const hierarchyPath = `${program.out}/modeldoc`;
-      const fhirPath = `${program.out}/fhir/guide/pages/modeldoc`;
+      const hierarchyPath = path.join(program.out, 'modeldoc');
+      const fhirPath = path.join(program.out, 'fhir', 'guide', 'pages', 'modeldoc');
       const javadocResults = shrJDE.compileJavadoc(cimcoreSpecifications, hierarchyPath);
       shrJDE.exportToPath(javadocResults, hierarchyPath);
       if (doFHIR && configSpecifications.implementationGuide.includeModelDoc == true) {
