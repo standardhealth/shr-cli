@@ -223,7 +223,13 @@ if (doCIMCORE) {
 }
 
 if (doADL) {
-  shrAE.generateADLtoPath(expSpecifications, configSpecifications, program.out);
+  try {
+    shrAE.generateADLtoPath(expSpecifications, configSpecifications, program.out);
+  } catch (error) {
+    logger.fatal('Failure in ADL export. Aborting with error message: %s', error);
+  }
+} else {
+  logger.info('Skipping ADL export');
 }
 
 if (doJSON) {
