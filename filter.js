@@ -26,8 +26,8 @@ class SpecificationsFilter {
     // recursively find dependencies for each data element in specifications
     // if element matches filter criteria
     for (const element of this._expSpecs.dataElements.all) {
-      if (((strategy === "element") && (target.includes(element.identifier.name)))
-      || ((strategy === "namespace") && (target.includes(element.identifier.namespace)))) {
+      if (((strategy === 'element') && (target.includes(element.identifier.name)))
+      || ((strategy === 'namespace') && (target.includes(element.identifier.namespace)))) {
         this.findDataElementDependenciesRecursive(element.identifier);
       }
     }
@@ -150,6 +150,10 @@ class SpecificationsFilter {
           this._deDependencies.add(option.effectiveIdentifier);
         });
       }
+
+      field.constraintsFilter.type.constraints.forEach(constraint => {
+        this._deDependencies.add(constraint.isA);
+      });
 
       field.constraintsFilter.includesType.constraints.forEach(constraint => {
         this._deDependencies.add(constraint.isA);
