@@ -12,7 +12,7 @@ const shrJSE = require('shr-json-schema-export');
 const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
 const shrJDE = require('shr-json-javadoc');
-const shrAE = require('../shr-adl-bmm-exporter');
+const shrAE = require('shr-adl-bmm-export');
 const LogCounter = require('./logcounter');
 const SpecificationsFilter = require('./filter');
 

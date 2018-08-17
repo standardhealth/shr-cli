@@ -53,6 +53,10 @@ yarn link shr-models
 yarn link shr-test-helpers
 yarn link
 
+cd ../shr-adl-bmm-export
+echo "=============== shr-adl-bmm-export ================="
+yarn link
+
 cd ../shr-cli
 echo "===================== shr-cli ======================"
 yarn link shr-models
@@ -63,3 +67,4 @@ yarn link shr-json-schema-export
 yarn link shr-json-javadoc
 yarn link shr-es6-export
 yarn link shr-fhir-export
+yarn link shr-adl-bmm-export
