@@ -12,6 +12,7 @@ const shrJSE = require('shr-json-schema-export');
 const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
 const shrJDE = require('shr-json-javadoc');
+const shrAE = require('shr-adl-bmm-export');
 const LogCounter = require('./logcounter');
 const SpecificationsFilter = require('./filter');
 
@@ -32,7 +33,7 @@ program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
-  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all> (default: <none>)', collect, [])
+  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,adl,all> (default: <none>)', collect, [])
   .option('-o, --out <out>', `the path to the output folder (default: ${path.join('.', 'out')})`, path.join('.', 'out'))
   .option('-c, --config <config>', 'the name of the config file (default: config.json)', 'config.json')
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
@@ -51,10 +52,11 @@ if (typeof input === 'undefined') {
 // Process the skip flags
 const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
 const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
-const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
 const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
 const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
 const doModelDoc = program.skip.every(a => a.toLowerCase() != 'model-doc' && a.toLowerCase() != 'all');
+const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
+const doADL = program.skip.every(a => a.toLowerCase() != 'adl' && a.toLowerCase() != 'all');
 
 // Process the de-duplicate error flag
 
@@ -95,7 +97,10 @@ if (doJSONSchema) {
   shrJSE.setLogger(logger.child({module: 'shr-json-schema-export'}));
 }
 if (doModelDoc) {
-  shrJDE.setLogger(logger.child({module: 'shr-json-javadoc'}));
+  shrJDE.setLogger(logger.child({ module: 'shr-json-javadoc' }));
+}
+if (doADL) {
+  shrAE.setLogger(logger.child({module: 'shr-adl-export'}));
 }
 // NOTE: shr-es6-export does not currently support a Bunyan logger
 
@@ -121,9 +126,10 @@ if (filter) {
 
 const failedExports = [];
 
+let cimcoreSpecifications;
 if (doCIMCORE) {
   try {
-    var cimcoreSpecifications = {
+    cimcoreSpecifications = {
       'dataElements': [],
       'valueSets': [],
       'mappings': [],
@@ -215,6 +221,17 @@ if (doCIMCORE) {
   }
 } else {
   logger.info('Skipping CIMCORE export');
+}
+
+if (doADL) {
+  try {
+    shrAE.generateADLtoPath(expSpecifications, configSpecifications, program.out);
+  } catch (error) {
+    logger.fatal('Failure in ADL export. Aborting with error message: %s', error);
+    failedExports.push('shr-adl-bmm-export');
+  }
+} else {
+  logger.info('Skipping ADL export');
 }
 
 if (doJSON) {
@@ -359,7 +376,7 @@ logger.info('Finished CLI Import/Export');
 const ftlCounter = logCounter.fatal;
 const errCounter = logCounter.error;
 const wrnCounter = logCounter.warn;
-let [errColor, errLabel, wrnColor, wrnLabel, resetColor, ftlLabel] = ['\x1b[32m', 'errors', '\x1b[32m', 'warnings', '\x1b[0m', 'fatal errors'];
+let [errColor, errLabel, wrnColor, wrnLabel, resetColor, ftlColor, ftlLabel] = ['\x1b[32m', 'errors', '\x1b[32m', 'warnings', '\x1b[0m', '\x1b[31m', 'fatal errors'];
 if (ftlCounter.count > 0) {
   // logger.fatal('');
   ftlLabel = `fatal errors (${failedExports.join(', ')})`;
@@ -377,7 +394,7 @@ if (wrnCounter.count > 0) {
 const hrend = process.hrtime(hrstart);
 console.log('------------------------------------------------------------');
 console.log('Elapsed time: %d.%ds', hrend[0], Math.floor(hrend[1]/1000000));
-if (ftlCounter.count > 0) console.log('%s%d %s%s', errColor, ftlCounter.count, ftlLabel, resetColor);
+if (ftlCounter.count > 0) console.log('%s%d %s%s', ftlColor, ftlCounter.count, ftlLabel, resetColor);
 console.log('%s%d %s%s', errColor, errCounter.count, errLabel, resetColor);
 console.log('%s%d %s%s', wrnColor, wrnCounter.count, wrnLabel, resetColor);
 console.log('------------------------------------------------------------');
