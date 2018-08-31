@@ -1,4 +1,12 @@
 #!/bin/bash
+
+# This tool helps manage the different SHR branches
+# It is recommended you alias it to a shorter command to ease use.
+# I have it aliased in my git config as:
+#   [alias]
+#       sa = !bash switchAllBranches
+# to easily use it as "git sa feature-branch"
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 BLUE='\033[0;36m'
@@ -146,7 +154,10 @@ function git_branches()
         #check if repo is out of sync with remote
         remote=$(cd $sub; git branch -a | grep remotes | grep -s -m 1 $($curr_br) 2>/dev/null | tr -d '*'' ' )
         if [[ $remote != "" && -n $(cd $sub; git diff --shortstat $($curr_br)..remotes/origin/$($curr_br)) ]]; then
-          changed="${changed}${YLW}*${NC}";
+          ahead=$(cd $sub; git rev-list --left-right --count $($curr_br)...origin/$($curr_br) | cut -f 1);
+          behind=$(cd $sub; git rev-list --left-right --count $($curr_br)...origin/$($curr_br) | cut -f 2);
+
+          changed="${changed}${YLW}*${DIM} [$GREEN${ahead}↟ ${RED}${behind}↡${DIM}]$NC";
         fi
 
         # #adjust spacing if needed

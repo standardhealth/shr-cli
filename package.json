@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "5.9.1",
+  "version": "5.10.0",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
@@ -21,14 +21,15 @@
     "bunyan": "^1.8.12",
     "commander": "^2.9.0",
     "mkdirp": "^0.5.1",
-    "shr-es6-export": "^5.4.1",
-    "shr-expand": "^5.5.1",
-    "shr-fhir-export": "^5.6.1",
-    "shr-json-export": "^5.1.4",
-    "shr-json-javadoc": "^1.4.2",
-    "shr-json-schema-export": "^5.3.0",
-    "shr-models": "^5.5.2",
-    "shr-text-import": "^5.4.1"
+    "shr-adl-bmm-export": "^1.0.1",
+    "shr-es6-export": "^5.4.2",
+    "shr-expand": "^5.5.2",
+    "shr-fhir-export": "^5.7.0",
+    "shr-json-export": "^5.1.5",
+    "shr-json-javadoc": "^1.4.3",
+    "shr-json-schema-export": "^5.3.1",
+    "shr-models": "^5.5.3",
+    "shr-text-import": "^5.4.2"
   },
   "devDependencies": {
     "eslint": "^4.6.1",

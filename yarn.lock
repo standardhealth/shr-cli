@@ -230,6 +230,10 @@ decamelize@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
 
+dedent-js@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/dedent-js/-/dedent-js-1.0.1.tgz#bee5fb7c9e727d85dffa24590d10ec1ab1255305"
+
 deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
@@ -277,7 +281,7 @@ eslint-visitor-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
 
-eslint@^4.6.1:
+eslint@^4.19.1, eslint@^4.6.1:
   version "4.19.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.19.1.tgz#32d1d653e1d90408854bfb296f076ec7e186a300"
   dependencies:
@@ -917,47 +921,55 @@ showdown@^1.8.6:
   dependencies:
     yargs "^10.0.3"
 
-shr-es6-export@^5.4.1:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.4.1.tgz#f68c17b0ca8286be92d180f0095bc21c9d41f6c3"
+shr-adl-bmm-export@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/shr-adl-bmm-export/-/shr-adl-bmm-export-1.0.1.tgz#e4272bd97dbcf6c387eaeb9a3b7a7c8acbc9a1a3"
+  dependencies:
+    bunyan "^1.8.12"
+    dedent-js "^1.0.1"
+    eslint "^4.19.1"
+
+shr-es6-export@^5.4.2:
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.4.2.tgz#cda40715219c268c4ed1b79ec302e832e7044446"
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@^5.5.1:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.5.1.tgz#e8d3c0cebe9bf05d663f2e90d7ff439b39f1a82c"
+shr-expand@^5.5.2:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.5.2.tgz#e325327b8e1a1995229c7abb1fbef4a5347b67ff"
 
-shr-fhir-export@^5.6.1:
-  version "5.6.1"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.6.1.tgz#acb6380380d7b626c7d8b73cd8358d035fcc6e98"
+shr-fhir-export@^5.7.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.7.0.tgz#9f87bb2f3f095e059c7f8e0bde8e47e225f7f91d"
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
 
-shr-json-export@^5.1.4:
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.4.tgz#9b1cc379002366db70ef529a39b8220253a860ee"
+shr-json-export@^5.1.5:
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.5.tgz#62ee553e1ac18808ff2cea6400ba128a60fafe8a"
 
-shr-json-javadoc@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-1.4.2.tgz#3c4e16e311e1ed0497aeceba5a829918af947e71"
+shr-json-javadoc@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-1.4.3.tgz#e317d828ca3e7eccb3e8a86848b61e6e815530f3"
   dependencies:
     bluebird "^3.5.1"
     ejs "^2.5.7"
     ncp "^2.0.0"
     showdown "^1.8.6"
 
-shr-json-schema-export@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.0.tgz#2b1f1dd918381c23b4ebbca9946c0dc85dc227ce"
+shr-json-schema-export@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.1.tgz#6eb8201a6c4911292db7aa15354d0ddaad902eee"
 
-shr-models@^5.5.2:
-  version "5.5.2"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.5.2.tgz#8871fa8626278a53dc729fc04512aaf2acf91b94"
+shr-models@^5.5.3:
+  version "5.5.3"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.5.3.tgz#bc972ba2355bd7dd35d1169c7f17332967165c65"
 
-shr-text-import@^5.4.1:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.4.1.tgz#ee708eef697b285f5c7decda5dc982e07c58fd38"
+shr-text-import@^5.4.2:
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.4.2.tgz#4ee003bf50af1655a3bc6552aaa41e9612fba572"
   dependencies:
     antlr4 "~4.6.0"
 
