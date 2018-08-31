@@ -921,55 +921,55 @@ showdown@^1.8.6:
   dependencies:
     yargs "^10.0.3"
 
-shr-adl-bmm-export@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/shr-adl-bmm-export/-/shr-adl-bmm-export-1.0.0.tgz#1d7cfea03f540e0da32f51131bbfa9fdcc84e1de"
+shr-adl-bmm-export@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/shr-adl-bmm-export/-/shr-adl-bmm-export-1.0.1.tgz#e4272bd97dbcf6c387eaeb9a3b7a7c8acbc9a1a3"
   dependencies:
     bunyan "^1.8.12"
     dedent-js "^1.0.1"
     eslint "^4.19.1"
 
-shr-es6-export@^5.4.1:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.4.1.tgz#f68c17b0ca8286be92d180f0095bc21c9d41f6c3"
+shr-es6-export@^5.4.2:
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.4.2.tgz#cda40715219c268c4ed1b79ec302e832e7044446"
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@^5.5.2-beta.2:
-  version "5.5.2-beta.2"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.5.2-beta.2.tgz#6115591a73509a84d094a5b4f9c158a1454842ef"
+shr-expand@^5.5.2:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.5.2.tgz#e325327b8e1a1995229c7abb1fbef4a5347b67ff"
 
-shr-fhir-export@^5.7.0-beta.8:
-  version "5.7.0-beta.8"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.7.0-beta.8.tgz#f85d3ae0c1a37ec968e550585ed27ef85c98efb4"
+shr-fhir-export@^5.7.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.7.0.tgz#9f87bb2f3f095e059c7f8e0bde8e47e225f7f91d"
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
 
-shr-json-export@^5.1.4:
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.4.tgz#9b1cc379002366db70ef529a39b8220253a860ee"
+shr-json-export@^5.1.5:
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.5.tgz#62ee553e1ac18808ff2cea6400ba128a60fafe8a"
 
-shr-json-javadoc@^1.4.3-beta.2:
-  version "1.4.3-beta.2"
-  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-1.4.3-beta.2.tgz#3a07f86e13affd43009330e17ca45d8013eabcdb"
+shr-json-javadoc@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-1.4.3.tgz#e317d828ca3e7eccb3e8a86848b61e6e815530f3"
   dependencies:
     bluebird "^3.5.1"
     ejs "^2.5.7"
     ncp "^2.0.0"
     showdown "^1.8.6"
 
-shr-json-schema-export@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.0.tgz#2b1f1dd918381c23b4ebbca9946c0dc85dc227ce"
+shr-json-schema-export@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.1.tgz#6eb8201a6c4911292db7aa15354d0ddaad902eee"
 
-shr-models@^5.5.3-beta.1:
-  version "5.5.3-beta.1"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.5.3-beta.1.tgz#7fd4a03a38b893d62bbe2309a669db71fa2940be"
+shr-models@^5.5.3:
+  version "5.5.3"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.5.3.tgz#bc972ba2355bd7dd35d1169c7f17332967165c65"
 
-shr-text-import@^5.4.2-beta.1:
-  version "5.4.2-beta.1"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.4.2-beta.1.tgz#ade670f26a51e37f079710a9db6e686d72288c5d"
+shr-text-import@^5.4.2:
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.4.2.tgz#4ee003bf50af1655a3bc6552aaa41e9612fba572"
   dependencies:
     antlr4 "~4.6.0"
 
