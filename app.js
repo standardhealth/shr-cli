@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const bunyan = require('bunyan');
@@ -168,6 +168,14 @@ if (doCIMCORE) {
     const hierarchyPath = path.join(program.out, 'cimcore', 'project.json');
     mkdirp.sync(path.dirname(hierarchyPath));
     fs.writeFileSync(hierarchyPath, JSON.stringify(projectMetaOutput, null, '  '));
+
+    if (configSpecifications.implementationGuide && configSpecifications.implementationGuide.indexContent) {
+      // Need to copy over the index file(s) to the cimcore output as well
+      const indexPath = path.join(input, configSpecifications.implementationGuide.indexContent);
+      if (fs.existsSync(indexPath)) {
+        fs.copySync(indexPath, path.join(program.out, 'cimcore', path.basename(indexPath)));
+      }
+    }
 
     //meta namespace files
     for (const ns of expSpecifications.namespaces.all) { //namespace files
