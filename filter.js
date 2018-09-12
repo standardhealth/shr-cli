@@ -95,7 +95,7 @@ class SpecificationsFilter {
     }
     for (const dataElement of this._specs.dataElements.all) {
       if (this._filteredExpSpecs.dataElements.all.includes(dataElement)) {
-        this._filteredSpecs.dataElements.add(namespace);
+        this._filteredSpecs.dataElements.add(dataElement);
       }
     }
     for (const valueSet of this._specs.valueSets.all) {
