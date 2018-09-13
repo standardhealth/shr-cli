@@ -87,32 +87,35 @@ class SpecificationsFilter {
       }
     }
 
-    // filter specifications based on filtered expanded specifications
-    for (const namespace of this._specs.namespaces.all) {
-      if (this._filteredExpSpecs.namespaces.all.includes(namespace)) {
-        this._filteredSpecs.namespaces.add(namespace);
+    // In some cases (like cimcore import, this._specs may be null)
+    if (this._specs != null) {
+      // filter specifications based on filtered expanded specifications
+      for (const namespace of this._specs.namespaces.all) {
+        if (this._filteredExpSpecs.namespaces.all.includes(namespace)) {
+          this._filteredSpecs.namespaces.add(namespace);
+        }
       }
-    }
-    for (const dataElement of this._specs.dataElements.all) {
-      if (this._filteredExpSpecs.dataElements.all.includes(dataElement)) {
-        this._filteredSpecs.dataElements.add(namespace);
+      for (const dataElement of this._specs.dataElements.all) {
+        if (this._filteredExpSpecs.dataElements.all.includes(dataElement)) {
+          this._filteredSpecs.dataElements.add(dataElement);
+        }
       }
-    }
-    for (const valueSet of this._specs.valueSets.all) {
-      if (this._filteredExpSpecs.valueSets.all.includes(valueSet)) {
-        this._filteredSpecs.valueSets.add(valueSet);
+      for (const valueSet of this._specs.valueSets.all) {
+        if (this._filteredExpSpecs.valueSets.all.includes(valueSet)) {
+          this._filteredSpecs.valueSets.add(valueSet);
+        }
       }
-    }
-    for (const codeSystem of this._specs.codeSystems.all) {
-      if (this._filteredExpSpecs.codeSystems.all.includes(codeSystem)) {
-        this._filteredSpecs.codeSystems.add(codeSystem);
+      for (const codeSystem of this._specs.codeSystems.all) {
+        if (this._filteredExpSpecs.codeSystems.all.includes(codeSystem)) {
+          this._filteredSpecs.codeSystems.add(codeSystem);
+        }
       }
-    }
-    for (const target of this._specs.maps.targets) {
-      const filteredMaps = this._filteredExpSpecs.maps.byTarget(target);
-      for (const map of this._specs.maps.byTarget(target)) {
-        if (filteredMaps.includes(map)) {
-          this._filteredSpecs.maps.add(map);
+      for (const target of this._specs.maps.targets) {
+        const filteredMaps = this._filteredExpSpecs.maps.byTarget(target);
+        for (const map of this._specs.maps.byTarget(target)) {
+          if (filteredMaps.includes(map)) {
+            this._filteredSpecs.maps.add(map);
+          }
         }
       }
     }

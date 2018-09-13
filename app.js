@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const bunyan = require('bunyan');
@@ -38,6 +38,7 @@ program
   .option('-o, --out <out>', `the path to the output folder (default: ${path.join('.', 'out')})`, path.join('.', 'out'))
   .option('-c, --config <config>', 'the name of the config file (default: config.json)', 'config.json')
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
+  .option('-i, --import-cimcore', 'import CIMCORE files instead of CIMPL (default: false)')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
     input = pathToShrDefs;
@@ -64,6 +65,7 @@ const doADL = program.adl;
 // Process the de-duplicate error flag
 
 const showDuplicateErrors = program.duplicate;
+const importCimcore = program.importCimcore;
 
 // Create the output folder if necessary
 mkdirp.sync(program.out);
@@ -109,13 +111,26 @@ if (doADL) {
 
 // Go!
 logger.info('Starting CLI Import/Export');
-const configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
-if (!configSpecifications) {
-  process.exit(1);
+let configSpecifications;
+let specifications;
+let expSpecifications;
+if (!importCimcore) {
+  configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
+  if (!configSpecifications) {
+    logger.fatal('Project configuration not found! Exiting the program. ERROR_CODE:11032');
+    process.exit(1);
+  }
+  specifications = shrTI.importFromFilePath(input, configSpecifications);
+  expSpecifications = shrEx.expand(specifications, shrFE);
+} else {
+  [configSpecifications, expSpecifications] = shrTI.importCIMCOREFromFilePath(input);
+  if (!configSpecifications) {
+    logger.fatal('Project configuration not found! Exiting the program. ERROR_CODE:11032');
+    process.exit(1);
+  }
 }
 configSpecifications.showDuplicateErrors = showDuplicateErrors;
-let specifications = shrTI.importFromFilePath(input, configSpecifications);
-let expSpecifications = shrEx.expand(specifications, shrFE);
+
 
 let filter = false;
 if (configSpecifications.filterStrategy != null) {
@@ -153,6 +168,14 @@ if (doCIMCORE) {
     const hierarchyPath = path.join(program.out, 'cimcore', 'project.json');
     mkdirp.sync(path.dirname(hierarchyPath));
     fs.writeFileSync(hierarchyPath, JSON.stringify(projectMetaOutput, null, '  '));
+
+    if (configSpecifications.implementationGuide && configSpecifications.implementationGuide.indexContent) {
+      // Need to copy over the index file(s) to the cimcore output as well
+      const indexPath = path.join(input, configSpecifications.implementationGuide.indexContent);
+      if (fs.existsSync(indexPath)) {
+        fs.copySync(indexPath, path.join(program.out, 'cimcore', path.basename(indexPath)));
+      }
+    }
 
     //meta namespace files
     for (const ns of expSpecifications.namespaces.all) { //namespace files
@@ -238,14 +261,19 @@ if (doADL) {
 }
 
 if (doJSON) {
-  try {
-    const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
-    const hierarchyPath = path.join(program.out, 'json', 'definitions.json');
-    mkdirp.sync(path.dirname(hierarchyPath));
-    fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
-  } catch (error) {
-    logger.fatal('Failure in JSON export. Aborting with error message: %s', error);
-    failedExports.push('shr-json-export');
+  if (!importCimcore) {
+    try {
+      const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
+      const hierarchyPath = path.join(program.out, 'json', 'definitions.json');
+      mkdirp.sync(path.dirname(hierarchyPath));
+      fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
+    } catch (error) {
+      logger.fatal('Failure in JSON export. Aborting with error message: %s', error);
+      failedExports.push('shr-json-export');
+    }
+  } else {
+    //Skipping website generation legacy output for imported cimcore.
+    logger.info('Using imported CIMCORE, skipping JSON export');
   }
 } else {
   logger.info('Skipping JSON export');
@@ -372,7 +400,6 @@ if (doModelDoc) {
 } else {
   logger.info('Skipping Model Docs export');
 }
-
 
 logger.info('Finished CLI Import/Export');
 
