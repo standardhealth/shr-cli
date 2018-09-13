@@ -949,13 +949,13 @@ shr-es6-export@^5.4.2:
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@^5.5.2:
-  version "5.5.2"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.5.2.tgz#e325327b8e1a1995229c7abb1fbef4a5347b67ff"
+shr-expand@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.6.0.tgz#a76e1930c821da8d1f488e86999cafcb6b61dce4"
 
-shr-fhir-export@^5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.7.0.tgz#9f87bb2f3f095e059c7f8e0bde8e47e225f7f91d"
+shr-fhir-export@^5.7.1:
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.7.1.tgz#ee97ab172582c80b01b63d37f6050a757c90a629"
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
@@ -977,13 +977,13 @@ shr-json-schema-export@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.1.tgz#6eb8201a6c4911292db7aa15354d0ddaad902eee"
 
-shr-models@^5.5.3:
-  version "5.5.3"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.5.3.tgz#bc972ba2355bd7dd35d1169c7f17332967165c65"
+shr-models@^5.5.4:
+  version "5.5.4"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.5.4.tgz#f37490ed25cf4e33e8d013c412687fdfa474afd5"
 
-shr-text-import@^5.4.2:
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.4.2.tgz#4ee003bf50af1655a3bc6552aaa41e9612fba572"
+shr-text-import@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.5.0.tgz#fdf1457b93729a2ec17d20ba0aa17a3a0e94c832"
   dependencies:
     antlr4 "~4.6.0"
 
