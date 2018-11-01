@@ -26,8 +26,7 @@ class SpecificationsFilter {
     // recursively find dependencies for each data element in specifications
     // if element matches filter criteria
     for (const element of this._expSpecs.dataElements.all) {
-      if (((strategy === 'element') && (target.includes(element.identifier.name)))
-      || ((strategy === 'namespace') && (target.includes(element.identifier.namespace)))) {
+      if (this.meetsFilterCriteria(strategy, target, element)) {
         this.findDataElementDependenciesRecursive(element.identifier);
       }
     }
@@ -121,6 +120,19 @@ class SpecificationsFilter {
     }
 
     return [this._filteredSpecs, this._filteredExpSpecs];
+  }
+
+  meetsFilterCriteria(strategy, target, element) {
+    switch(strategy) {
+      case 'element':
+        return target.includes(element.identifier.name) || target.includes(element.identifier.fqn);
+      case 'namespace':
+        return target.includes(element.identifier.namespace);
+      case 'hybrid':
+        return target.includes(element.identifier.name) || target.includes(element.identifier.namespace) || target.includes(element.identifier.fqn);
+      default:
+        return false;
+    }
   }
 
   findDataElementDependenciesRecursive(identifier) {

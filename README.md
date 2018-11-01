@@ -135,11 +135,11 @@ The contents of the `implementationGuide` object's `primarySelectionStrategy` ob
 
 The contents of the `filterStrategy` object are as follows:
 
-|Parameter |Type     |Description                                                             |
-|:---------|:--------|:-----------------------------------------------------------------------|
-|`filter`  |`boolean`|A value indicating whether to enable filtering.                         |
-|`strategy`|`string` |The strategy for specification filtering (`"namespace"` or `"element"`).|
-|`target`  |`[]`     |An array of strings containing the names for what to filter.            |
+|Parameter |Type     |Description                                                                          |
+|:---------|:--------|:------------------------------------------------------------------------------------|
+|`filter`  |`boolean`|A value indicating whether to enable filtering.                                      |
+|`strategy`|`string` |The strategy for specification filtering (`"namespace"`, `"element"`, or `"hybrid"`).|
+|`target`  |`[]`     |An array of strings containing the names for what to filter.                         |
 
 # License
 
