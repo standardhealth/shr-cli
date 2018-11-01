@@ -129,7 +129,7 @@ class SpecificationsFilter {
       case 'namespace':
         return target.includes(element.identifier.namespace);
       case 'hybrid':
-        return (target.includes(element.identifier.name) || target.includes(element.identifier.namespace));
+        return target.includes(element.identifier.name) || target.includes(element.identifier.namespace) || target.includes(element.identifier.fqn);
       default:
         return false;
     }
