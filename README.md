@@ -121,9 +121,11 @@ The contents of the `implementationGuide` object are as follows:
 
 |Parameter                 |Type     |Description                                                    |
 |:-------------------------|:--------|:--------------------------------------------------------------|
+|`npmName`                 |`string` |The assigned npm-name for this IG, used for package management.|
+|`version`                 |`string` |The version of this IG (not necessarily the version of FHIR).  |
 |`includeLogicalModels`    |`boolean`|A value indicating whether to include logical models in the IG.|
 |`includeModelDoc`         |`boolean`|A value indicating whether to include the model doc in the IG. |
-|`indexContent`            |`string` |The name of the file to place the IG index content.            |
+|`indexContent`            |`string` |The name of the file or folder to place the IG index content.  |
 |`primarySelectionStrategy`|`{}`     |The strategy for selection of what is primary in the IG.       |
 
 The contents of the `implementationGuide` object's `primarySelectionStrategy` object are as follows:
