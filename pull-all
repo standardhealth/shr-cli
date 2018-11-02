@@ -28,12 +28,20 @@ cd ../shr-json-schema-export
 echo "============== shr-json-schema-export =============="
 git pull
 
+cd ../shr-json-javadoc
+echo "============== shr-json-javadoc =============="
+git pull
+
 cd ../shr-es6-export
 echo "================== shr-es6-export =================="
 git pull
 
 cd ../shr-fhir-export
 echo "================= shr-fhir-export =================="
+git pull
+
+cd ../shr-adl-bmm-export
+echo "================= shr-adl-bmm-export =================="
 git pull
 
 cd ../shr-cli
