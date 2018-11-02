@@ -45,6 +45,11 @@ echo "================= shr-fhir-export =================="
 rm -rf node_modules
 yarn
 
+cd ../shr-adl-bmm-export
+echo "================= shr-adl-bmm-export =================="
+rm -rf node_modules
+yarn
+
 cd ../shr-cli
 echo "===================== shr-cli ======================"
 rm -rf node_modules
