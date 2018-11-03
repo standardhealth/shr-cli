@@ -111,6 +111,7 @@ The contents of the configuration file are as follows:
 |`projectShorthand`   |`string`|A shorthand name for the project.                              |
 |`projectURL`         |`string`|The primary URL for the project.                               |
 |`fhirURL`            |`string`|The FHIR IG URL for the project.                               |
+|`fhirTarget`         |`string`|The FHIR target for the project (`FHIR_STU_3` or `FHIR_DSTU_2`)|
 |`entryTypeURL`       |`string`|The root URL for the JSON schema `EntryType` field.            |
 |`implementationGuide`|`{}`    |An object containing configuration for IG publishing.          |
 |`filterStrategy`     |`{}`    |An object containing configuration for specification filtering.|
