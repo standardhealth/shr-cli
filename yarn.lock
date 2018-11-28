@@ -949,13 +949,13 @@ shr-es6-export@^5.4.2:
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@^5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.6.0.tgz#a76e1930c821da8d1f488e86999cafcb6b61dce4"
+shr-expand@^5.7.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.7.0.tgz#a9bd0d2c099dada0345b734613252c55e61710ba"
 
-shr-fhir-export@^5.7.1:
-  version "5.7.1"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.7.1.tgz#ee97ab172582c80b01b63d37f6050a757c90a629"
+shr-fhir-export@^5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.8.0.tgz#2c9b3b6b67dbe6cf5b49b83e63cc1ffd01431441"
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
@@ -964,26 +964,26 @@ shr-json-export@^5.1.5:
   version "5.1.5"
   resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.5.tgz#62ee553e1ac18808ff2cea6400ba128a60fafe8a"
 
-shr-json-javadoc@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-1.4.3.tgz#e317d828ca3e7eccb3e8a86848b61e6e815530f3"
+shr-json-javadoc@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-1.4.4.tgz#a0d0c26cac9c4eca894515158e30d4dbadcb985b"
   dependencies:
     bluebird "^3.5.1"
     ejs "^2.5.7"
     ncp "^2.0.0"
     showdown "^1.8.6"
 
-shr-json-schema-export@^5.3.1:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.1.tgz#6eb8201a6c4911292db7aa15354d0ddaad902eee"
+shr-json-schema-export@^5.3.2:
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.2.tgz#8840b62eb6a882cb242043e93733e1f3bd472a21"
 
 shr-models@^5.5.4:
   version "5.5.4"
   resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.5.4.tgz#f37490ed25cf4e33e8d013c412687fdfa474afd5"
 
-shr-text-import@^5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.5.0.tgz#fdf1457b93729a2ec17d20ba0aa17a3a0e94c832"
+shr-text-import@^5.5.1:
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.5.1.tgz#04c6d61a5cc543048cfc846da38d9877b95c59ab"
   dependencies:
     antlr4 "~4.6.0"
 
