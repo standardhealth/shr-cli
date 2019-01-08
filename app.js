@@ -107,7 +107,9 @@ if (doModelDoc) {
 if (doADL) {
   shrAE.setLogger(logger.child({module: 'shr-adl-export'}));
 }
-// NOTE: shr-es6-export does not currently support a Bunyan logger
+if (doES6) {
+  shrEE.setLogger(logger.child({ module: 'shr-es6-export'}));
+}
 
 // Go!
 logger.info('Starting CLI Import/Export');
