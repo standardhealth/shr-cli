@@ -107,7 +107,9 @@ if (doModelDoc) {
 if (doADL) {
   shrAE.setLogger(logger.child({module: 'shr-adl-export'}));
 }
-// NOTE: shr-es6-export does not currently support a Bunyan logger
+if (doES6) {
+  shrEE.setLogger(logger.child({ module: 'shr-es6-export'}));
+}
 
 // Go!
 logger.info('Starting CLI Import/Export');
@@ -279,9 +281,14 @@ if (doJSON) {
   logger.info('Skipping JSON export');
 }
 
+let fhirResults = null;
+if (doES6 || doFHIR){
+  fhirResults = shrFE.exportToFHIR(expSpecifications, configSpecifications);
+}
+
 if (doES6) {
   try {
-    const es6Results = shrEE.exportToES6(expSpecifications, configSpecifications);
+    const es6Results = shrEE.exportToES6(expSpecifications, fhirResults);
     const es6Path = path.join(program.out, 'es6');
     const handleNS = (obj, fpath) => {
       mkdirp.sync(fpath);
@@ -305,7 +312,6 @@ if (doES6) {
 
 if (doFHIR) {
   try {
-    const fhirResults = shrFE.exportToFHIR(expSpecifications, configSpecifications);
     const baseFHIRPath = path.join(program.out, 'fhir');
     const baseFHIRProfilesPath = path.join(baseFHIRPath, 'profiles');
     mkdirp.sync(baseFHIRProfilesPath);
