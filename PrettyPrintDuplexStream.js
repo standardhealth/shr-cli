@@ -1,17 +1,15 @@
 const Transform = require('stream').Transform;
-//var colors = require('ansicolors');
 var fs = require('fs');
-//  readline = require('readline');
 
-const chalk = require('chalk');
+const chalk = require('chalk');   //library for colorizing Strings
 // color palette for messages -- can also do rgb; e.g.  chalk.rgb(123, 45, 67)
 const originalErrorColor = chalk.redBright;
 const errorDetailColor = chalk.bold.cyan;
 const errorCodeColor = chalk.bold.greenBright;
 
-
 //https://stackoverflow.com/questions/48507828/pipe-issue-with-node-js-duplex-stream-example
 
+// make a class that implements a Duplex stream; this means you can use it to pipe into and out of
 class PrettyPrintDuplexStream extends Transform {
 
   constructor(name, options) {
@@ -22,6 +20,8 @@ class PrettyPrintDuplexStream extends Transform {
     var array = fs.readFileSync(csvFilePath).toString().split('\n');
     let eCode = '-1';   // put in a value for error messages that don't have an ERROR_CODE
     this.solutionMap[eCode] = 'Error message has no error code';  
+
+    // populate a map with the key as the ERROR_CODE number and the value is the suggested solution
     for( var i in array) {   
       let line = array[i].toString();
       let parts= line.split(',');
@@ -31,7 +31,6 @@ class PrettyPrintDuplexStream extends Transform {
     }
     this.idSet = new Set();
     this.idSet.add(-1);
-
   }
 
   translateNames( inName ) {   // translate error Strings to friendlier informative alternatives.
@@ -82,9 +81,7 @@ class PrettyPrintDuplexStream extends Transform {
     let preErrCode = '';
     let postErrCode = '';
     if (printAllErrors) {
-    
-      //console.log(colors.red(myline ));   // print the input message in red (for now)
-      console.log( originalErrorColor (myline ));   // print the input message in red (for now)
+      console.log( originalErrorColor (myline.trim() ));   // print the input message in red (for now)
     }
     let formattedOutput = '\nERROR ';
   
@@ -110,7 +107,6 @@ class PrettyPrintDuplexStream extends Transform {
     let mappingRulePart = this.parseFromPrefixOrSuffix( /mappingRule[=:]+[\s]*(["]*([\w."[\]-]+[\s]*)+["]*)/ ,preErrCode, postErrCode);  //parse MappingRule
     let targetPart =  this.parseFromPrefixOrSuffix( /target=([\w.-]+)[,]*/, preErrCode, postErrCode );  //parse target part
     let targetSpecPart = this.parseFromPrefixOrSuffix(/targetSpec=([\w.-]+)[,]*/,preErrCode, postErrCode); //parse targetSpec
-  
     let targetUrlPart = this.getMatchWithRegexPos(postErrCode, /target:[\s]+([\w./:-]+)[,]*/, 1);  //parse targetURL
     if (targetPart === '') {
       targetPart = targetUrlPart;   // use targetURL if target is unavailable
@@ -133,7 +129,7 @@ class PrettyPrintDuplexStream extends Transform {
     }
   
     // lookup the suggested fix using eCode as the key
-    outline += errorDetailColor( '\n    Suggested Fix:  ' + this.solutionMap[this.eCode.trim()]).trim() +  '\n'  ;
+    outline += errorDetailColor( '\n    Suggested Fix:  ' + this.solutionMap[this.eCode.trim()]).trim() + '\n'  ;
     let key = this.eCode; // if you want a less strict de-duplicator, you can add another element; e.g. let key = eCode + targetPart;   
      
     if (this.idSet.has(key)) {
@@ -153,12 +149,8 @@ class PrettyPrintDuplexStream extends Transform {
     //this.push(chunk);
     let ans = this.processLine(chunk, true);
     console.log( ans );
-
-    
     callback();
   }
 }
-
-
 
 module.exports = PrettyPrintDuplexStream;
