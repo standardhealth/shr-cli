@@ -127,13 +127,12 @@ configSpecifications.showDuplicateErrors = showDuplicateErrors;
 let specifications;
 let expSpecifications;
 if (!importCimcore) {
-  configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
   specifications = shrTI.importFromFilePath(input, configSpecifications);
   expSpecifications = shrEx.expand(specifications, shrFE);
 } else {
   [configSpecifications, expSpecifications] = shrTI.importCIMCOREFromFilePath(input);
+  configSpecifications.showDuplicateErrors = showDuplicateErrors;
 }
-configSpecifications.showDuplicateErrors = showDuplicateErrors;
 
 
 let filter = false;
