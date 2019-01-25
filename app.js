@@ -70,7 +70,6 @@ const importCimcore = program.importCimcore;
 // Create the output folder if necessary
 mkdirp.sync(program.out);
 
-var colors = require('ansicolors');
 var PrettyPrintDuplexStream = require('./PrettyPrintDuplexStream');
 const mdpStream = new PrettyPrintDuplexStream();
 
@@ -79,7 +78,6 @@ const [ll, lm] = [program.logLevel.toLowerCase(), program.logMode.toLowerCase()]
 const streams = [];
 if (lm == 'short' || lm == 'long') {
   const prettyStdOut = new bps({mode: lm});
-  //prettyStdOut.pipe(process.stdout);
   prettyStdOut.pipe(mdpStream);
   mdpStream.pipe(process.stdout);
 
