@@ -18,9 +18,10 @@
   },
   "dependencies": {
     "@ojolabs/bunyan-prettystream": "^0.1.6",
+    "ansicolors": "^0.3.2",
     "bunyan": "^1.8.12",
     "commander": "^2.9.0",
-    "fs-extra": "^7.0.0",
+    "fs-extra": "^7.0.1",
     "mkdirp": "^0.5.1",
     "shr-adl-bmm-export": "^1.0.1",
     "shr-es6-export": "^5.5.0",
