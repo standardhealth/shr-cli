@@ -3,7 +3,7 @@ var fs = require('fs');
 
 const chalk = require('chalk');   //library for colorizing Strings
 // color palette for messages -- can also do rgb; e.g.  chalk.rgb(123, 45, 67)
-const originalErrorColor = chalk.redBright;
+const originalErrorColor = chalk.bold.redBright;
 const errorDetailColor = chalk.bold.cyan;
 const errorCodeColor = chalk.bold.greenBright;
 
