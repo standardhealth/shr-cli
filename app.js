@@ -31,14 +31,15 @@ function collect(val, list) {
 let input;
 program
   .usage('<path-to-shr-defs> [options]')
-  .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace> (default: info)', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
-  .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off> (default: short)', /^(short|long|json|off)$/i, 'short')
+  .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace>', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
+  .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off>', /^(short|long|json|off)$/i, 'short')
   .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all>', collect, [])
   .option('-a, --adl', 'run the adl exporter (default: false)')
-  .option('-o, --out <out>', `the path to the output folder (default: ${path.join('.', 'out')})`, path.join('.', 'out'))
-  .option('-c, --config <config>', 'the name of the config file (default: config.json)', 'config.json')
+  .option('-o, --out <out>', `the path to the output folder`, path.join('.', 'out'))
+  .option('-c, --config <config>', 'the name of the config file', 'config.json')
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
   .option('-i, --import-cimcore', 'import CIMCORE files instead of CIMPL (default: false)')
+  .option('-6, --export-cimpl-6', 'export CIMPL 6 files generated  from input (default: false)')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
     input = pathToShrDefs;
@@ -50,7 +51,6 @@ if (typeof input === 'undefined') {
   console.error('\x1b[31m','Missing path to SHR definition folder or file','\x1b[0m');
   program.help();
 }
-
 // Process the skip flags
 const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
 const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
@@ -61,6 +61,9 @@ const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLo
 
 // Process the ADL flag
 const doADL = program.adl;
+
+// Process the CIMPL 6 export flag
+const doCIMPL6 = program.exportCimpl6;
 
 // Process the de-duplicate error flag
 
@@ -113,25 +116,20 @@ if (doES6) {
 
 // Go!
 logger.info('Starting CLI Import/Export');
-let configSpecifications;
+let configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
+if (!configSpecifications) {
+  process.exit(1);
+}
+configSpecifications.showDuplicateErrors = showDuplicateErrors;
 let specifications;
 let expSpecifications;
 if (!importCimcore) {
-  configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
-  if (!configSpecifications) {
-    logger.fatal('Project configuration not found! Exiting the program. ERROR_CODE:11032');
-    process.exit(1);
-  }
   specifications = shrTI.importFromFilePath(input, configSpecifications);
   expSpecifications = shrEx.expand(specifications, shrFE);
 } else {
   [configSpecifications, expSpecifications] = shrTI.importCIMCOREFromFilePath(input);
-  if (!configSpecifications) {
-    logger.fatal('Project configuration not found! Exiting the program. ERROR_CODE:11032');
-    process.exit(1);
-  }
+  configSpecifications.showDuplicateErrors = showDuplicateErrors;
 }
-configSpecifications.showDuplicateErrors = showDuplicateErrors;
 
 
 let filter = false;
@@ -280,6 +278,18 @@ if (doJSON) {
 } else {
   logger.info('Skipping JSON export');
 }
+
+if (doCIMPL6) {
+  logger.info('Exporting CIMPL 6');
+  try {
+    const cimpl6Path = path.join(program.out, 'cimpl6');
+    expSpecifications.toCIMPL6(cimpl6Path);
+    logger.info('Exported %s namespaces to CIMPL 6.', expSpecifications.namespaces.all.length);
+  } catch (error) {
+    logger.fatal('Failure in CIMPL 6 export. Aborting with error message: %s', error);
+    failedExports.push('cimpl-6-export');
+  }
+} // the CIMPL 6 export is opt-in, so we are omitting the 'skip' info log.
 
 let fhirResults = null;
 if (doES6 || doFHIR){
