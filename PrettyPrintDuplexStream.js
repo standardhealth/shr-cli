@@ -18,8 +18,8 @@ class PrettyPrintDuplexStream extends Transform {
     this.solutionMap = {};
     let csvFilePath = 'errorMessages.txt';
     var array = fs.readFileSync(csvFilePath).toString().split('\n');
-    let eCode = '-1';   // put in a value for error messages that don't have an ERROR_CODE
-    this.solutionMap[eCode] = 'Error message has no error code';  
+    this.eCode = '-1';   // put in a value for error messages that don't have an ERROR_CODE
+    this.solutionMap[this.eCode] = 'Error message has no error code';  
 
     // populate a map with the key as the ERROR_CODE number and the value is the suggested solution
     for( var i in array) {   
@@ -80,6 +80,7 @@ class PrettyPrintDuplexStream extends Transform {
     let result = myline.match(reg);
     let preErrCode = '';
     let postErrCode = '';
+    this.eCode = '-1';
     if (printAllErrors) {
       console.log( originalErrorColor (myline.trim() ));   // print the input message in red (for now)
     }
@@ -90,7 +91,12 @@ class PrettyPrintDuplexStream extends Transform {
       let temp = myline.split('ERROR_CODE');
       preErrCode = temp[0];
       postErrCode = temp[1];
-      this.eCode = result[1];   //gpg
+      if ( result[1] === undefined || result[1] === null) {
+        this.eCode = '-1';
+      }
+      else {
+        this.eCode = result[1].trim();   //gpg
+      }
     }
     let dateTimeRegex = /\[\d\d:\d\d:\d\d.\d\d\dZ\]\s+/;
     let outline  = myline.replace(dateTimeRegex,'').toString();  //remove timestamp; format is [hh.mm.ss.xxxZ]
@@ -129,7 +135,7 @@ class PrettyPrintDuplexStream extends Transform {
     }
   
     // lookup the suggested fix using eCode as the key
-    outline += errorDetailColor( '\n    Suggested Fix:  ' + this.solutionMap[this.eCode.trim()]).trim() + '\n'  ;
+    outline += errorDetailColor( '\n    Suggested Fix:  ' + this.solutionMap[this.eCode]).trim() + '\n'  ;
     let key = this.eCode; // if you want a less strict de-duplicator, you can add another element; e.g. let key = eCode + targetPart;   
      
     if (this.idSet.has(key)) {
