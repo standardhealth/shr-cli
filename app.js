@@ -133,6 +133,8 @@ if (doES6) {
 }
 if (doDD) {
   shrDD.setLogger(logger.child({ module: 'shr-data-dict-export'}));
+if (doGraph) {
+  shrGr.setLogger(logger.child({module: 'shr-graph-export'}));
 }
 if (doGraph) {
   shrGr.setLogger(logger.child({module: 'shr-graph-export'}));
@@ -335,15 +337,18 @@ if (doGraph) {
     mkdirp.sync(path.join(graphOutputPath, 'data'));
     fs.writeFileSync(path.join(graphOutputPath, 'data', 'tree.js'), 'const tree = ' + JSON.stringify(graphTree,  null, '  '));
   } catch (error) {
-    logger.fatal('Failure in Graph export. Aborting with error message: %s', error);
+    // 15012, 'Failure in Graph export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+    logger.fatal({ errorText: error.stack }, '15012');
     failedExports.push('shr-graph-export');
   }
 } else {
-  logger.info('Skipping Graph export');
+  // 05011, 'Skipping Graph export',,
+  logger.info('05011');
 }
 
 // 05002, 'Finished CLI Import/Export',,
 logger.info('05002');
+
 
 const ftlCounter = logCounter.fatal;
 const errCounter = logCounter.error;

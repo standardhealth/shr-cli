@@ -9,6 +9,7 @@ Number, Message, Solution, deduplicationKeys
 05008, 'Skipping Model Docs export',,
 05009, 'Using filterStrategy in the configuration file is deprecated and should be done in content profile instead',,
 05010, 'Using primarySelectionStrategy in the configuration file is deprecated and should be done in content profile instead',,
+05011, 'Skipping Graph export',,
 15001, 'Unable to successfully serialize element ${identifierName} into CIMCORE. Failing with error ${errorText}',  'Unknown, 'errorNumber'
 15002, 'Unable to successfully serialize value set ${valueSet} into CIMCORE. Failing with error ${errorText}',  'Unknown, 'errorNumber'
 15003, 'Unable to successfully serialize mapping ${mappingIdentifier} into CIMCORE. Failing with error ${errorText}',   'Unknown, 'errorNumber'
@@ -20,3 +21,4 @@ Number, Message, Solution, deduplicationKeys
 15009, 'Failure in JSON Schema export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
 15010, 'Failure in Model Doc export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
 15011, 'CIMCORE is required for generating Model Doc. Skipping Model Docs export.', 'Do not skip CIMCORE if Model Doc should be generated', 'errorNumber'
+15012, 'Failure in Graph export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
