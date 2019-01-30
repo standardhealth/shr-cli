@@ -43,6 +43,7 @@ def keyTerms(sentence):
 
 if __name__ == "__main__":
     path_name = sys.argv[1]
+    cimpl_6_path = sys.argv[2]
     comment_hash = dict()
     #Get all of the lines associated with a particular namespace.
     for file in files(path_name):
@@ -120,11 +121,10 @@ if __name__ == "__main__":
 
 
     output_lines = []
-    output_dir = 'out/cimpl6/'
     new_cimpl_hash = dict()
-    for file in files(output_dir):
+    for file in files(cimpl_6_path):
         if '.txt' in file and not '_vs' in file and not '_map' in file:
-            file_name = output_dir + file
+            file_name = cimpl_6_path + file
             with open(file_name, 'r') as f:
                 all_lines = []
                 namespace = ''
@@ -137,12 +137,19 @@ if __name__ == "__main__":
                 else:
                     new_cimpl_hash[namespace] = new_cimpl_hash[namespace] + all_lines
 
+    output_dir = 'comments/'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     for k in new_cimpl_hash:
         new_terms = []
         current_term = ''
         comments = []
         for a in range(0, len(new_cimpl_hash[k])):
             if a == 0:
+                print(k)
+                print(new_cimpl_hash[k])
+                print(namespace_elements.keys())
                 initial_comments = namespace_elements[k]['DataElement 6.0']
                 for c in range(0, len(initial_comments)):
                     if len(initial_comments[c][0]) == 0:
@@ -165,7 +172,7 @@ if __name__ == "__main__":
                         else:
                             bottom_comments.append(('\t'*9) + comments[b][1])
         new_terms = new_terms + bottom_comments
-        file_name = k.replace('.','_') + ".txt"
+        file_name = output_dir + k.replace('.','_') + ".txt"
         a = open(file_name, 'w')
         for t in new_terms:
             a.write(t)
