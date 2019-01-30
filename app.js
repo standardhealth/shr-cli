@@ -51,8 +51,6 @@ if (typeof input === 'undefined') {
   console.error('\x1b[31m','Missing path to SHR definition folder or file','\x1b[0m');
   program.help();
 }
-const spawn = require("child_process").spawn;
-const pythonProcess = spawn('python3',["addComments.py"]);
 // Process the skip flags
 const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
 const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
