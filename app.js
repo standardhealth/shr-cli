@@ -39,6 +39,7 @@ program
   .option('-c, --config <config>', 'the name of the config file', 'config.json')
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
   .option('-i, --import-cimcore', 'import CIMCORE files instead of CIMPL (default: false)')
+  .option('-5, --export-cimpl-5', 'export CIMPL 5 files generated  from input (default: false)')
   .option('-6, --export-cimpl-6', 'export CIMPL 6 files generated  from input (default: false)')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
