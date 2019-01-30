@@ -147,9 +147,6 @@ if __name__ == "__main__":
         comments = []
         for a in range(0, len(new_cimpl_hash[k])):
             if a == 0:
-                print(k)
-                print(new_cimpl_hash[k])
-                print(namespace_elements.keys())
                 initial_comments = namespace_elements[k]['DataElement 6.0']
                 for c in range(0, len(initial_comments)):
                     if len(initial_comments[c][0]) == 0:
