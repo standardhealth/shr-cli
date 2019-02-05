@@ -23,7 +23,7 @@
     "fs-extra": "^7.0.0",
     "mkdirp": "^0.5.1",
     "shr-adl-bmm-export": "^1.0.1",
-    "shr-es6-export": "^5.5.0",
+    "shr-es6-export": "^5.5.1",
     "shr-expand": "^5.7.0",
     "shr-fhir-export": "^5.11.0",
     "shr-json-export": "^5.1.5",
