@@ -163,7 +163,7 @@ The options for the configuration file's `implementationGuide.filterStrategy` ar
 * If `filter` is `true`, then the filtering operation will occur. Otherwise, no filtering will occur.
 * If there is no `implementationGuide.filterStrategy` set, filtering will not occur.
 
-When specified a namespace or element in the `primary` or `target` array of either strategy, it is best
+When specifying a namespace or element in the `primary` or `target` array of either strategy, it is best
 to use the fully qualified name (FQN) format for doing so. For example, a namespace could be
 `"shr.oncology"` and an element could be `"shr.oncology.BreastCancerStage"`.
 
