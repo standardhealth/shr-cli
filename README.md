@@ -136,7 +136,7 @@ The contents of the `implementationGuide` object's `primarySelectionStrategy` ob
 |Parameter |Type    |Description                                                                                                 |
 |:---------|:-------|:-----------------------------------------------------------------------------------------------------------|
 |`strategy`|`string`|The strategy to follow for primary selection (`"namespace"`, `"hybrid"`, or default `"entry"`).|
-|`primary` |`[]    `|An array of strings containing the namespaces to select as primary (only used for `"namespace"` and `"hybrid"` `strategy`).|
+|`primary` |`[]    `|An array of strings containing the namespaces and entries to select as primary (only used for `"namespace"` and `"hybrid"` `strategy`).|
 
 The contents of the `filterStrategy` object are as follows:
 
@@ -160,7 +160,12 @@ The options for the configuration file's `implementationGuide.filterStrategy` ar
 * The `"element"` `strategy` for filtering will filter the specifications to only include the elements listed in the `target` array and their recursive dependencies.
 * The `"namespace"` `strategy` for filtering will filter the specifications to only include the elements included in the namespaces listed in the `target` array and their recursive dependencies.
 * The `"hybrid"` `strategy` for filtering will filter the specifications to only include the elements listed in the `target` array and included in the namespaces listed in the `target` array and their recursive dependencies.
+* If `filter` is `true`, then the filtering operation will occur. Otherwise, no filtering will occur.
 * If there is no `implementationGuide.filterStrategy` set, filtering will not occur.
+
+When specified a namespace or element in the `primary` or `target` array of either strategy, it is best
+to use the fully qualified name (FQN) format for doing so. For example, a namespace could be
+`"shr.oncology"` and an element could be `"shr.oncology.BreastCancerStage"`.
 
 # License
 
