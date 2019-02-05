@@ -135,8 +135,8 @@ The contents of the `implementationGuide` object's `primarySelectionStrategy` ob
 
 |Parameter |Type    |Description                                                                                                 |
 |:---------|:-------|:-----------------------------------------------------------------------------------------------------------|
-|`strategy`|`string`|The strategy to follow for primary selection (`"namespace"` or default `"entry"`).                          |
-|`primary` |`[]    `|An array of strings containing the namespaces to select as primary (only used for `"namespace"` `strategy`).|
+|`strategy`|`string`|The strategy to follow for primary selection (`"namespace"`, `"hybrid"`, or default `"entry"`).|
+|`primary` |`[]    `|An array of strings containing the namespaces to select as primary (only used for `"namespace"` and `"hybrid"` `strategy`).|
 
 The contents of the `filterStrategy` object are as follows:
 
@@ -145,6 +145,22 @@ The contents of the `filterStrategy` object are as follows:
 |`filter`  |`boolean`|A value indicating whether to enable filtering.                                      |
 |`strategy`|`string` |The strategy for specification filtering (`"namespace"`, `"element"`, or `"hybrid"`).|
 |`target`  |`[]`     |An array of strings containing the names for what to filter.                         |
+
+# Primary Selection Strategy and Filter Strategy
+
+The options for the configuration file's `implementationGuide.primarySelectionStrategy` are described below.
+
+* The `"entry"` `strategy` for primary selection sets every entry as primary in the IG.
+* The `"namespace"` `strategy` for primary selection sets every entry found in the namespaces in the `primary` array as primary in the IG.
+* The `"hybrid"` `strategy` for primary selection sets every entry listed in the `primary` array or found in the namespaces in the `primary` array as primary in the IG.
+* If there is no `strategy` set in the `implementationGuide.primarySelectionStrategy`, the default operation is the `"entry"` `strategy`.
+
+The options for the configuration file's `implementationGuide.filterStrategy` are described below.
+
+* The `"element"` `strategy` for filtering will filter the specifications to only include the elements listed in the `target` array and their recursive dependencies.
+* The `"namespace"` `strategy` for filtering will filter the specifications to only include the elements included in the namespaces listed in the `target` array and their recursive dependencies.
+* The `"hybrid"` `strategy` for filtering will filter the specifications to only include the elements listed in the `target` array and included in the namespaces listed in the `target` array and their recursive dependencies.
+* If there is no `implementationGuide.filterStrategy` set, filtering will not occur.
 
 # License
 
