@@ -1122,10 +1122,10 @@ shr-expand@^5.7.0:
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.7.0.tgz#a9bd0d2c099dada0345b734613252c55e61710ba"
   integrity sha512-wUJDV/uusXSM3ZSUTY1xsGhO5XTZcIvUqYC0r2lQBOIlkF76CmFNW048c1av5gJwjTD1s534PYKcM65jGxPWqw==
 
-shr-fhir-export@^5.11.0:
-  version "5.11.0"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.11.0.tgz#ab2087474457a3fc6049c7afbdd0829513664e96"
-  integrity sha512-oWVfnJMcO0OYMPFQnfITG0/jI+S4qELaDXemOJ0U2s0IZfk/KR3RNy6ppzEtVZ3HgccE9RIoc3++HrBkrSB0ng==
+shr-fhir-export@^5.11.1:
+  version "5.11.1"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.11.1.tgz#2441fc4080c9c91170bca10a09a88f49cea9900c"
+  integrity sha512-lg9u9spQeqJrcDqRQN9KQBZCVM78FhdRhwSJYLz2S11S8uMDKAgF/7ImSbuGbS8xzgeqvibyKcFCh8uUPt4lEw==
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
@@ -1135,10 +1135,10 @@ shr-json-export@^5.1.5:
   resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.5.tgz#62ee553e1ac18808ff2cea6400ba128a60fafe8a"
   integrity sha512-dkV5RBzraRtio9RlbrJqko0WoYoO3yNgDkVCvBr2odMtIi5eMpcW4NfHxPS8I30UZH9kzBfKkakHoCYi6Gp7tg==
 
-shr-json-javadoc@^1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-1.4.4.tgz#a0d0c26cac9c4eca894515158e30d4dbadcb985b"
-  integrity sha512-o90cpW+nhwrLcLae5d3n781POjNMa4ktecVSa06TqvFzG1FmlAj2tKgoQhzwJXi1RtgCublc4ryoLHqLPmx2zA==
+shr-json-javadoc@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-1.4.5.tgz#056895e5d20ab06c4a8d7549953646cb08436038"
+  integrity sha512-FAhU+IZTNvA4MCplCH0h66o196Cv/04jVmLUlb56xgo90xaWrQqp4Fsptt04MCpTNtT6tw61YyWnmwkCR/WYUw==
   dependencies:
     bluebird "^3.5.1"
     ejs "^2.5.7"
