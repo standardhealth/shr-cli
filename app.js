@@ -329,7 +329,10 @@ if (doModelDoc) {
 
 if (doGraph) {
   try {
-    shrGr.exportToGraph(expSpecifications);
+    const graphTree = shrGr.exportToGraph(expSpecifications);
+    const graphPath = path.join(program.out, 'graph');
+    mkdirp.sync(graphPath);
+    fs.writeFileSync(path.join(graphPath, 'graph.json'), JSON.stringify(graphTree));
   } catch (error) {
     logger.fatal('Failure in Graph export. Aborting with error message: %s', error);
     failedExports.push('shr-graph-export');
