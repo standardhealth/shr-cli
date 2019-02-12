@@ -148,7 +148,13 @@ The contents of the `filterStrategy` object are as follows:
 
 # Primary Selection Strategy and Filter Strategy
 
-Often times when generating the IG, it may be necessary to remove extraneous elements written into the specifications, or highlight specific elements as more important. This is where the primary selection strategy and filter strategy come into play.
+When using this command-line interface and IG publisher, the general order of operations is as follows:
+
+1. The command-line interface takes in SHR definitions that have been written (as in the [shr_spec](https://github.com/standardhealth/shr_spec) repo) and parses them through a text importer.
+2. The command-line interface exports these parsed SHR definitions files into desired formats, such as ES6, JSON, FHIR, etc.
+3. (optional) The IG publisher takes the SHR FHIR exports and generates an IG from the information in these files.
+
+Often times when exporting files and creating implementation guides, between steps 1 and 2 above, it may be necessary to remove extraneous elements written into the SHR definition files, or highlight specific elements as more important in the IG. This is where the primary selection strategy and filter strategy come into play.
 
 The primary selection strategy is used to set certain entries in the IG as primary. This causes those entries to be listed in a "Primary" section at the top of their respective pages in the IG, displaying them as most directly relevant. All other elements are listed in a "Supporting" section below the "Primary" section.
 
@@ -159,7 +165,7 @@ The options for the configuration file's `implementationGuide.primarySelectionSt
 * The `"hybrid"` `strategy` for primary selection sets every entry listed in the `primary` array or found in the namespaces in the `primary` array as primary in the IG.
 * If there is no `strategy` set in the `implementationGuide.primarySelectionStrategy`, the default operation is the `"entry"` `strategy`.
 
-The filter strategy is used to determine which entries are processed when exporting the specifications. If only a subset of the specifications are desired in an export, or a subsequent IG generation, then filtering down to target elements or namespaces causes only those targets (and their dependencies) to be exported, ignoring the rest.
+The filter strategy is used to determine which elements from the SHR definitions are processed through the various exporters. If only a subset of the SHR definitions are desired in an export, or a subsequent IG generation, then filtering down to target elements or namespaces causes only those targets (and their dependencies) to be exported, ignoring the rest.
 
 The options for the configuration file's `implementationGuide.filterStrategy` are described below.
 
