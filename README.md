@@ -146,14 +146,17 @@ The contents of the `filterStrategy` object are as follows:
 |`strategy`|`string` |The strategy for specification filtering (`"namespace"`, `"element"`, or `"hybrid"`).|
 |`target`  |`[]`     |An array of strings containing the names for what to filter.                         |
 
-# Primary Selection Strategy and Filter Strategy
+# Filter Strategy and Primary Selection Strategy
 
-The options for the configuration file's `implementationGuide.primarySelectionStrategy` are described below.
+When using this command-line interface and IG publisher, the general order of operations is as follows:
 
-* The `"entry"` `strategy` for primary selection sets every entry as primary in the IG.
-* The `"namespace"` `strategy` for primary selection sets every entry found in the namespaces in the `primary` array as primary in the IG.
-* The `"hybrid"` `strategy` for primary selection sets every entry listed in the `primary` array or found in the namespaces in the `primary` array as primary in the IG.
-* If there is no `strategy` set in the `implementationGuide.primarySelectionStrategy`, the default operation is the `"entry"` `strategy`.
+1. The command-line interface takes in SHR definitions that have been written (as in the [shr_spec](https://github.com/standardhealth/shr_spec) repo) and parses them through a text importer.
+2. The command-line interface exports these parsed SHR definitions files into desired formats, such as ES6, JSON, FHIR, etc.
+3. (optional) The IG publisher takes the SHR FHIR exports and generates an IG from the information in these files.
+
+Often times when exporting files and creating implementation guides, between steps 1 and 2 above, it may be necessary to remove extraneous elements written into the SHR definition files, or highlight specific elements as more important in the IG. This is where the filter strategy and primary selection strategy come into play.
+
+The filter strategy is used to determine which elements from the SHR definitions are processed through the various exporters. If only a subset of the SHR definitions are desired in an export, or a subsequent IG generation, then filtering down to target elements or namespaces causes only those targets (and their dependencies) to be exported, ignoring the rest.
 
 The options for the configuration file's `implementationGuide.filterStrategy` are described below.
 
@@ -163,7 +166,16 @@ The options for the configuration file's `implementationGuide.filterStrategy` ar
 * If `filter` is `true`, then the filtering operation will occur. Otherwise, no filtering will occur.
 * If there is no `implementationGuide.filterStrategy` set, filtering will not occur.
 
-When specifying a namespace or element in the `primary` or `target` array of either strategy, it is best
+The primary selection strategy is used to set certain entries in the IG as primary. This causes those entries to be listed in a "Primary" section at the top of their respective pages in the IG, displaying them as most directly relevant. All other elements are listed in a "Supporting" section below the "Primary" section.
+
+The options for the configuration file's `implementationGuide.primarySelectionStrategy` are described below.
+
+* The `"entry"` `strategy` for primary selection sets every entry as primary in the IG.
+* The `"namespace"` `strategy` for primary selection sets every entry found in the namespaces in the `primary` array as primary in the IG.
+* The `"hybrid"` `strategy` for primary selection sets every entry listed in the `primary` array or found in the namespaces in the `primary` array as primary in the IG.
+* If there is no `strategy` set in the `implementationGuide.primarySelectionStrategy`, the default operation is the `"entry"` `strategy`.
+
+When specifying a namespace or element in the `target` or `primary` array of either strategy, it is best
 to use the fully qualified name (FQN) format for doing so. For example, a namespace could be
 `"shr.oncology"` and an element could be `"shr.oncology.BreastCancerStage"`.
 
