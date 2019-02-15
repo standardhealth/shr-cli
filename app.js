@@ -65,6 +65,9 @@ const doES6 = program.exportEs6;
 // Create the output folder if necessary
 mkdirp.sync(program.out);
 
+var PrettyPrintDuplexStreamJson = require('./PrettyPrintDuplexStreamJson');
+const mdpStream = new PrettyPrintDuplexStreamJson();
+
 // Set up the logger streams
 const [ll, lm] = [program.logLevel.toLowerCase(), program.logMode.toLowerCase()];
 const streams = [];
@@ -73,7 +76,9 @@ if (lm == 'short' || lm == 'long') {
   prettyStdOut.pipe(process.stdout);
   streams.push({ level: ll, type: 'raw', stream: prettyStdOut});
 } else if (lm == 'json') {
-  streams.push({ level: ll, stream: process.stdout });
+  //streams.push({ level: ll, stream: process.stdout });  //uncomment to see ALL the messages                                                                         
+  streams.push({ level: ll, stream: mdpStream });
+  mdpStream.pipe(process.stdout);
 }
 // Setup a ringbuffer for counting the number of errors at the end
 const logCounter = new LogCounter();
@@ -177,7 +182,9 @@ if (doCIMCORE) {
         mkdirp.sync(path.dirname(hierarchyPath));
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
-        logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error "%s". ERROR_CODE:15004', namespace, error);
+        //logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error "%s". ERROR_CODE:15004', namespace, error);
+        //15004, 'Unable to successfully serialize ${nameSpace} meta information ${} into CIMCORE, failing with error ${errorText}', 'Unknown, 'errorNumber'
+        logger.error({nameSpace: namespace, errorText: error }, '15004' );
       }
     }
 
@@ -193,7 +200,9 @@ if (doCIMCORE) {
         mkdirp.sync(path.dirname(hierarchyPath));
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
-        logger.error('Unable to successfully serialize element %s into CIMCORE, failing with error "%s". ERROR_CODE:15001', de.identifier.fqn, error);
+        //logger.error('Unable to successfully serialize element %s into CIMCORE, failing with error "%s". ERROR_CODE:15001', de.identifier.fqn, error);
+        //15001, 'Unable to successfully serialize element ${identifierName} into CIMCORE, failing with error ${errorText}',  'Unknown, 'errorNumber'
+        logger.error({identifierName: de.identifier.fqn, errorText: error }, '15001');
       }
     }
 
@@ -209,7 +218,9 @@ if (doCIMCORE) {
         mkdirp.sync(path.dirname(hierarchyPath));
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
-        logger.error('Unable to successfully serialize value set %s into CIMCORE, failing with error "%s". ERROR_CODE:15002', vs.identifier.fqn, error);
+        //logger.error('Unable to successfully serialize value set %s into CIMCORE, failing with error "%s". ERROR_CODE:15002', vs.identifier.fqn, error);
+        //15002, 'Unable to successfully serialize value set ${valueSet} into CIMCORE, failing with error ${errorText}',	'Unknown, 'errorNumber'
+        logger.error({valueSet:vs.identifier.fqn, errorText: error}, '15002');
       }
     }
 
@@ -226,7 +237,9 @@ if (doCIMCORE) {
           mkdirp.sync(path.dirname(hierarchyPath));
           fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
         } catch (error) {
-          logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error "%s". ERROR_CODE:15003', mapping.identifier.fqn, error);
+          //logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error "%s". ERROR_CODE:15003', mapping.identifier.fqn, error);
+          //15003, 'Unable to successfully serialize mapping ${mappingIdentifier} into CIMCORE, failing with error ${errorText}',	 'Unknown, 'errorNumber'
+          logger.error({mappingIdentifier:mapping.identifier.fqn, errorText:error },'15003');
         }
       }
     }
@@ -271,7 +284,9 @@ if (doES6) {
     };
     handleNS(es6Results, es6Path);
   } catch (error) {
-    logger.fatal('Failure in ES6 export. Aborting with error message: %s', error);
+    //logger.fatal('Failure in ES6 export. Aborting with error message: %s', error);
+    //15100, 'Failure in ES6 export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+    logger.fatal({errorText: JSON.stringify(error) },'15100');
     failedExports.push('shr-es6-export');
   }
 } else {
