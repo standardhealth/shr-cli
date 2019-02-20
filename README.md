@@ -234,6 +234,20 @@ Namespace: oncocore
     // ... more ...
 ```
 
+# Comment Preservation
+
+When running the CIMPL 6.0 exporter, comments from the CIMPL 5 files are not preserved in the resulting
+exported CIMPL 6.0 files. Thus, in order to try and best preserve the comments, the Python 3 script comments.py
+can be run from the command line and it will take in the directory where the CIMPL 5 files with comments are held
+and the directory where the exported CIMPL 6.0 files are present. It will then in a new directory called comments
+place the commented CIMPL 6.0 files. One thing to note is that the program assumes that comments will be after a particular line. Thus, any comments that are present above a particular declaration may not be preserved properly
+except for those at the start of the file.
+
+This is how you can run the script.
+```
+python3 comments.py [Directory of CIMPL 5 Files] [Directory of Exported CIMPL 6.0 files]
+```
+
 # License
 
 Copyright 2016, 2017 The MITRE Corporation
