@@ -243,6 +243,12 @@ and the directory where the exported CIMPL 6.0 files are present. It will then i
 place the commented CIMPL 6.0 files. One thing to note is that the program assumes that comments will be after a particular line. Thus, any comments that are present above a particular declaration may not be preserved properly
 except for those at the start of the file.
 
+Note: When specifying the directory, after specifying the last part of the path, be sure to include a / at the end.
+Example: If your input directory is the spec folder in the shr_spec directory, then you should give something like:
+../shr_spec/spec/
+The same holds for the directory of exported CIMPL 6.0 files. Make sure to include a slash at the end of the path.
+
+
 This is how you can run the script.
 ```
 python3 comments.py [Directory of CIMPL 5 Files] [Directory of Exported CIMPL 6.0 files]
