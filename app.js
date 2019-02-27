@@ -330,9 +330,14 @@ if (doModelDoc) {
 if (doGraph) {
   try {
     const graphTree = shrGr.exportToGraph(expSpecifications);
-    const graphPath = path.join(program.out, 'graph');
-    mkdirp.sync(graphPath);
-    fs.writeFileSync(path.join(graphPath, 'graph.json'), JSON.stringify(graphTree));
+    const graphOutputPath = path.join(program.out, 'graph');
+    mkdirp.sync(graphOutputPath);
+    fs.writeFileSync(path.join(graphOutputPath, 'tree.js'), 'const tree = ' + JSON.stringify(graphTree,  null, '  '));
+    // Need to copy over the graph viewer files to the output directory
+    const graphResourcePath = path.join(input, configSpecifications.graphDirectory);
+    if (fs.existsSync(graphResourcePath)) {
+      fs.copySync(graphResourcePath, graphOutputPath);
+    }
   } catch (error) {
     logger.fatal('Failure in Graph export. Aborting with error message: %s', error);
     failedExports.push('shr-graph-export');
