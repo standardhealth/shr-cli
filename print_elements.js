@@ -11,7 +11,7 @@ module.exports = function printElements(specs, config, out) {
   mkdirp.sync(out);
   //console.log('******** writing lines to ' + out);
   //console.log(JSON.stringify(specs));
-  let lines = ['Data Element,Cardinality,Data Type,Value Set,Description'];
+  let lines = ['Namespace,Data Element,Cardinality,Data Type,Value Set,Description'];
   for (const ns of specs.dataElements.namespaces) {
     printElementsInNamespace(specs, ns, out, lines );
   }
@@ -47,7 +47,7 @@ function printElementsInNamespace(specs, namespace, out, lines) {
       const dataType = getDataType(fValueAndPath);
       const valueSet = getValueSet(f, fValueAndPath);
       //deFieldLines.push(`${de.identifier.name}.${name},${card},${dataType},${valueSet},${description}`);
-      deFieldLines.push(`"${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${description}"`);
+      deFieldLines.push(`"${namespace}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${description}"`);
     }
     deFieldLines.sort((a, b) => {
       if (a.startsWith(`${de.identifier.name}.Value,`)) return -1;
