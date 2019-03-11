@@ -3,26 +3,24 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 const { Identifier } = require('shr-models');
 
-//const chalk = require('chalk');   //library for colorizing Strings
-//const redColor = chalk.bold.redBright;
-//const greenColor = chalk.bold.greenBright;
+
+const chalk = require('chalk');   //library for colorizing Strings
+const redColor = chalk.bold.redBright;
+const greenColor = chalk.bold.greenBright;
 
 module.exports = function printElements(specs, config, out) {
   mkdirp.sync(out);
-  //console.log('******** writing lines to ' + out);
-  //console.log(JSON.stringify(specs));
   let lines = ['Namespace,Data Element,Cardinality,Data Type,Value Set,Description'];
   for (const ns of specs.dataElements.namespaces) {
     printElementsInNamespace(specs, ns, out, lines );
   }
-  //console.log('********writing to ' + out);
   fs.writeFileSync(path.join(out, 'elements.csv'), lines.join('\n'));
 };
 
 function printElementsInNamespace(specs, namespace, out, lines) {
   //const lines = ['Data Element,Cardinality,Data Type,Value Set'];
   const dataElements = specs.dataElements.byNamespace(namespace).sort((a, b) => a.identifier.name < b.identifier.name ? -1 : 1);
-  //console.log('**** dataElements=' + JSON.stringify(dataElements) + '\n\n\n\n');
+  console.log('**** dataElements=' + JSON.stringify(dataElements) + '\n\n\n\n');
   for (const de of dataElements) {
     //console.log(greenColor('\n\t\t de=' + JSON.stringify(de)));
     let description = de.description;
@@ -30,9 +28,12 @@ function printElementsInNamespace(specs, namespace, out, lines) {
     lines.push(de.identifier.name);
     const deFieldLines = [];
     const valueAndFields = [de.value, ...de.fields];
-    //console.log(redColor(valueAndFields));
+    console.log('valueAndFields=' + redColor(valueAndFields));
+    console.log('### de=' + JSON.stringify(de));
     for (let i=0; i < valueAndFields.length; i++) {
       const f = valueAndFields[i];
+      console.log('field1=' + JSON.stringify(f));
+
       let name = i>0 ? f.identifier.name : 'Value';
       if (name === undefined || name === null) {
         name = ' ';
@@ -47,7 +48,22 @@ function printElementsInNamespace(specs, namespace, out, lines) {
       const dataType = getDataType(fValueAndPath);
       const valueSet = getValueSet(f, fValueAndPath);
       //deFieldLines.push(`${de.identifier.name}.${name},${card},${dataType},${valueSet},${description}`);
-      deFieldLines.push(`"${namespace}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${description}"`);
+      
+      
+      let descrip = '';
+      if (f !== undefined && f !== null) {
+        descrip = f.description;
+        descrip = getDescription( specs, f );
+        if (descrip === undefined || descrip === null) {
+          descrip = de.description;
+        }
+      }
+      
+      //descrip = JSON.stringify(dive(de, 'description'));
+      console.log('!!! descrip=' + descrip);
+      //deFieldLines.push(`"${namespace}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${de.description}"`);
+      deFieldLines.push(`"${namespace}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${descrip}"`);
+      console.log(`"${namespace}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${descrip}"`);
     }
     deFieldLines.sort((a, b) => {
       if (a.startsWith(`${de.identifier.name}.Value,`)) return -1;
@@ -63,7 +79,16 @@ function printElementsInNamespace(specs, namespace, out, lines) {
 function dive(specs, field, path=[]) {
   if (field !== undefined && field !== null ) {	
     if (field.identifier) {
+      console.log('@@@ field.identifier=' + field.identifier + ' field=' + field);
       const fDef = specs.dataElements.findByIdentifier(field.effectiveIdentifier);
+      console.log('fDef=' + JSON.stringify(fDef));
+      
+      if (fDef !== undefined ) {
+        if (fDef.description !== undefined) {
+          //let desc = fDef.description;
+          console.log('fDef.description=' + JSON.stringify(fDef.description));
+        }
+      }
       if (fDef && fDef.value && fDef.fields.length == 0) {
         path.push(fDef.value.identifier ? fDef.value.identifier : new Identifier('', 'Value'));
         return dive(specs, fDef.value, path);
@@ -75,6 +100,36 @@ function dive(specs, field, path=[]) {
   }
   return { value: field, path };
 }
+
+function getDescription(specs, field ) {
+  if (field !== undefined && field !== null ) {	
+    if (field.identifier) {
+      console.log('@@@ field.identifier=' + field.identifier + ' field=' + field);
+      const fDef = specs.dataElements.findByIdentifier(field.effectiveIdentifier);
+      console.log('fDef=' + JSON.stringify(fDef));
+      
+      if (fDef !== undefined ) {
+        if (fDef.description !== undefined) {
+          //let desc = fDef.description;
+          return( JSON.stringify(fDef.description));
+        }
+      }
+      else {
+        return('');
+      }
+      //if (fDef && fDef.value && fDef.fields.length == 0) {
+      //  path.push(fDef.value.identifier ? fDef.value.identifier : new Identifier('', 'Value'));
+      //  return dive(specs, fDef.value, path);
+      // }
+    }
+  }
+  else {
+    return { value: '' , path};
+  }
+  //return { value: field, path };
+}
+
+
 
 function getDataType(valueAndPath) {
   let type = '';
