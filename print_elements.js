@@ -20,7 +20,7 @@ module.exports = function printElements(specs, config, out) {
 function printElementsInNamespace(specs, namespace, out, lines) {
   //const lines = ['Data Element,Cardinality,Data Type,Value Set'];
   const dataElements = specs.dataElements.byNamespace(namespace).sort((a, b) => a.identifier.name < b.identifier.name ? -1 : 1);
-  console.log('**** dataElements=' + JSON.stringify(dataElements) + '\n\n\n\n');
+  //console.log('**** dataElements=' + JSON.stringify(dataElements) + '\n\n\n\n');
   for (const de of dataElements) {
     //console.log(greenColor('\n\t\t de=' + JSON.stringify(de)));
     let description = de.description;
@@ -28,11 +28,11 @@ function printElementsInNamespace(specs, namespace, out, lines) {
     lines.push(de.identifier.name);
     const deFieldLines = [];
     const valueAndFields = [de.value, ...de.fields];
-    console.log('valueAndFields=' + redColor(valueAndFields));
-    console.log('### de=' + JSON.stringify(de));
+    //console.log('valueAndFields=' + redColor(valueAndFields));
+    //console.log('### de=' + JSON.stringify(de));
     for (let i=0; i < valueAndFields.length; i++) {
       const f = valueAndFields[i];
-      console.log('field1=' + JSON.stringify(f));
+      //console.log('field1=' + JSON.stringify(f));
 
       let name = i>0 ? f.identifier.name : 'Value';
       if (name === undefined || name === null) {
@@ -54,16 +54,21 @@ function printElementsInNamespace(specs, namespace, out, lines) {
       if (f !== undefined && f !== null) {
         descrip = f.description;
         descrip = getDescription( specs, f );
+        
         if (descrip === undefined || descrip === null) {
           descrip = de.description;
+        }
+        else {
+          descrip = descrip.replace(/["]+/g,'');
+          console.log('descrip=:' + descrip + ':');
         }
       }
       
       //descrip = JSON.stringify(dive(de, 'description'));
-      console.log('!!! descrip=' + descrip);
+      //console.log('!!! descrip=' + descrip);
       //deFieldLines.push(`"${namespace}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${de.description}"`);
       deFieldLines.push(`"${namespace}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${descrip}"`);
-      console.log(`"${namespace}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${descrip}"`);
+      //console.log(`"${namespace}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${descrip}"`);
     }
     deFieldLines.sort((a, b) => {
       if (a.startsWith(`${de.identifier.name}.Value,`)) return -1;
@@ -79,14 +84,14 @@ function printElementsInNamespace(specs, namespace, out, lines) {
 function dive(specs, field, path=[]) {
   if (field !== undefined && field !== null ) {	
     if (field.identifier) {
-      console.log('@@@ field.identifier=' + field.identifier + ' field=' + field);
+      //console.log('@@@ field.identifier=' + field.identifier + ' field=' + field);
       const fDef = specs.dataElements.findByIdentifier(field.effectiveIdentifier);
-      console.log('fDef=' + JSON.stringify(fDef));
+      //console.log('fDef=' + JSON.stringify(fDef));
       
       if (fDef !== undefined ) {
         if (fDef.description !== undefined) {
           //let desc = fDef.description;
-          console.log('fDef.description=' + JSON.stringify(fDef.description));
+          //console.log('fDef.description=' + JSON.stringify(fDef.description));
         }
       }
       if (fDef && fDef.value && fDef.fields.length == 0) {
@@ -104,9 +109,9 @@ function dive(specs, field, path=[]) {
 function getDescription(specs, field ) {
   if (field !== undefined && field !== null ) {	
     if (field.identifier) {
-      console.log('@@@ field.identifier=' + field.identifier + ' field=' + field);
+      //console.log('@@@ field.identifier=' + field.identifier + ' field=' + field);
       const fDef = specs.dataElements.findByIdentifier(field.effectiveIdentifier);
-      console.log('fDef=' + JSON.stringify(fDef));
+      //console.log('fDef=' + JSON.stringify(fDef));
       
       if (fDef !== undefined ) {
         if (fDef.description !== undefined) {
