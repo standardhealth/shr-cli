@@ -1122,10 +1122,10 @@ shr-expand@^5.7.0:
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.7.0.tgz#a9bd0d2c099dada0345b734613252c55e61710ba"
   integrity sha512-wUJDV/uusXSM3ZSUTY1xsGhO5XTZcIvUqYC0r2lQBOIlkF76CmFNW048c1av5gJwjTD1s534PYKcM65jGxPWqw==
 
-shr-fhir-export@^5.12.0-beta.1:
-  version "5.12.0-beta.1"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.12.0-beta.1.tgz#5bb4c0dfe460de05a7629b5e69f84ad112bbf172"
-  integrity sha512-Kk/VAQuo3bBLzQkO69BT95BtLF2N4IhOzpezzNaxgWIdUyDSza+IiTJnTHy3XDXt1OsBDN484fWhoB74GgAhFQ==
+shr-fhir-export@^5.12.0:
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.12.0.tgz#74bb73471bf3557c32cac22246677d3b92dc1b41"
+  integrity sha512-f7qsSiwDCjmG+DoF4nQHJAsc60N0BLIJRncGUWZ1H1UK4zVPrf4oKOm+VkYhqfq8Dd9g8X1IraYtmeX+92Y/xg==
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
