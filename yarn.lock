@@ -1150,15 +1150,15 @@ shr-json-schema-export@^5.3.2:
   resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.2.tgz#8840b62eb6a882cb242043e93733e1f3bd472a21"
   integrity sha512-sv8TF5VNh/JlJg5M7ZtPUSuKrKrjSsrUg11JYtpWevvfSwyfgM3T0KkL9bsyoAr1QCLwYRiosZFV89FZDregEA==
 
-shr-models@^5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.6.0.tgz#905be9a16c2fcf553fd6ede6a7a120487a48d92d"
-  integrity sha512-XI2TN4fny8sn2y/yO1PYrbfrOASPJkY5oh+9nxwdRXQ9EMz0wJ2VfL8Om5y5OXvJlf/N92oBLhqIXjkKDBnpYg==
+shr-models@^5.7.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.7.0.tgz#53856c17017ffb98a5a6d58296dd2201692d9762"
+  integrity sha512-uiyEO1PVnyxT8mu9v/8PbfN3rgY7k/qXtrKfU/Tdz/ePoRx+VLEbl25I3eWAbdwGb7QhbztMJ9z4l67/MvBoOA==
 
-shr-text-import@^5.5.1:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.5.1.tgz#04c6d61a5cc543048cfc846da38d9877b95c59ab"
-  integrity sha512-8SXMeRqCUtYhU9r1KO/CjVRCaCbMZUZqJCp27IowumlaeBb7VWnCxsMQ7b6yftdygtq7jrlAkf+ATuBPUJe7Bg==
+shr-text-import@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.6.0.tgz#b5d733a4160c86850efad6ea60acd1b2a1818b13"
+  integrity sha512-I5mZ4Fw10c4JTMtYAnUy04t7adkfnOufyMwFf8kaKwyp64kNpGZ0ByOlbAybgWUr9lc2LmdzoAVE/zSYdfrsbA==
   dependencies:
     antlr4 "~4.6.0"
 
