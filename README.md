@@ -64,7 +64,7 @@ For more information on Bunyan and Bunyan CLI, see the Bunyan documentation.
 
 # Creating the FHIR Implementation Guide
 
-After exporting the SHR definitions, the FHIR IG Publisher tool can be used to create a FHIR implementation guide, containing HTML documentation, bundled definitions, and more.  This requires that the Java Runtime Environment (JRE) 8/9 or Java SDK (JSDK) are installed on your system.  It also requires Jekyll ([Mac/Linux](https://jekyllrb.com/) / [Windows](http://jekyll-windows.juthilo.com/1-ruby-and-devkit/)). After ensuring they are installed, run the following command:
+After exporting the SHR definitions, the FHIR Implementation Guide (IG) Publisher tool can be used to create a FHIR implementation guide, containing HTML documentation, bundled definitions, and more.  This requires that the Java Runtime Environment (JRE) 8/9 or Java SDK (JSDK) are installed on your system.  It also requires Jekyll ([Mac/Linux](https://jekyllrb.com/) / [Windows](http://jekyll-windows.juthilo.com/1-ruby-and-devkit/)). After ensuring they are installed, run the following command:
 ```
 $ yarn run ig:publish
 ```
@@ -100,8 +100,14 @@ On Windows:
 ```
 
 # Configuration File
+When using this command-line interface and IG publisher, the general order of operations is as follows:
 
-The SHR tools require a configuration file in the path to the SHR specification definitions. Configuration files *must* be valid JSON, have at least the `projectName` property, and use the `.json` file extension.
+1. The command-line interface (CLI) imports SHR definitions that have been written (as in the [shr_spec](https://github.com/standardhealth/shr_spec) repo) and parses them through a text importer.
+2. CLI applies filters, according to the `filterStrategy` (see below).
+3. CLI exports the filtered SHR definitions into desired formats, such as ES6, JSON, FHIR, etc. The exports can be selected through command line options, as explained above.
+4. (separate, optional step) The IG publisher takes the SHR FHIR export and generates an IG from the information in these files, following the `implementationGuide` configuration (see below).
+
+To control this process, CLI requires a configuration file. Configuration files *must* be valid JSON, have at least the `projectName` property, and use the `.json` file extension. The configuration file must be located in the path to the SHR specification definitions. 
 
 If a configuration file name is specified using the `-c` command line option, the SHR tools look for a file with this name in the specification definitions directory. If it cannot be found or it is an invalid configuration file, an error is returned. If no configuration file is specified at startup, the SHR tools look for a file called `config.json` in this directory. If it is not found, a default `config.json` file is auto-generated and used.
 
@@ -115,28 +121,27 @@ The contents of the configuration file are as follows:
 |`fhirURL`            |`string`|The FHIR IG URL for the project.                               |
 |`fhirTarget`         |`string`|The FHIR target for the project (`FHIR_STU_3` or `FHIR_DSTU_2`)|
 |`entryTypeURL`       |`string`|The root URL for the JSON schema `EntryType` field.            |
+|`filterStrategy`     |`{}`    |An object containing configuration for filtering.              |
 |`implementationGuide`|`{}`    |An object containing configuration for IG publishing.          |
-|`filterStrategy`     |`{}`    |An object containing configuration for specification filtering.|
 |`publisher`          |`string`|The name of the publisher for the project.                     |
 |`contact`            |`[]`    |The array of FHIR `ContactPoint`s to reach about the project.  |
 
-The contents of the `implementationGuide` object are as follows:
+## Project Name and Publisher
 
-|Parameter                 |Type     |Description                                                    |
-|:-------------------------|:--------|:--------------------------------------------------------------|
-|`npmName`                 |`string` |The assigned npm-name for this IG, used for package management.|
-|`version`                 |`string` |The version of this IG (not necessarily the version of FHIR).  |
-|`includeLogicalModels`    |`boolean`|A value indicating whether to include logical models in the IG.|
-|`includeModelDoc`         |`boolean`|A value indicating whether to include the model doc in the IG. |
-|`indexContent`            |`string` |The name of the file or folder to place the IG index content.  |
-|`primarySelectionStrategy`|`{}`     |The strategy for selection of what is primary in the IG.       |
+* `projectName`
+* `projectShorthand`
+* `publisher`
+* `contact`
 
-The contents of the `implementationGuide` object's `primarySelectionStrategy` object are as follows:
+## Project URLs and FHIR Target
 
-|Parameter |Type    |Description                                                                                                 |
-|:---------|:-------|:-----------------------------------------------------------------------------------------------------------|
-|`strategy`|`string`|The strategy to follow for primary selection (`"namespace"`, `"hybrid"`, or default `"entry"`).|
-|`primary` |`[]    `|An array of strings containing the namespaces and entries to select as primary (only used for `"namespace"` and `"hybrid"` `strategy`).|
+* `projectURL`
+* `fhirURL`
+* `fhirTarget`
+* `entryTypeURL`
+
+## Filter Configuration
+Between import (step 1) and export (step 3), there is an opportunity to remove unwanted elements to limit the scope of the exports, and subsequently, the IG. If only a subset of the SHR definitions are desired, filtering down to target elements or namespaces causes only those targets (and their dependencies) to be exported, ignoring the rest.
 
 The contents of the `filterStrategy` object are as follows:
 
@@ -146,38 +151,47 @@ The contents of the `filterStrategy` object are as follows:
 |`strategy`|`string` |The strategy for specification filtering (`"namespace"`, `"element"`, or `"hybrid"`).|
 |`target`  |`[]`     |An array of strings containing the names for what to filter.                         |
 
-# Filter Strategy and Primary Selection Strategy
-
-When using this command-line interface and IG publisher, the general order of operations is as follows:
-
-1. The command-line interface takes in SHR definitions that have been written (as in the [shr_spec](https://github.com/standardhealth/shr_spec) repo) and parses them through a text importer.
-2. The command-line interface exports these parsed SHR definitions files into desired formats, such as ES6, JSON, FHIR, etc.
-3. (optional) The IG publisher takes the SHR FHIR exports and generates an IG from the information in these files.
-
-Often times when exporting files and creating implementation guides, between steps 1 and 2 above, it may be necessary to remove extraneous elements written into the SHR definition files, or highlight specific elements as more important in the IG. This is where the filter strategy and primary selection strategy come into play.
-
-The filter strategy is used to determine which elements from the SHR definitions are processed through the various exporters. If only a subset of the SHR definitions are desired in an export, or a subsequent IG generation, then filtering down to target elements or namespaces causes only those targets (and their dependencies) to be exported, ignoring the rest.
-
-The options for the configuration file's `implementationGuide.filterStrategy` are described below.
-
-* The `"element"` `strategy` for filtering will filter the specifications to only include the elements listed in the `target` array and their recursive dependencies.
-* The `"namespace"` `strategy` for filtering will filter the specifications to only include the elements included in the namespaces listed in the `target` array and their recursive dependencies.
-* The `"hybrid"` `strategy` for filtering will filter the specifications to only include the elements listed in the `target` array and included in the namespaces listed in the `target` array and their recursive dependencies.
+* The `"element"` `strategy` will filter the specifications to include each `EntryElement` listed in the `target` array and their recursive dependencies (other `EntryElement`, `Element`, and `ValueSet` definitions referenced by the selected `EntryElements`).
+* The `"namespace"` `strategy` will filter the specifications to include each `EntryElement` in the namespaces listed in the `target` array and their recursive dependencies.
+* The `"hybrid"` `strategy` will filter the specifications to include each `EntryElement` listed in the `target` array and all `EntryElements` in every namespace listed in the `target` array, and their recursive dependencies.
 * If `filter` is `true`, then the filtering operation will occur. Otherwise, no filtering will occur.
-* If there is no `implementationGuide.filterStrategy` set, filtering will not occur.
+* If there is no `filterStrategy` or `strategy`, filtering will not occur.
 
-The primary selection strategy is used to set certain entries in the IG as primary. This causes those entries to be listed in a "Primary" section at the top of their respective pages in the IG, displaying them as most directly relevant. All other elements are listed in a "Supporting" section below the "Primary" section.
+When specifying a namespace or element in the `target` array, it is best to use the fully qualified name (FQN) format for doing so. For example, a namespace could be `"shr.oncology"` and an element could be `"shr.oncology.BreastCancerStage"`. 
+
+## Implementation Guide Configuration
+These configurations are used to highlight specific elements as more important in the IG. This is where the `implementationGuide` configuration comes into play.
+ 
+The contents of the `implementationGuide` object are as follows:
+
+|Parameter                 |Type     |Description                                                    |
+|:-------------------------|:--------|:--------------------------------------------------------------|
+|`npmName`                 |`string` |The assigned npm-name (see note) for this IG,                  |
+|`version`                 |`string` |The version of this IG (not necessarily the version of FHIR).  |
+|`includeLogicalModels`    |`boolean`|A value indicating whether to include logical models in the IG.|
+|`includeModelDoc`         |`boolean`|A value indicating whether to include the model doc in the IG. |
+|`indexContent`            |`string` |The name of the file or folder to place the IG index content.  |
+|`primarySelectionStrategy`|`{}`     |The strategy for selection of what is primary in the IG.       |
+
+Note: the npm-name is _______________________
+
+The contents of the `primarySelectionStrategy` object are as follows:
+
+|Parameter |Type    |Description                                                                                                 |
+|:---------|:-------|:-----------------------------------------------------------------------------------------------------------|
+|`strategy`|`string`|The strategy to follow for primary selection (`"namespace"`, `"hybrid"`, or default `"entry"`).             |
+|`primary` |`[]    `|An array containing the namespaces and entries (only used for `"namespace"` and `"hybrid"` `strategy`).     |
+
+The primary selection strategy causes certain profiles to be listed in a "Primary" section at the top of their respective pages in the IG, displaying them as most directly relevant. All other profiles exported in step 3 are listed in a "Supporting" section below the "Primary" section.
 
 The options for the configuration file's `implementationGuide.primarySelectionStrategy` are described below.
 
-* The `"entry"` `strategy` for primary selection sets every entry as primary in the IG.
-* The `"namespace"` `strategy` for primary selection sets every entry found in the namespaces in the `primary` array as primary in the IG.
+* The `"entry"` `strategy` selects every profile in the filtered set as primary in the IG.
+* The `"namespace"` `strategy` selects every profile found in the namespaces of the `primary` array as primary in the IG.
 * The `"hybrid"` `strategy` for primary selection sets every entry listed in the `primary` array or found in the namespaces in the `primary` array as primary in the IG.
 * If there is no `strategy` set in the `implementationGuide.primarySelectionStrategy`, the default operation is the `"entry"` `strategy`.
 
-When specifying a namespace or element in the `target` or `primary` array of either strategy, it is best
-to use the fully qualified name (FQN) format for doing so. For example, a namespace could be
-`"shr.oncology"` and an element could be `"shr.oncology.BreastCancerStage"`.
+When specifying a namespace or element in the `primary` array, it is best to use the fully qualified name (FQN) format for doing so. For example, a namespace could be `"shr.oncology"` and an element could be `"shr.oncology.BreastCancerStage"`.
 
 # License
 
