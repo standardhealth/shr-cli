@@ -194,6 +194,39 @@ The options for the configuration file's `implementationGuide.primarySelectionSt
 
 When specifying a namespace or element in the `primary` array, it is best to use the fully qualified name (FQN) format for doing so. For example, a namespace could be `"shr.oncology"` and an element could be `"shr.oncology.BreastCancerStage"`.
 
+## Content Profile
+
+The content profile allows authors to indicate the fields and paths that should be marked as "Must Support".  Future versions of content profiles will allow for additional features.
+
+The following demonstrates the correct format for a content profile file:
+```
+Grammar: ContentProfile 1.0
+
+Namespace: shr.core
+    Patient:
+        Person.DateOfBirth MS
+        Person.AdministrativeGender MS
+        Person.Race MS
+        Person.Ethnicity MS
+        Person.Address.PostalCode MS
+        Person.Deceased MS
+    ComorbidCondition:
+        PatientSubjectOfRecord MS
+        Code MS
+        ClinicalStatus MS
+    // ... more ...
+
+Namespace: oncocore
+    CancerCondition:
+        PatientSubjectOfRecord MS
+        Code MS
+        ClinicalStatus MS
+        BodyLocation.LocationCode MS
+        MorphologyBehavior MS
+        DateOfDiagnosis MS
+    // ... more ...
+```
+
 # License
 
 Copyright 2016, 2017 The MITRE Corporation
