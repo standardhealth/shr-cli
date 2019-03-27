@@ -107,7 +107,7 @@ When using this command-line interface and IG publisher, the general order of op
 3. CLI exports the filtered SHR definitions into desired formats, such as ES6, JSON, FHIR, etc. The exports can be selected through command line options, as explained above.
 4. (separate, optional step) The IG publisher takes the SHR FHIR export and generates an IG from the information in these files, following the `implementationGuide` configuration (see below).
 
-To control this process, CLI requires a configuration file. Configuration files *must* be valid JSON, have at least the `projectName` property, and use the `.json` file extension. The configuration file must be located in the path to the SHR specification definitions. 
+To control this process, CLI requires a configuration file. Configuration files *must* be valid JSON, have at least the `projectName` property, and use the `.json` file extension. The configuration file must be located in the path to the SHR specification definitions.
 
 If a configuration file name is specified using the `-c` command line option, the SHR tools look for a file with this name in the specification definitions directory. If it cannot be found or it is an invalid configuration file, an error is returned. If no configuration file is specified at startup, the SHR tools look for a file called `config.json` in this directory. If it is not found, a default `config.json` file is auto-generated and used.
 
@@ -122,6 +122,7 @@ The contents of the configuration file are as follows:
 |`fhirTarget`         |`string`|The FHIR target for the project (`FHIR_STU_3` or `FHIR_DSTU_2`)|
 |`entryTypeURL`       |`string`|The root URL for the JSON schema `EntryType` field.            |
 |`filterStrategy`     |`{}`    |An object containing configuration for filtering.              |
+|`contentProfile`     |`string`|The base file name for the content profile for the project.    |
 |`implementationGuide`|`{}`    |An object containing configuration for IG publishing.          |
 |`publisher`          |`string`|The name of the publisher for the project.                     |
 |`contact`            |`[]`    |The array of FHIR `ContactPoint`s to reach about the project.  |
@@ -157,11 +158,11 @@ The contents of the `filterStrategy` object are as follows:
 * If `filter` is `true`, then the filtering operation will occur. Otherwise, no filtering will occur.
 * If there is no `filterStrategy` or `strategy`, filtering will not occur.
 
-When specifying a namespace or element in the `target` array, it is best to use the fully qualified name (FQN) format for doing so. For example, a namespace could be `"shr.oncology"` and an element could be `"shr.oncology.BreastCancerStage"`. 
+When specifying a namespace or element in the `target` array, it is best to use the fully qualified name (FQN) format for doing so. For example, a namespace could be `"shr.oncology"` and an element could be `"shr.oncology.BreastCancerStage"`.
 
 ## Implementation Guide Configuration
 These configurations are used to highlight specific elements as more important in the IG. This is where the `implementationGuide` configuration comes into play.
- 
+
 The contents of the `implementationGuide` object are as follows:
 
 |Parameter                 |Type     |Description                                                    |
@@ -192,6 +193,39 @@ The options for the configuration file's `implementationGuide.primarySelectionSt
 * If there is no `strategy` set in the `implementationGuide.primarySelectionStrategy`, the default operation is the `"entry"` `strategy`.
 
 When specifying a namespace or element in the `primary` array, it is best to use the fully qualified name (FQN) format for doing so. For example, a namespace could be `"shr.oncology"` and an element could be `"shr.oncology.BreastCancerStage"`.
+
+## Content Profile
+
+The content profile allows authors to indicate the fields and paths that should be marked as "Must Support".  Future versions of content profiles will allow for additional features.
+
+The following demonstrates the correct format for a content profile file:
+```
+Grammar: ContentProfile 1.0
+
+Namespace: shr.core
+    Patient:
+        Person.DateOfBirth MS
+        Person.AdministrativeGender MS
+        Person.Race MS
+        Person.Ethnicity MS
+        Person.Address.PostalCode MS
+        Person.Deceased MS
+    ComorbidCondition:
+        PatientSubjectOfRecord MS
+        Code MS
+        ClinicalStatus MS
+    // ... more ...
+
+Namespace: oncocore
+    CancerCondition:
+        PatientSubjectOfRecord MS
+        Code MS
+        ClinicalStatus MS
+        BodyLocation.LocationCode MS
+        MorphologyBehavior MS
+        DateOfDiagnosis MS
+    // ... more ...
+```
 
 # License
 

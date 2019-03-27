@@ -86,6 +86,11 @@ class SpecificationsFilter {
       }
     }
 
+    // Just copy over the content profiles untouched
+    for (const cp of this._expSpecs.contentProfiles.all) {
+      this._filteredExpSpecs.contentProfiles.add(cp.clone());
+    }
+
     // In some cases (like cimcore import, this._specs may be null)
     if (this._specs != null) {
       // filter specifications based on filtered expanded specifications
@@ -116,6 +121,10 @@ class SpecificationsFilter {
             this._filteredSpecs.maps.add(map);
           }
         }
+      }
+      // Just copy over the content profiles untouched
+      for (const cp of this._specs.contentProfiles.all) {
+        this._filteredSpecs.contentProfiles.add(cp.clone());
       }
     }
 
