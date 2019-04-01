@@ -13,7 +13,7 @@ function camelCaseToHumanReadable( instring ) {
   let res = '';
   for (let letter of instring) {
     if (letter === '.') {
-      res = res + ' -';
+      res = res + ' ';
     }
     else if (letter !== letter.toUpperCase() ) {
       res = res + letter;
@@ -62,7 +62,7 @@ function printElementsInNamespace(specs, namespace, out, lines) {
     const myRegex2 = /^Observation/i;
     if (myRegex2.test(de.identifier.name)  )  {
     //  if (myRegex2.test(`{${de.identifier.name}.${name}`)  )  
-      console.log('************* de.identifier.name=' + de.identifier.name );
+      //console.log('************* de.identifier.name=' + de.identifier.name );
     }
     let ms = 'Must Support';
     //lines.push(`"${namespace}","${parent_element}","${de.identifier.name}",,"","","${de.description}"`);
@@ -100,6 +100,7 @@ function printElementsInNamespace(specs, namespace, out, lines) {
       }
       //console.log(`'iden=' "${de.identifier.name}.${name}"`);
       //const myRule = specs._contentProfiles.findRuleByIdentifierAndPath(name, de.identifier.name);
+      /*
       if (de.identifier.name === 'MophologyBehavior') {
         console.log('****** found MophologyBehavior');
       }
@@ -126,7 +127,7 @@ function printElementsInNamespace(specs, namespace, out, lines) {
           console.log( 'fqn=' + fqn);
         }
       }
-
+      */
       //deFieldLines.push(`"${namespace}","${parent_element}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${descrip}"`);
       //deFieldLines.push(`"${namespace}","${parent_element}","${de.identifier.name}.${name}","${descrip}",${card},"${dataType}","${valueSet}"`);
       const humanRead = camelCaseToHumanReadable(`${de.identifier.name}.${name}`);     
