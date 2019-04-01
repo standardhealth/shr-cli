@@ -69,12 +69,17 @@ if __name__ == "__main__":
                 extraction = slash_indices[0]
                 text = comment_hash[k][line][:extraction]
                 comment = comment_hash[k][line][extraction:]
+
                 if len(text.rstrip().strip()) > 0:
                     prev_line = text
                 if 'Element:' in prev_line:
                     current_element = prev_line.split(":")[1].rstrip().strip()
                     file_elements[k][current_element] = []
                 file_elements[k][current_element].append((prev_line, comment))
+                '''if k == 'brca.txt':
+                    print(current_element)
+                    print(comment)
+                    print(file_elements[k])'''
 
             elif '//' in comment_hash[k][line] and '://' in comment_hash[k][line]:
                 slash_indices = [m.start() for m in re.finditer('//', comment_hash[k][line])]
@@ -104,6 +109,8 @@ if __name__ == "__main__":
 
             elif 'Element:' in comment_hash[k][line]:
                 current_element = comment_hash[k][line].split(":")[1].rstrip().strip()
+                #print(current_element)
+                #print(k)
                 file_elements[k][current_element] = []
                 prev_line = comment_hash[k][line]
             else:
@@ -128,37 +135,45 @@ if __name__ == "__main__":
     output_dir = 'comments/'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-
+    added_comment_hash = dict()
     for k in new_cimpl_hash:
         new_terms = []
         current_term = ''
         comments = []
+        added_comment_hash[k] = dict()
         for a in range(0, len(new_cimpl_hash[k])):
             if a == 0:
                 initial_comments = file_elements[k]['DataElement 6.0']
                 for c in range(0, len(initial_comments)):
                     if len(initial_comments[c][0]) == 0:
                         new_terms.append(initial_comments[c][1])
-            new_terms.append(new_cimpl_hash[k][a])
-            bottom_comments = []
             if 'Grammar:' in new_cimpl_hash[k][a] or 'Entry:' in new_cimpl_hash[k][a] or 'Element:' in new_cimpl_hash[k][a] or 'Abstract:' in new_cimpl_hash[k][a]:
+                if len(current_term) > 0:
+                    for t in range(0, len(file_elements[k][current_term])):
+                        if not t in added_comment_hash[k][current_term]:
+                            new_terms.append(('\t'*9) + file_elements[k][current_term][t][1])
                 current_term = new_cimpl_hash[k][a].split(":")[1].rstrip().strip()
+                added_comment_hash[k][current_term] = []
+            new_terms.append(new_cimpl_hash[k][a])
             if current_term in file_elements[k]:
                 comments = file_elements[k][current_term]
                 if len(new_cimpl_hash[k][a].rstrip().strip()) > 0:
+                    added_comments = []
                     for b in range(0, len(comments)):
                         if len(comments[b][0]) == 0:
                             continue
                         five_line = set(remove_empty_str(keyTerms(comments[b][0]).rstrip().strip().replace('\t',' ').split(" ")))
                         six_line = set(remove_empty_str(new_cimpl_hash[k][a].rstrip().strip().replace('\t','').split(" ")))
                         new_set = five_line - six_line
-                        if len(new_set) == 0:
+                        if len(new_set) <= 1:
                             new_terms.append(('\t'*9) + comments[b][1])
-                        else:
-                            bottom_comments.append(('\t'*9) + comments[b][1])
-        new_terms = new_terms + bottom_comments
+                            added_comment_hash[k][current_term].append(b)
+        if k == 'brca.txt':
+            print(file_elements[k])
+            #print(new_cimpl_hash[k])
         file_name = output_dir + k
         a = open(file_name, 'w')
         for t in new_terms:
             a.write(t)
         a.close()
+        #print(file_elements['brca.txt'])
