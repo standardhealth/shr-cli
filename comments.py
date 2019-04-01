@@ -49,26 +49,19 @@ if __name__ == "__main__":
     for file in files(path_name):
         if '.txt' in file and not '_vs' in file and not '_map' in file:
             file_name = path_name + file
+            comment_hash[file] = []
             with open(file_name, 'r') as f:
-                all_lines = []
-                namespace = ''
                 for line in f:
-                    if 'Namespace' in line:
-                        namespace = line.split(":")[1].rstrip().strip()
-                    all_lines.append(line)
-                if not namespace in comment_hash:
-                    comment_hash[namespace] = all_lines
-                else:
-                    comment_hash[namespace] = comment_hash[namespace] + all_lines
+                    comment_hash[file].append(line)
 
     replacements = dict()
-    namespace_elements = dict()
+    file_elements = dict()
     for k in comment_hash:
         particular_comments = []
-        namespace_elements[k] = dict()
+        file_elements[k] = dict()
         current_element = 'DataElement 6.0'
         prev_line = ''
-        namespace_elements[k]['DataElement 6.0'] = []
+        file_elements[k]['DataElement 6.0'] = []
         line = 0
         while line < len(comment_hash[k]):
             if '//' in comment_hash[k][line] and not '://' in comment_hash[k][line]:
@@ -80,8 +73,8 @@ if __name__ == "__main__":
                     prev_line = text
                 if 'Element:' in prev_line:
                     current_element = prev_line.split(":")[1].rstrip().strip()
-                    namespace_elements[k][current_element] = []
-                namespace_elements[k][current_element].append((prev_line, comment))
+                    file_elements[k][current_element] = []
+                file_elements[k][current_element].append((prev_line, comment))
 
             elif '//' in comment_hash[k][line] and '://' in comment_hash[k][line]:
                 slash_indices = [m.start() for m in re.finditer('//', comment_hash[k][line])]
@@ -97,8 +90,8 @@ if __name__ == "__main__":
                                 prev_line = text
                             if 'Element:' in prev_line:
                                 current_element = prev_line.split(":")[1].rstrip().strip()
-                                namespace_elements[k][current_element] = []
-                            namespace_elements[k][current_element].append((prev_line, comment))
+                                file_elements[k][current_element] = []
+                            file_elements[k][current_element].append((prev_line, comment))
                             break
 
             elif '/*' in comment_hash[k][line]:
@@ -107,11 +100,11 @@ if __name__ == "__main__":
                     line += 1
                     long_comment += comment_hash[k][line]
 
-                namespace_elements[k][current_element].append((prev_line, long_comment))
+                file_elements[k][current_element].append((prev_line, long_comment))
 
             elif 'Element:' in comment_hash[k][line]:
                 current_element = comment_hash[k][line].split(":")[1].rstrip().strip()
-                namespace_elements[k][current_element] = []
+                file_elements[k][current_element] = []
                 prev_line = comment_hash[k][line]
             else:
                 if len(comment_hash[k][line].strip()) > 0:
@@ -128,14 +121,9 @@ if __name__ == "__main__":
             with open(file_name, 'r') as f:
                 all_lines = []
                 namespace = ''
+                new_cimpl_hash[file] = []
                 for line in f:
-                    if 'Namespace' in line:
-                        namespace = line.split(":")[1].rstrip().strip()
-                    all_lines.append(line)
-                if not namespace in new_cimpl_hash:
-                    new_cimpl_hash[namespace] = all_lines
-                else:
-                    new_cimpl_hash[namespace] = new_cimpl_hash[namespace] + all_lines
+                    new_cimpl_hash[file].append(line)
 
     output_dir = 'comments/'
     if not os.path.exists(output_dir):
@@ -147,7 +135,7 @@ if __name__ == "__main__":
         comments = []
         for a in range(0, len(new_cimpl_hash[k])):
             if a == 0:
-                initial_comments = namespace_elements[k]['DataElement 6.0']
+                initial_comments = file_elements[k]['DataElement 6.0']
                 for c in range(0, len(initial_comments)):
                     if len(initial_comments[c][0]) == 0:
                         new_terms.append(initial_comments[c][1])
@@ -155,8 +143,8 @@ if __name__ == "__main__":
             bottom_comments = []
             if 'Grammar:' in new_cimpl_hash[k][a] or 'Entry:' in new_cimpl_hash[k][a] or 'Element:' in new_cimpl_hash[k][a] or 'Abstract:' in new_cimpl_hash[k][a]:
                 current_term = new_cimpl_hash[k][a].split(":")[1].rstrip().strip()
-            if current_term in namespace_elements[k]:
-                comments = namespace_elements[k][current_term]
+            if current_term in file_elements[k]:
+                comments = file_elements[k][current_term]
                 if len(new_cimpl_hash[k][a].rstrip().strip()) > 0:
                     for b in range(0, len(comments)):
                         if len(comments[b][0]) == 0:
@@ -169,7 +157,7 @@ if __name__ == "__main__":
                         else:
                             bottom_comments.append(('\t'*9) + comments[b][1])
         new_terms = new_terms + bottom_comments
-        file_name = output_dir + k.replace('.','_') + ".txt"
+        file_name = output_dir + k
         a = open(file_name, 'w')
         for t in new_terms:
             a.write(t)
