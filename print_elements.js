@@ -7,9 +7,32 @@ const chalk = require('chalk');   //library for colorizing Strings
 const redColor = chalk.bold.redBright;
 const greenColor = chalk.bold.greenBright;
 
+function camelCaseToHumanReadable( instring ) {
+// Whenever you have a Capital letter, insert a space
+// Whenever you have a period, replace with ' - '
+  let res = '';
+  for (let letter of instring) {
+    if (letter === '.') {
+      res = res + ' -';
+    }
+    else if (letter !== letter.toUpperCase() ) {
+      res = res + letter;
+    }
+    else {
+      res = res + ' ' + letter;
+    }
+  }
+  return(res);
+}
+
+
+function removeValuePrefix(instring) {
+  return( instring.replace(/Value: /,''));
+}
+
 module.exports = function printElements(specs, config, out) {
   mkdirp.sync(out);
-  let lines = ['Namespace,Parent Element,Data Element,Cardinality,Data Type,Value Set,Description'];
+  let lines = [`"Namespace","Parent Element","Data Element Logical Path","Human Readable","Description","Cardinality","Data Type","Terminology Binding","Must Support"`];
   for (const ns of specs.dataElements.namespaces) {
     printElementsInNamespace(specs, ns, out, lines );
   }
@@ -34,7 +57,17 @@ function printElementsInNamespace(specs, namespace, out, lines) {
 
   for (const de of dataElements) {
     let parent_element = de.identifier.name;
-    lines.push(`"${namespace}","${parent_element}","${de.identifier.name}",,"","","${de.description}"`);
+    
+    const myRegex = /BodySite/i;
+    const myRegex2 = /^Observation/i;
+    if (myRegex2.test(de.identifier.name)  )  {
+    //  if (myRegex2.test(`{${de.identifier.name}.${name}`)  )  
+      console.log('************* de.identifier.name=' + de.identifier.name );
+    }
+    let ms = 'Must Support';
+    //lines.push(`"${namespace}","${parent_element}","${de.identifier.name}",,"","","${de.description}"`);
+    let humanRead1 = camelCaseToHumanReadable(`${de.identifier.name}`);
+    lines.push(`"${namespace}","${parent_element}","${de.identifier.name}","${humanRead1}","${de.description}","","","","${ms}"`);
     const deFieldLines = [];
     const valueAndFields = [de.value, ...de.fields];
     for (let i=0; i < valueAndFields.length; i++) {
@@ -49,7 +82,9 @@ function printElementsInNamespace(specs, namespace, out, lines) {
         card = f.effectiveCard.toString();
       }
       const fValueAndPath = dive(specs, f);
-      const dataType = getDataType(fValueAndPath);
+      //const dataType = getDataType(fValueAndPath);
+      let dataType = getDataType(fValueAndPath);
+      dataType = removeValuePrefix(dataType);
       const valueSet = getValueSet(f, fValueAndPath);
       let descrip = '';
       if (f !== undefined && f !== null) {
@@ -74,10 +109,28 @@ function printElementsInNamespace(specs, namespace, out, lines) {
       }
       const myRule2 = specs._contentProfiles.findByIdentifier(de.identifier) ;
       if (myRule2 !== undefined  ) {
-        console.log('identifier='  + de.identifier +  ' rule=' + JSON.stringify(myRule2));
+        console.log('identifier='  + de.identifier + ' de.identifier.name=' +  de.identifier.name + ' rule=' + JSON.stringify(myRule2) );
+        let mustSupportStr = JSON.stringify(myRule2.identifier.fqn);
+        let mustSupportRulesStr = JSON.stringify(myRule2.rules);
+        console.log('mustSupportStr=' + mustSupportStr  + ' mustSupportRulesStr=' + mustSupportRulesStr );
+
+        for (const ruleInst of myRule2.rules) {
+          let fqn  = '';
+          console.log('ruleInst= '  + JSON.stringify(ruleInst) );
+          console.log('ruleInst.mustSupport= '  + JSON.stringify(ruleInst.mustSupport) );
+          console.log('ruleInst._path= '  + JSON.stringify(ruleInst._path) );
+          for (const pathInst of ruleInst._path) {
+            fqn = fqn + '.' + pathInst._name;
+            console.log(' pathInst._name=' +  pathInst._name);
+          }
+          console.log( 'fqn=' + fqn);
+        }
       }
 
-      deFieldLines.push(`"${namespace}","${parent_element}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${descrip}"`);
+      //deFieldLines.push(`"${namespace}","${parent_element}","${de.identifier.name}.${name}",${card},"${dataType}","${valueSet}","${descrip}"`);
+      //deFieldLines.push(`"${namespace}","${parent_element}","${de.identifier.name}.${name}","${descrip}",${card},"${dataType}","${valueSet}"`);
+      const humanRead = camelCaseToHumanReadable(`${de.identifier.name}.${name}`);     
+      deFieldLines.push(`"${namespace}","${parent_element}","${de.identifier.name}.${name}","${humanRead}","${descrip}",${card},"${dataType}","${valueSet}","${ms}"`);
     }
     deFieldLines.sort((a, b) => {
       if (a.startsWith(`${de.identifier.name}.Value,`)) return -1;
@@ -85,7 +138,8 @@ function printElementsInNamespace(specs, namespace, out, lines) {
       else if (a < b) return -1;
       else return 1;
     });
-    lines.push(...deFieldLines, '');
+    //lines.push(...deFieldLines, '');
+    lines.push( ...deFieldLines );
   }
   fs.writeFileSync(path.join(out, `elements_${namespace.replace(/\./g, '_')}.csv`), lines.join('\n'));
 }
@@ -105,11 +159,15 @@ function dive(specs, field, path=[]) {
         return dive(specs, fDef.value, path);
       }
     }
+    return { value: field, path };
   }
+  return { value: '', path };
+  /*
   else {
     return { value: '' , path};
   }
   return { value: field, path };
+  */
 }
 
 
