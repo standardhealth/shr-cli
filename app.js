@@ -249,6 +249,9 @@ if (doCIMCORE) {
   logger.info('Skipping CIMCORE export');
 }
 
+require('./print_vs')(expSpecifications, configSpecifications, path.join(program.out, 'csv'));
+require('./print_elements')(expSpecifications, configSpecifications, path.join(program.out, 'csv'));
+
 if (doADL) {
   try {
     shrAE.generateADLtoPath(expSpecifications, configSpecifications, program.out);
