@@ -27,6 +27,7 @@ const urlsToNames = {
   'http://hl7.org/fhir/sid/icd-10-cm': 'ICD-10-CM',
   'http://unitsofmeasure.org': 'UCUM',
   'http://uts.nlm.nih.gov/metathesaurus': 'NCI Metatheasurus',
+  'http://codes.iarc.fr/topography': 'ICD-O-3 Topology Codes',
   'urn:iso:std:iso:4217': 'CURRENCY',
   'urn:tbd:': 'TBD',
   'urn:tbd': 'TBD'
@@ -53,53 +54,81 @@ module.exports = function printValueSets(specs, config, out) {
     }
   }
 
-  const lines = ['Value Set,Description,Code System,Logical Definition,Code and Description'];
+  let lines = ['Value Set,Code System,Logical Definition,Code,Code Description'];
   for (const vs of vsMap.values()) {
     for (const rule of vs.rulesFilter.includesCode.rules) {
       lines.push([
         vs.identifier.name,
-        `"${vs.description ? vs.description : ''}"`,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
         '',
-        `"${rule.code.code} ${rule.code.display}"`
+        `"${rule.code.code}"`,
+        `"${rule.code.display}"`
       ].join(','));
     }
     for (const rule of vs.rulesFilter.includesDescendents.rules) {
       lines.push([
         vs.identifier.name,
-        `"${vs.description ? vs.description : ''}"`,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
-        `"includes codes descending from ${rule.code.code} ${rule.code.display}"`,
-        ''
+        `"includes codes descending from ${rule.code.code}"`,
+        '',
+        `"${rule.code.display}"`
       ].join(','));
     }
     for (const rule of vs.rulesFilter.includesFromCode.rules) {
       lines.push([
         vs.identifier.name,
-        `"${vs.description ? vs.description : ''}"`,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
-        `"includes codes from code ${rule.code.code} ${rule.code.display}"`,
-        ''
+        `"includes codes from code ${rule.code.code}"`,
+        '',
+        `"${rule.code.display}"`
       ].join(','));
     }
     for (const rule of vs.rulesFilter.includesFromCodeSystem.rules) {
       lines.push([
         vs.identifier.name,
-        `"${vs.description ? vs.description : ''}"`,
         urlsToNames[rule.system] ? urlsToNames[rule.system] : rule.system,
         `"includes codes from code system ${urlsToNames[rule.system] ? urlsToNames[rule.system] : rule.system}"`,
+        '',
         ''
       ].join(','));
     }
     for (const rule of vs.rulesFilter.excludesDescendents.rules) {
       lines.push([
         vs.identifier.name,
-        `"${vs.description ? vs.description : ''}"`,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
-        `"excludes codes descending from ${rule.code.code} ${rule.code.display}"`,
-        ''
+        `"excludes codes descending from ${rule.code.code}"`,
+        '',
+        `"${rule.code.display}"`
       ].join(','));
     }
+  }
+  fs.writeFileSync(path.join(out, 'valueset_details.csv'), lines.join('\n'));
+
+  lines = ['Value Set,Description,Code Systems'];
+  for (const vs of vsMap.values()) {
+    let codeSystems = new Set();
+    for (const rule of vs.rulesFilter.includesCode.rules) {
+      codeSystems.add(urlsToNames[rule.code.system]);
+    }
+    for (const rule of vs.rulesFilter.includesDescendents.rules) {
+      codeSystems.add(urlsToNames[rule.code.system]);
+    }
+    for (const rule of vs.rulesFilter.includesFromCode.rules) {
+      codeSystems.add(urlsToNames[rule.code.system]);
+    }
+    for (const rule of vs.rulesFilter.includesFromCodeSystem.rules) {
+      codeSystems.add(urlsToNames[rule.system]);
+    }
+    for (const rule of vs.rulesFilter.excludesDescendents.rules) {
+      codeSystems.add(urlsToNames[rule.code.system]);
+    }
+    codeSystems.delete(null);
+    codeSystems.delete(undefined);
+    lines.push([
+      vs.identifier.name,
+      `"${vs.description ? vs.description : ''}"`,
+      `"${Array.from(codeSystems).join(', ')}"`
+    ]);
   }
   fs.writeFileSync(path.join(out, 'valuesets.csv'), lines.join('\n'));
 };
