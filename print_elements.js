@@ -51,6 +51,7 @@ function getCard(f) {
 }
 
 module.exports = function printElements(specs, config, out) {
+  printAllRules(specs);
   mkdirp.sync(out);
   let lines = [`"Namespace","Parent Element","Data Element Logical Path","Human Readable","Description","Cardinality","Data Type","Terminology Binding","Must Support"`];
   for (const ns of specs.dataElements.namespaces) {
@@ -66,16 +67,18 @@ module.exports = function printElements(specs, config, out) {
   for ( const cps of myContentProfiles._nsMap  ) {
     //console.log('***\n' + require('util').inspect(cps, {depth: null}) );
   }
-
+ 
 
 };
 
 function printElementsInNamespace(specs, namespace, out, lines) {
   const dataElements = specs.dataElements.byNamespace(namespace).sort((a, b) => a.identifier.name < b.identifier.name ? -1 : 1);
 
+  checkTheRules(specs,namespace);
   for (const de of dataElements) {
+    //console.log( '\nin printElements de=' + JSON.stringify(de) + '\n');
     let parent_element = de.identifier.name;
-    let ms = ' ';
+    let ms = 'false';
     let humanRead1 = camelCaseToHumanReadable(`${de.identifier.name}`);
     lines.push(`"${namespace}","${parent_element}","${de.identifier.name}","${humanRead1}","${de.description}","","","","${ms}"`);
     const deFieldLines = [];
@@ -120,17 +123,21 @@ function printElementsInNamespace(specs, namespace, out, lines) {
     lines.push( ...deFieldLines );
   }
   fs.writeFileSync(path.join(out, `elements_${namespace.replace(/\./g, '_')}.csv`), lines.join('\n'));
+  
 }
 
 function expandLevel( specs, namespace, de, deFieldLines, depth, parentElementName ) {
-  if (depth >= 10) {
+  if (depth >= 9) {
     return;
   }
+  //printRule(specs, de) ;
+  //console.log( '\nin expandLevel depth=' + depth + ' de1=' + JSON.stringify(de) + '\n');
+
   let newDepth = depth + 1;
   let parent_element = de.identifier.name;
   //const humanRead = camelCaseToHumanReadable(`${de.identifier.name}.${name}`); 
   //const deFieldLines = [];
-  let ms = ' ';
+  //let ms = ' ';
   const valueAndFields = [de.value, ...de.fields];
   for (let i=0; i < valueAndFields.length; i++) {
     const f = valueAndFields[i];
@@ -139,10 +146,15 @@ function expandLevel( specs, namespace, de, deFieldLines, depth, parentElementNa
       let nestedDE = specs._dataElements.findByIdentifier( f.identifier );
       //console.log('\n ***element=' +  `"${namespace}","${parent_element}","${de.identifier.name}"` );
       if( nestedDE !== undefined && nestedDE !== null ) {
-        if ( nestedDE._isEntry === true ) {
+        if ( nestedDE._isEntry === true || nestedDE._isEntry === false ) {
           //console.log('\n newName=' + de.identifier.name + '\n');
           //expandLevel( specs, namespace, nestedDE, deFieldLines, newDepth, parent_element + '.' + de.identifier.name ) ;
-          expandLevel( specs, namespace, nestedDE, deFieldLines, newDepth, de.identifier.name ) ;
+          let newParent = parentElementName + '.' + parent_element;
+          //console.log(' newParent=' + newParent);
+          //console.log( '\nnestedDE=' + JSON.stringify(nestedDE) + '\n');
+          //console.log('newParent='+ newParent);
+          expandLevel( specs, namespace, nestedDE, deFieldLines, newDepth, newParent ) ;
+          //expandLevel( specs, namespace, nestedDE, deFieldLines, newDepth, de.identifier.name ) ;
         }
       }
     }
@@ -173,9 +185,19 @@ function expandLevel( specs, namespace, de, deFieldLines, depth, parentElementNa
         descrip = descrip.replace(/["]+/g,'');
       }
     }
+    
+    
+    let mustSupport = 'false';
+    if ( f !== undefined) {
+      let cpRules = (specs.contentProfiles.findRulesByIdentifierAndField(de.identifier, f.identifier));
+      mustSupport = cpRules.some(r => r.mustSupport);
+    }
+
+    mustSupport = checkRule(specs, de) ;
+      
     const humanRead = camelCaseToHumanReadable(`${de.identifier.name}.${name}`);
     //deFieldLines.push(`"${namespace}","${parent_element}","${de.identifier.name}.${name}","${humanRead}","${descrip}",${card},"${dataType}","${valueSet}","${ms}"`);
-    deFieldLines.push(`"${namespace}","${parent_element}","${parentElementName}.${de.identifier.name}.${name}","${humanRead}","${descrip}",${card},"${dataType}","${valueSet}","${ms}"`);
+    deFieldLines.push(`"${namespace}","${parent_element}","${parentElementName}.${de.identifier.name}.${name}","${humanRead}","${descrip}",${card},"${dataType}","${valueSet}","${mustSupport}"`);
   }
 }
 
@@ -269,3 +291,62 @@ function getValueSet(field, valueAndPath) {
     return '';
   }
 } 
+
+function printAllRules(specs) {
+  let rules = specs._contentProfiles.all;
+
+  console.log(' allrules =' + JSON.stringify(rules));
+
+}
+
+function checkTheRules( specs, namespace, myName ) {
+  console.log('namespace=' + namespace + '\n');
+  let myContentProfiles = specs.contentProfiles;
+  let myArr = myContentProfiles.byNamespace(namespace);   //.get('oncocore').values();
+  console.log(' myArr =' + JSON.stringify(myArr) + '\n');
+  //console.log(' myContentProfiles =' + JSON.stringify(myContentProfiles)+ '\n');
+  for ( let ent of myArr ) {
+    console.log('ent=' + JSON.stringify(ent));
+    console.log('ent.rules=' + JSON.stringify(ent.rules));
+    console.log('ent.rules.path=' + JSON.stringify(ent.rules[0].path));
+    console.log('\n');
+  }
+  //console.log( 'myArr[0]=' +  myArr[0]);
+  //process.exit(0);
+  return(false);
+}
+
+function printRule(specs, de) {
+  const myRule2 = specs._contentProfiles.findByIdentifier(de.identifier) ;
+  if (myRule2 !== undefined  ) {
+    console.log('\n identifier='  + de.identifier + ' de.identifier.name=' +  de.identifier.name + ' rule=' + JSON.stringify(myRule2) );
+    let mustSupportStr = JSON.stringify(myRule2.identifier.fqn);
+    let mustSupportRulesStr = JSON.stringify(myRule2.rules);
+    console.log('mustSupportStr=' + mustSupportStr  + ' mustSupportRulesStr=' + mustSupportRulesStr );
+
+    for (const ruleInst of myRule2.rules) {
+      let fqn  = '';
+      console.log('ruleInst= '  + JSON.stringify(ruleInst) );
+      console.log('ruleInst.mustSupport= '  + JSON.stringify(ruleInst.mustSupport) );
+      console.log('ruleInst._path= '  + JSON.stringify(ruleInst._path) );
+      for (const pathInst of ruleInst._path) {
+        fqn = fqn + '.' + pathInst._name;
+        console.log(' pathInst._name=' +  pathInst._name);
+      }
+      console.log( 'fqn=' + fqn);
+
+      console.log( 'deRule=' + JSON.stringify(de) + '\n');
+    }
+  }
+}
+
+function checkRule(specs, de) {
+  const myRule2 = specs._contentProfiles.findByIdentifier(de.identifier) ;
+  if (myRule2 !== undefined  ) {
+    return( true);
+  }
+  else {
+    return(false);
+  }
+
+}
