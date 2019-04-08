@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
-const { IdentifiableValue, ChoiceValue } = require('shr-models');
+const { Identifier, IdentifiableValue, ChoiceValue } = require('shr-models');
 
 function getCard(f) {
   let card = ' ';
@@ -23,13 +23,29 @@ function getDataType(de) {
   return type;
 }
 
-function getBinding(de, projectURL) {
+function getBinding(de, path, dataElements, projectURL) {
   let binding = '';
-  if (de != null && de.value != null) {
-    if (de.value.constraintsFilter.valueSet.hasConstraints) {
-      const constraint = de.value.constraintsFilter.valueSet.constraints[0];
-      const url = constraint.valueSet.startsWith(projectURL) ? constraint.valueSet.split('/')[constraint.valueSet.split('/').length-1] : constraint.valueSet;
-      binding = `${url} (${constraint.bindingStrength})`;
+  let currentElement = de;
+  for (const id of path) {
+    let field = currentElement.value;
+    if (!field) {
+      field = currentElement.fields.find(f => {
+        return f.identifier.equals(new Identifier('shr.core', 'CodeableConcept'))
+          || f.identifier.equals(new Identifier('shr.core', 'Coding'))
+          || f.identifier.equals(new Identifier('shr.core', 'Code'));
+      });
+    }
+    if (field) {
+      if (field.constraintsFilter.valueSet.hasConstraints) {
+        const constraint = field.constraintsFilter.valueSet.constraints[0];
+        const url = constraint.valueSet.startsWith(projectURL) ? constraint.valueSet.split('/')[constraint.valueSet.split('/').length-1] : constraint.valueSet;
+        binding = `${url} (${constraint.bindingStrength})`;
+      }
+    }
+    if (binding) {
+      break;
+    } else {
+      currentElement = dataElements.findByIdentifier(id);
     }
   }
   return binding;
@@ -51,7 +67,7 @@ module.exports = function printElements(specs, config, out) {
         const description = `"${endOfPathElement.description}"`;
         const cardinality = getCard(f);
         const dataType = getDataType(endOfPathElement);
-        const binding = getBinding(endOfPathElement, config.projectURL);
+        const binding = getBinding(de, rule.path, specs.dataElements, config.projectURL);
         lines.push([parentName, path, pathName, description, cardinality, dataType, binding].join(','));
       }
     }
