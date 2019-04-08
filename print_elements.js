@@ -33,10 +33,10 @@ function getBinding(de, projectURL) {
     }
   }
   return binding;
-} 
+}
 
 module.exports = function printElements(specs, config, out) {
-  const lines = ['Parent Element,Data Element Path,Data Element Name,Cardinality,Data Type,Terminology Binding'];
+  const lines = ['Parent Element,Data Element Path,Data Element Name,Description,Cardinality,Data Type,Terminology Binding'];
   mkdirp.sync(out);
   for (const de of specs.dataElements.all) {
     const valueAndFields = [de.value, ...de.fields];
@@ -45,13 +45,14 @@ module.exports = function printElements(specs, config, out) {
       const cpRules = (specs.contentProfiles.findRulesByIdentifierAndField(de.identifier, f.identifier));      
       for (const rule of cpRules) {
         const parentName = de.identifier.name;
-        const path = rule.path.map(id => id.name).join('.');
-        const pathName = `"${(parentName + path).replace('.', '').split(/(?=[A-Z])/).join(' ')}"`;
-        const cardinality = getCard(f);
+        const path = `${parentName}.${rule.path.map(id => id.name).join('.')}`;
+        const pathName = `"${path.replace('.', '').split(/(?=[A-Z])/).join(' ')}"`;
         const endOfPathElement = specs.dataElements.findByIdentifier(rule.path[rule.path.length-1]);
+        const description = `"${endOfPathElement.description}"`;
+        const cardinality = getCard(f);
         const dataType = getDataType(endOfPathElement);
         const binding = getBinding(endOfPathElement, config.projectURL);
-        lines.push([parentName, path, pathName, cardinality, dataType, binding].join(','));
+        lines.push([parentName, path, pathName, description, cardinality, dataType, binding].join(','));
       }
     }
   }
