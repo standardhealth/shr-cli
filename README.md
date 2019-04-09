@@ -69,13 +69,15 @@ After exporting the SHR definitions, the FHIR Implementation Guide (IG) Publishe
 $ yarn run ig:publish
 ```
 
-NOTE: The FHIR IG publishing tool uses a _lot_ of memory when processing the full set of SHR definitions.  The yarn script above will allocated up to 8GB of RAM. A minimum of 4GB of RAM is recommended to run the tool.
+NOTE: The FHIR IG Publisher tool uses a _lot_ of memory when processing the full set of SHR definitions.  The yarn script above will allocated up to 8GB of RAM. A minimum of 4GB of RAM is recommended to run the tool.
 
 # Creating the FHIR Implementation Guide Using an HTTP Proxy
 
-If your system requires a proxy to access the internet, you'll need to take a more complex approach than above.
+**NOTE: The current version of the FHIR IG Publisher tool does not properly support HTTP proxies.** This has been logged in FHIR's GForge tracker as issue [#19815](https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19815).  To properly run the IG Publisher, you need to be in an environment that does not require a proxy.
 
-First, export a system environment variable called JAVA_OPTS, setting the proxies as appropriate.
+If you *must* run the IG Publisher in a proxy environment, you can download an earlier version of the publisher (with working proxy support) here: [IGPublisher (Oct 10 2018)](https://github.com/standardhealth/shr-fhir-export/raw/a4a66550605e75a1a28746c7961f830ab339b84b/lib/ig_files/org.hl7.fhir.igpublisher.jar). _NOTE: You will be missing any bug fixes and enhancements made to the publisher since October 2018, and we do not recommend using this for actual publishing._
+
+To use the old (but proxy-friendly) IG Publisher, export a system environment variable called JAVA_OPTS, setting the proxies as appropriate.
 
 On Mac or Linux:
 ```
@@ -87,16 +89,16 @@ On Windows:
 > SET JAVA_OPTS=-Dhttp.proxyHost=my.proxy.org -Dhttp.proxyPort=80 -Dhttps.proxyHost=my.proxy.org -Dhttps.proxyPort=80 -DsocksProxyHost=my.proxy.org -DsocksProxyPort=80
 ```
 
-Next, create the IG using the HL7 IG Publisher Tool.
+Next, create the IG using the old October 2018 HL7 IG Publisher Tool.
 
 On Mac or Linux:
 ```
-$ java $JAVA_OPTS -Xms4g -Xmx8g -jar out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/ig.json
+$ java $JAVA_OPTS -Xms4g -Xmx8g -jar path/to/old/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/ig.json
 ```
 
 On Windows:
 ```
-> java %JAVA_OPTS% -Xms4g -Xmx8g -jar out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/ig.json
+> java %JAVA_OPTS% -Xms4g -Xmx8g -jar path/to/old/org.hl7.fhir.igpublisher.jar -ig out/fhir/guide/ig.json
 ```
 
 # Configuration File
