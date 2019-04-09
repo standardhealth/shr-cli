@@ -3,6 +3,9 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 const { Identifier, IdentifiableValue, ChoiceValue } = require('shr-models');
 
+const ENTRY_ID = new Identifier('shr.base', 'Entry');
+const CONCEPT_ID = new Identifier('shr.core', 'CodeableConcept');
+
 function getCard(f) {
   let card = ' ';
   if (f != null && f.effectiveCard != null && f.effectiveCard.toString() != null) {
@@ -24,31 +27,30 @@ function getDataType(de) {
 }
 
 function getBinding(de, path, dataElements, projectURL) {
-  let binding = '';
-  let currentElement = de;
-  for (const id of path) {
-    let field = currentElement.value;
-    if (!field) {
-      field = currentElement.fields.find(f => {
-        return f.identifier.equals(new Identifier('shr.core', 'CodeableConcept'))
-          || f.identifier.equals(new Identifier('shr.core', 'Coding'))
-          || f.identifier.equals(new Identifier('shr.core', 'Code'));
-      });
-    }
-    if (field) {
-      if (field.constraintsFilter.valueSet.hasConstraints) {
-        const constraint = field.constraintsFilter.valueSet.constraints[0];
-        const url = constraint.valueSet.startsWith(projectURL) ? constraint.valueSet.split('/')[constraint.valueSet.split('/').length-1] : constraint.valueSet;
-        binding = `${url} (${constraint.bindingStrength})`;
+  let constraint;
+
+  if (typeof de.value !== 'undefined') {
+    constraint = de.value.constraintsFilter.valueSet.constraints[0];
+  } else if (typeof de.value === 'undefined' && path[0].isConceptKeyWord) {
+    constraint = de.value.constraintsFilter.valueSet.constraints[0];
+  }
+
+  if (constraint) {
+    const url = constraint.valueSet.startsWith(projectURL) ? constraint.valueSet.split('/')[constraint.valueSet.split('/').length-1] : constraint.valueSet;
+    return `${url} (${constraint.bindingStrength})`;
+  }
+
+  // We're not at the end of the path, so we must dig deeper
+  if (de && de.value) {
+    if (path.length > 0) {
+      de = dataElements.findByIdentifier(path[0]);
+      if (typeof def === 'undefined') {
+        return; // invalid path
       }
-    }
-    if (binding) {
-      break;
-    } else {
-      currentElement = dataElements.findByIdentifier(id);
+      path = path.slice(1);
+      return getBinding(de, path, dataElements, projectURL);
     }
   }
-  return binding;
 }
 
 module.exports = function printElements(specs, config, out) {
