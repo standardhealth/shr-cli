@@ -29,8 +29,20 @@ function getBinding(de, path, specs, projectURL) {
   const vsConstraints = value.constraintsFilter.valueSet.constraints;
   if (vsConstraints && vsConstraints.length > 0) {
     constraint = vsConstraints.find(c => !c.onValue && c.path.length === 0);
-    if (!constraint) {
-      constraint = vsConstraints.find(c => (c.onValue && c.path === 0) || (!c.onValue && c.path.length === 1));
+  }
+  if (!constraint) {
+    // It may be on the value...
+    let valueId = choiceFriendlyEffectiveIdentifier(value);
+    if (valueId == null && value instanceof ChoiceValue) {
+      valueId = value.aggregateOptions.find(o => ['CodeableConcept', 'Coding', 'code'].indexOf(o.identifier.name) !== -1);
+    }
+    if (valueId) {
+      const valueDE = specs.dataElements.findByIdentifier(valueId);
+      if (valueDE.value) {
+        const newValue = mergeConstraintsToChild(value.constraints, valueDE.value, true);
+        const newVsConstraints = newValue.constraintsFilter.valueSet.constraints;
+        constraint = newVsConstraints.find(c => !c.onValue && c.path.length === 0);
+      }
     }
   }
   if (constraint) {
@@ -170,10 +182,12 @@ function mergeConstraintsToChild(parentConstraints, childValue, childIsElementVa
       const transferredCst = cst.clone();
       transferredCst.onValue = false;
       constraints.push(transferredCst);
-    } else if (cst.path.length > 0 && (cst.path[0].equals(childValue.identifier) || cst.path[0].equals(choiceFriendlyEffectiveIdentifier(childValue)) )) {
-      const transferredCst = cst.clone();
-      transferredCst.path.shift(); // Remove the first element of the path since we're transferring this to the child
-      constraints.push(transferredCst);
+    } else if (cst.path.length > 0) {
+      if (cst.path[0].equals(childValue.effectiveIdentifier) || (childValue.options && childValue.aggregateOptions.some(o => cst.path[0].equals(o.effectiveIdentifier)))) {
+        const transferredCst = cst.clone();
+        transferredCst.path.shift(); // Remove the first element of the path since we're transferring this to the child
+        constraints.push(transferredCst);
+      }
     }
   }
   // Remove any type constraints that are no-ops
