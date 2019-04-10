@@ -55,26 +55,23 @@ module.exports = function printElements(specs, config, out) {
   mkdirp.sync(out);
   let lines = [`"Namespace","Parent Element","Data Element Logical Path","Human Readable","Description","Cardinality","Data Type","Terminology Binding","Must Support"`];
   for (const ns of specs.dataElements.namespaces) {
-    printElementsInNamespace(specs, ns, out, lines );
+    let suffixes = checkTheRules(specs,ns);
+    printElementsInNamespace(specs, ns, out, lines, suffixes );
   }
   fs.writeFileSync(path.join(out, 'elements.csv'), lines.join('\n'));
-
   let myContentProfiles = specs.contentProfiles;
-  
-  
   console.log(require('util').inspect(myContentProfiles, {depth: null}));
 
   for ( const cps of myContentProfiles._nsMap  ) {
     //console.log('***\n' + require('util').inspect(cps, {depth: null}) );
   }
- 
-
 };
 
-function printElementsInNamespace(specs, namespace, out, lines) {
+function printElementsInNamespace(specs, namespace, out, lines, suffixes ) {
   const dataElements = specs.dataElements.byNamespace(namespace).sort((a, b) => a.identifier.name < b.identifier.name ? -1 : 1);
 
-  checkTheRules(specs,namespace);
+  console.log('suffix=' + JSON.stringify(suffixes));
+
   for (const de of dataElements) {
     //console.log( '\nin printElements de=' + JSON.stringify(de) + '\n');
     let parent_element = de.identifier.name;
@@ -86,34 +83,25 @@ function printElementsInNamespace(specs, namespace, out, lines) {
     const valueAndFields = [de.value, ...de.fields];
     for (let i=0; i < valueAndFields.length; i++) {
       let f = valueAndFields[i];
-      //console.log('\n ###f=' + JSON.stringify(f));
       if (f !== undefined) {
         let nestedDE = specs._dataElements.findByIdentifier( f.identifier );
         let depth = 1;
-        //console.log('\n ***element=' +  `"${namespace}","${parent_element}","${de.identifier.name}"` );
         if( nestedDE !== undefined && nestedDE !== null) {
-          expandLevel( specs, namespace, nestedDE, deFieldLines, depth, parent_element ) ;
+          expandLevel( specs, namespace, nestedDE, deFieldLines, depth, parent_element, suffixes ) ;
         }
       }
     }
 
-    let f = de.value;
-    let name = '';
-    let card = getCard(f);
-    const fValueAndPath = dive(specs, f);
-    let dataType = getDataType(fValueAndPath);
-    dataType = removeValuePrefix(dataType);
-    let valueSet = getValueSet(f, fValueAndPath);
-
-    //if ( f !== undefined && f !== null && f.effectiveCard !== undefined && f.effectiveCard !== null
-    //  && f.effectiveCard.toString() !== undefined && f.effectiveCard.toString() !== null) {
-    //  card = f.effectiveCard.toString();
-    // }
-
-    let descrip = getDescrip(f, specs, de);
-    const humanRead = camelCaseToHumanReadable(`${de.identifier.name}.${name}`); 
-    //deFieldLines.push(`"${namespace}","${parent_element}","${de.identifier.name}.${name}","${humanRead}","${descrip}",${card},"${dataType}","${valueSet}","${ms}"`);
-
+    //let f = de.value;
+    //let name = '';
+    //let card = getCard(f);
+    //const fValueAndPath = dive(specs, f);
+    //let dataType = getDataType(fValueAndPath);
+    //dataType = removeValuePrefix(dataType);
+    //let valueSet = getValueSet(f, fValueAndPath);
+    //let descrip = getDescrip(f, specs, de);
+    //const humanRead = camelCaseToHumanReadable(`${de.identifier.name}.${name}`); 
+ 
     deFieldLines.sort((a, b) => {
       if (a.startsWith(`${de.identifier.name}.Value,`)) return -1;
       else if (b.startsWith(`${de.identifier.name}.Value,`)) return 1;
@@ -126,83 +114,66 @@ function printElementsInNamespace(specs, namespace, out, lines) {
   
 }
 
-function expandLevel( specs, namespace, de, deFieldLines, depth, parentElementName ) {
-  if (depth >= 9) {
+function expandLevel( specs, namespace, de, deFieldLines, depth, parentElementName, suffixes ) {
+  if (depth >= 10) {
     return;
   }
-  //printRule(specs, de) ;
-  //console.log( '\nin expandLevel depth=' + depth + ' de1=' + JSON.stringify(de) + '\n');
 
   let newDepth = depth + 1;
   let parent_element = de.identifier.name;
-  //const humanRead = camelCaseToHumanReadable(`${de.identifier.name}.${name}`); 
-  //const deFieldLines = [];
-  //let ms = ' ';
   const valueAndFields = [de.value, ...de.fields];
   for (let i=0; i < valueAndFields.length; i++) {
     const f = valueAndFields[i];
-    //console.log(' newDepth=' + newDepth + ' cf=' + JSON.stringify(f));
     if (f !== undefined) {
       let nestedDE = specs._dataElements.findByIdentifier( f.identifier );
-      //console.log('\n ***element=' +  `"${namespace}","${parent_element}","${de.identifier.name}"` );
       if( nestedDE !== undefined && nestedDE !== null ) {
         if ( nestedDE._isEntry === true || nestedDE._isEntry === false ) {
-          //console.log('\n newName=' + de.identifier.name + '\n');
-          //expandLevel( specs, namespace, nestedDE, deFieldLines, newDepth, parent_element + '.' + de.identifier.name ) ;
           let newParent = parentElementName + '.' + parent_element;
-          //console.log(' newParent=' + newParent);
-          //console.log( '\nnestedDE=' + JSON.stringify(nestedDE) + '\n');
-          //console.log('newParent='+ newParent);
-          expandLevel( specs, namespace, nestedDE, deFieldLines, newDepth, newParent ) ;
-          //expandLevel( specs, namespace, nestedDE, deFieldLines, newDepth, de.identifier.name ) ;
+          expandLevel( specs, namespace, nestedDE, deFieldLines, newDepth, newParent, suffixes ) ;
         }
       }
     }
-
 
     let name = i>0 ? f.identifier.name : 'Value';
     if (name === undefined || name === null) {
       name = ' ';
     }
-    let card = ' ';
-    if ( f !== undefined && f !== null && f.effectiveCard !== undefined && f.effectiveCard !== null
-      && f.effectiveCard.toString() !== undefined && f.effectiveCard.toString() !== null) {
-      card = f.effectiveCard.toString();
-    }
+    let card = getCard(f);
     const fValueAndPath = dive(specs, f);
     let dataType = getDataType(fValueAndPath);
     dataType = removeValuePrefix(dataType);
     const valueSet = getValueSet(f, fValueAndPath);
-    let descrip = '';
-    if (f !== undefined && f !== null) {
-      descrip = f.description;
-      descrip = getDescription( specs, f );
-      
-      if (descrip === undefined || descrip === null) {
-        descrip = de.description;
-      }
-      else {
-        descrip = descrip.replace(/["]+/g,'');
-      }
-    }
-    
-    
-    let mustSupport = 'false';
-    if ( f !== undefined) {
-      let cpRules = (specs.contentProfiles.findRulesByIdentifierAndField(de.identifier, f.identifier));
-      mustSupport = cpRules.some(r => r.mustSupport);
-    }
 
-    mustSupport = checkRule(specs, de) ;
-      
+    let descrip = getDescrip(f, specs, de);    
+    let mustSupport = checkMustSupportSuffix(`"${parentElementName}.${de.identifier.name}.${name}"`, suffixes);
     const humanRead = camelCaseToHumanReadable(`${de.identifier.name}.${name}`);
-    //deFieldLines.push(`"${namespace}","${parent_element}","${de.identifier.name}.${name}","${humanRead}","${descrip}",${card},"${dataType}","${valueSet}","${ms}"`);
     deFieldLines.push(`"${namespace}","${parent_element}","${parentElementName}.${de.identifier.name}.${name}","${humanRead}","${descrip}",${card},"${dataType}","${valueSet}","${mustSupport}"`);
   }
 }
+function endsWith(s1, w1) {
+  let pos = s1.indexOf(w1 , s1.length + - (w1.length+1));
+  if (pos === -1) {
+    return(false);
+  }
+  else {
+    return(true);
+  }
+}
 
+function checkMustSupportSuffix( parent_element_name, suffixes) {
+  let mustSupport = false;
+  if (suffixes === undefined || suffixes.length === 0) {
+    return(mustSupport);
+  }
 
-
+  for ( let s of suffixes)  {
+    if ( endsWith( parent_element_name, s)) {
+      console.log('@@@@@ MUST_SUPPORT=' + parent_element_name);
+      return('MUST_SUPPORT');
+    }
+  }
+  return(mustSupport);
+}
 
 function getSubElement(specs, field, path ) {
   if (field !== undefined && field !== null ) {	
@@ -236,12 +207,6 @@ function dive(specs, field, path=[]) {
     return { value: field, path };
   }
   return { value: '', path };
-  /*
-  else {
-    return { value: '' , path};
-  }
-  return { value: field, path };
-  */
 }
 
 
@@ -300,20 +265,21 @@ function printAllRules(specs) {
 }
 
 function checkTheRules( specs, namespace, myName ) {
-  console.log('namespace=' + namespace + '\n');
+  let suffixes= [];
+  console.log('\nnamespace=' + namespace);
   let myContentProfiles = specs.contentProfiles;
   let myArr = myContentProfiles.byNamespace(namespace);   //.get('oncocore').values();
-  console.log(' myArr =' + JSON.stringify(myArr) + '\n');
-  //console.log(' myContentProfiles =' + JSON.stringify(myContentProfiles)+ '\n');
   for ( let ent of myArr ) {
-    console.log('ent=' + JSON.stringify(ent));
-    console.log('ent.rules=' + JSON.stringify(ent.rules));
-    console.log('ent.rules.path=' + JSON.stringify(ent.rules[0].path));
-    console.log('\n');
+    for ( let p of ent.rules) {
+      let newName = ent.identifier.name ;
+      for ( let n of p.path) {
+        newName = newName + '.' + n.name;
+      }
+      
+      suffixes.push(newName);
+    }
   }
-  //console.log( 'myArr[0]=' +  myArr[0]);
-  //process.exit(0);
-  return(false);
+  return(suffixes);
 }
 
 function printRule(specs, de) {
