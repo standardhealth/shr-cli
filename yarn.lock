@@ -1117,10 +1117,10 @@ shr-es6-export@^5.5.1:
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@^5.8.0:
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.8.0.tgz#ba4e6feb9f042c0b1e62ff274441dc835a3fc15d"
-  integrity sha512-POC1DclInP5d8oRj0yup5InIQw7P9YENIcWEV2iHYnjlLvN21wnj259UQKTRwltVDUqgninYRPR/z2ZA15901g==
+shr-expand@^5.8.1:
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.8.1.tgz#99aa50b7c9d8dfbe7d2c996740b8770e3d23527c"
+  integrity sha512-UyfJ9r0awLOtTdGrfJxo4q4pxp9yYQdItIKkmQTY1rywRBU6BH/CcJtox4XqAbVR+FPlL7xYngM77qGtMY+a9Q==
 
 shr-fhir-export@^5.13.2:
   version "5.13.2"
