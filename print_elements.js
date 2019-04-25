@@ -213,14 +213,18 @@ function mergeConstraintsToChild(parentConstraints, childValue, childIsElementVa
 }
 
 module.exports = function printElements(specs, config, out) {
-  const lines = ['Parent Element,Data Element Path,Data Element Name,Description,Cardinality,Data Type,Terminology Binding'];
+  const dataElementLines = ['Parent Element,Data Element Path,Data Element Name,Description,Cardinality,Data Type,Terminology Binding'];
+  const profileLines = ['Profile Name, Profile Description'];
   mkdirp.sync(out);
   for (const de of specs.dataElements.all) {
+    let isInProfileList = false;
     const valueAndFields = [de.value, ...de.fields];
     for (const f of valueAndFields) {
       if (!f) continue; // no field
       const cpRules = (specs.contentProfiles.findRulesByIdentifierAndField(de.identifier, f.identifier));
       for (const rule of cpRules) {
+        if (!rule.mustSupport) continue; // not a must-support rule
+        isInProfileList = true; // some rule of element is must-support, so include in profile list
         const parentName = de.identifier.name;
         const path = `${parentName}.${rule.path.map(id => id.name).join('.')}`;
         const pathName = `"${path.replace('.', '').split(/(?=[A-Z])/).join(' ')}"`;
@@ -229,9 +233,15 @@ module.exports = function printElements(specs, config, out) {
         const cardinality = getCard(f);
         const dataType = getDataType(endOfPathElement);
         const binding = getBinding(de, rule.path, specs, config.projectURL);
-        lines.push([parentName, path, pathName, description, cardinality, dataType, binding].join(','));
+        dataElementLines.push([parentName, path, pathName, description, cardinality, dataType, binding].join(','));
       }
     }
+
+    if (isInProfileList) {
+      profileLines.push([de.identifier.name, `"${de.description}"`].join(','));
+    }
   }
-  fs.writeFileSync(path.join(out, 'elements.csv'), lines.join('\n'));
+
+  fs.writeFileSync(path.join(out, 'elements.csv'), dataElementLines.join('\n'));
+  fs.writeFileSync(path.join(out, 'profiles.csv'), profileLines.join('\n'));
 };
