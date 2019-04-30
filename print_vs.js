@@ -33,8 +33,7 @@ const urlsToNames = {
   'urn:tbd': 'TBD'
 };
 
-module.exports = function printValueSets(specs, config, out) {
-  mkdirp.sync(out);
+module.exports = function printValueSets(specs, config) {
   const vsMap = new Map();
   for (const de of specs.dataElements.all) {
     const valueAndFields = [de.value, ...de.fields];
@@ -54,57 +53,56 @@ module.exports = function printValueSets(specs, config, out) {
     }
   }
 
-  let lines = ['Value Set,Code System,Logical Definition,Code,Code Description'];
+  const valueSetDetailsLines = [['Value Set', 'Code System', 'Logical Definition', 'Code', 'Code Description']];
   for (const vs of vsMap.values()) {
     for (const rule of vs.rulesFilter.includesCode.rules) {
-      lines.push([
+      valueSetDetailsLines.push([
         vs.identifier.name,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
         '',
-        `"${rule.code.code}"`,
-        `"${rule.code.display}"`
-      ].join(','));
+        `${rule.code.code}`,
+        `${rule.code.display}`
+      ]);
     }
     for (const rule of vs.rulesFilter.includesDescendents.rules) {
-      lines.push([
+      valueSetDetailsLines.push([
         vs.identifier.name,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
-        `"includes codes descending from ${rule.code.code}"`,
+        `includes codes descending from ${rule.code.code}`,
         '',
-        `"${rule.code.display}"`
-      ].join(','));
+        `${rule.code.display}`
+      ]);
     }
     for (const rule of vs.rulesFilter.includesFromCode.rules) {
-      lines.push([
+      valueSetDetailsLines.push([
         vs.identifier.name,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
-        `"includes codes from code ${rule.code.code}"`,
+        `includes codes from code ${rule.code.code}`,
         '',
-        `"${rule.code.display}"`
-      ].join(','));
+        `${rule.code.display}`
+      ]);
     }
     for (const rule of vs.rulesFilter.includesFromCodeSystem.rules) {
-      lines.push([
+      valueSetDetailsLines.push([
         vs.identifier.name,
         urlsToNames[rule.system] ? urlsToNames[rule.system] : rule.system,
-        `"includes codes from code system ${urlsToNames[rule.system] ? urlsToNames[rule.system] : rule.system}"`,
+        `includes codes from code system ${urlsToNames[rule.system] ? urlsToNames[rule.system] : rule.system}`,
         '',
         ''
-      ].join(','));
+      ]);
     }
     for (const rule of vs.rulesFilter.excludesDescendents.rules) {
-      lines.push([
+      valueSetDetailsLines.push([
         vs.identifier.name,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
-        `"excludes codes descending from ${rule.code.code}"`,
+        `excludes codes descending from ${rule.code.code}`,
         '',
-        `"${rule.code.display}"`
-      ].join(','));
+        `${rule.code.display}`
+      ]);
     }
   }
-  fs.writeFileSync(path.join(out, 'valueset_details.csv'), lines.join('\n'));
 
-  lines = ['Value Set,Description,Code Systems'];
+  const valueSetLines = [['Value Set', 'Description', 'Code Systems']];
   for (const vs of vsMap.values()) {
     let codeSystems = new Set();
     for (const rule of vs.rulesFilter.includesCode.rules) {
@@ -124,11 +122,12 @@ module.exports = function printValueSets(specs, config, out) {
     }
     codeSystems.delete(null);
     codeSystems.delete(undefined);
-    lines.push([
+    valueSetLines.push([
       vs.identifier.name,
-      `"${vs.description ? vs.description : ''}"`,
-      `"${Array.from(codeSystems).join(', ')}"`
+      `${vs.description ? vs.description : ''}`,
+      `${Array.from(codeSystems).join(', ')}`
     ]);
   }
-  fs.writeFileSync(path.join(out, 'valuesets.csv'), lines.join('\n'));
+
+  return { valueSetLines, valueSetDetailsLines };
 };

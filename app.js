@@ -2,6 +2,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const bunyan = require('bunyan');
+const exceljs = require('exceljs');
 const program = require('commander');
 const bps = require('@ojolabs/bunyan-prettystream');
 const { sanityCheckModules } = require('shr-models');
@@ -249,8 +250,33 @@ if (doCIMCORE) {
   logger.info('Skipping CIMCORE export');
 }
 
-require('./print_vs')(expSpecifications, configSpecifications, path.join(program.out, 'csv'));
-require('./print_elements')(expSpecifications, configSpecifications, path.join(program.out, 'csv'));
+const { profileLines, dataElementLines } = require('./print_elements')(expSpecifications, configSpecifications);
+const { valueSetLines, valueSetDetailsLines } = require('./print_vs')(expSpecifications, configSpecifications);
+
+const workbook = new exceljs.Workbook();
+workbook.creator = 'fhir-summary';
+workbook.created = workbook.modified = new Date();
+
+const worksheetsToMake = [
+  { name: 'Profiles', lines: profileLines },
+  { name: 'Data Elements', lines: dataElementLines },
+  { name: 'Value Sets', lines: valueSetLines },
+  { name: 'Value Set Details', lines: valueSetDetailsLines }
+];
+
+worksheetsToMake.forEach(w => {
+  let sheet = workbook.addWorksheet(w.name);
+  sheet.columns = w.lines[0].map(col => {
+    return { header: col, key: col, width: col.length + 5 };
+  });
+  w.lines.slice(1).forEach(row => {
+    sheet.addRow(row);
+  });
+});
+
+const workbookPath = path.join(program.out, 'xlsx', 'DataDictionary.xlsx');
+mkdirp.sync(path.dirname(workbookPath));
+workbook.xlsx.writeFile(workbookPath);
 
 if (doADL) {
   try {

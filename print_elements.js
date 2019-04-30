@@ -1,7 +1,11 @@
-const fs = require('fs');
-const path = require('path');
-const mkdirp = require('mkdirp');
 const { IdentifiableValue, ChoiceValue, TypeConstraint, CardConstraint, IncludesTypeConstraint, ConstraintsFilter, RefValue } = require('shr-models');
+
+function getHumanReadableNames(name, path) {
+  return {
+    profileName: `${name.split(/(?=[A-Z])/).join(' ')}`,
+    pathName: `${path.map(id => id.name).join(' ').split(/(?=[A-Z])/).join(' ')}`
+  };
+}
 
 function getCard(f) {
   let card = ' ';
@@ -212,10 +216,9 @@ function mergeConstraintsToChild(parentConstraints, childValue, childIsElementVa
   return mergedChild;
 }
 
-module.exports = function printElements(specs, config, out) {
-  const dataElementLines = ['Parent Element,Data Element Path,Data Element Name,Description,Cardinality,Data Type,Terminology Binding'];
-  const profileLines = ['Profile Name, Profile Description'];
-  mkdirp.sync(out);
+module.exports = function printElements(specs, config) {
+  const dataElementLines = [['Profile Name', 'Data Element Name', 'Description', 'Cardinality', 'Data Type', 'Terminology Binding']];
+  const profileLines = [['Profile Name', 'Profile Description']];
   for (const de of specs.dataElements.all) {
     let isInProfileList = false;
     const valueAndFields = [de.value, ...de.fields];
@@ -225,23 +228,20 @@ module.exports = function printElements(specs, config, out) {
       for (const rule of cpRules) {
         if (!rule.mustSupport) continue; // not a must-support rule
         isInProfileList = true; // some rule of element is must-support, so include in profile list
-        const parentName = de.identifier.name;
-        const path = `${parentName}.${rule.path.map(id => id.name).join('.')}`;
-        const pathName = `"${path.replace('.', '').split(/(?=[A-Z])/).join(' ')}"`;
+        const names = getHumanReadableNames(de.identifier.name, rule.path);
         const endOfPathElement = specs.dataElements.findByIdentifier(rule.path[rule.path.length-1]);
-        const description = `"${endOfPathElement.description}"`;
+        const description = `${endOfPathElement.description}`;
         const cardinality = getCard(f);
         const dataType = getDataType(endOfPathElement);
         const binding = getBinding(de, rule.path, specs, config.projectURL);
-        dataElementLines.push([parentName, path, pathName, description, cardinality, dataType, binding].join(','));
+        dataElementLines.push([names.profileName, names.pathName, description, cardinality, dataType, binding]);
       }
     }
 
     if (isInProfileList) {
-      profileLines.push([de.identifier.name, `"${de.description}"`].join(','));
+      profileLines.push([de.identifier.name, de.description]);
     }
   }
 
-  fs.writeFileSync(path.join(out, 'elements.csv'), dataElementLines.join('\n'));
-  fs.writeFileSync(path.join(out, 'profiles.csv'), profileLines.join('\n'));
+  return { profileLines, dataElementLines };
 };
