@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "5.17.3",
+  "version": "5.17.4",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
@@ -10,7 +10,7 @@
   },
   "main": "app.js",
   "scripts": {
-    "ig:publish": "java -Xms4g -Xmx8g -jar ./out/fhir/guide/org.hl7.fhir.igpublisher.jar -ig ./out/fhir/guide/ig.json",
+    "ig:publish": "java -Xms4g -Xmx8g -jar ./out/fhir/guide/org.hl7.fhir.publisher.cli-0.9.5-20190505.003301-1.jar -ig ./out/fhir/guide/ig.json",
     "ig:open": "opener ./out/fhir/guide/output/index.html",
     "ig:qa": "opener ./out/fhir/guide/output/qa.html",
     "lint": "./node_modules/.bin/eslint .",
@@ -25,7 +25,7 @@
     "shr-adl-bmm-export": "^1.0.1",
     "shr-es6-export": "^5.5.2",
     "shr-expand": "^5.8.1",
-    "shr-fhir-export": "^5.13.3",
+    "shr-fhir-export": "^5.13.4",
     "shr-json-export": "^5.1.5",
     "shr-json-javadoc": "^1.4.5",
     "shr-json-schema-export": "^5.3.2",
