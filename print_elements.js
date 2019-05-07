@@ -1,10 +1,23 @@
 const { IdentifiableValue, ChoiceValue, TypeConstraint, CardConstraint, IncludesTypeConstraint, ConstraintsFilter, RefValue } = require('shr-models');
 
-function getHumanReadableNames(name, path) {
-  return {
-    profileName: `${name.split(/(?=[A-Z])/).join(' ')}`,
-    pathName: `${path.map(id => id.name).join(' ').split(/(?=[A-Z])/).join(' ')}`
-  };
+// These will insert a space in between:
+// - not a capital letter -- a capital letter
+// - a capital letter -- a capital letter follow by not a capital letter
+// - not a number -- a number
+function getHumanReadableProfileName(name) {
+  return `${name.replace(/(([^A-Z])([A-Z]))|(([A-Z])([A-Z][^A-Z]))|(([^0-9])([0-9]))/g, humanReadableReplacer).trim()}`;
+}
+function getHumanReadablePathName(path) {
+  return `${path.map(id => id.name).join('').replace(/(([^A-Z])([A-Z]))|(([A-Z])([A-Z][^A-Z]))|(([^0-9])([0-9]))/g, humanReadableReplacer).trim()}`;
+}
+function humanReadableReplacer(match, p1, p2, p3, p4, p5, p6, p7, p8, p9, offset, string) {
+  if (p1) {
+    return [p2, p3].join(' ');
+  } else if (p4) {
+    return [p5, p6].join(' ');
+  } else if (p7) {
+    return [p8, p9].join(' ');
+  }
 }
 
 function getCard(f) {
@@ -222,24 +235,25 @@ module.exports = function printElements(specs, config) {
   for (const de of specs.dataElements.all) {
     let isInProfileList = false;
     const valueAndFields = [de.value, ...de.fields];
+    const profileName = getHumanReadableProfileName(de.identifier.name);
     for (const f of valueAndFields) {
       if (!f) continue; // no field
       const cpRules = (specs.contentProfiles.findRulesByIdentifierAndField(de.identifier, f.identifier));
       for (const rule of cpRules) {
         if (!rule.mustSupport) continue; // not a must-support rule
         isInProfileList = true; // some rule of element is must-support, so include in profile list
-        const names = getHumanReadableNames(de.identifier.name, rule.path);
+        const pathName = getHumanReadablePathName(rule.path);
         const endOfPathElement = specs.dataElements.findByIdentifier(rule.path[rule.path.length-1]);
         const description = `${endOfPathElement.description}`;
         const cardinality = getCard(f);
         const dataType = getDataType(endOfPathElement);
         const binding = getBinding(de, rule.path, specs, config.projectURL);
-        dataElementLines.push([names.profileName, names.pathName, description, cardinality, dataType, binding]);
+        dataElementLines.push([profileName, pathName, description, cardinality, dataType, binding]);
       }
     }
 
     if (isInProfileList) {
-      profileLines.push([de.identifier.name, de.description]);
+      profileLines.push([profileName, de.description]);
     }
   }
 
