@@ -1110,10 +1110,10 @@ shr-adl-bmm-export@^1.0.1:
     dedent-js "^1.0.1"
     eslint "^4.19.1"
 
-shr-es6-export@^5.5.2:
-  version "5.5.2"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.5.2.tgz#1ef57181f055464ae623605ea2dfc32dedc893cb"
-  integrity sha512-atlSvoENsTbFT+YxklAnn7ytNAjKbkL3j0oN0Ya/FpSDhv/F9H9IHXLz7NP8jFy02jukD0X3N3B2SlGP7umjPA==
+shr-es6-export@^5.6.0-beta.1:
+  version "5.6.0-beta.1"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.6.0-beta.1.tgz#5d13467e2246d2da1a60bc71fc948a80b8b70a58"
+  integrity sha512-3Ybnyz5v8hx9LwUMaDVoA7RA+7WEy58JvdcOL4/zXWhR2tkokbj1OHWMuZkaeZDykC/KC3iEjqSNb7OlgMRmjQ==
   dependencies:
     reserved-words "^0.1.2"
 
@@ -1122,10 +1122,10 @@ shr-expand@^5.8.1:
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.8.1.tgz#99aa50b7c9d8dfbe7d2c996740b8770e3d23527c"
   integrity sha512-UyfJ9r0awLOtTdGrfJxo4q4pxp9yYQdItIKkmQTY1rywRBU6BH/CcJtox4XqAbVR+FPlL7xYngM77qGtMY+a9Q==
 
-shr-fhir-export@^5.13.4:
-  version "5.13.4"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.13.4.tgz#d02208b981b6e8f5e87494a6cad217959035fbf8"
-  integrity sha512-HswXTG0keulFEFKTk0ohYMvG3AT5PM/EELVOlTw3UCu8hFcTm4IYqIQIv6aWC+4kayGpl0PR7jH4U56hFck8rw==
+shr-fhir-export@^5.14.0-beta.1:
+  version "5.14.0-beta.1"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.14.0-beta.1.tgz#0e2600aa9e8cba13dc020989eec33a375777a9e5"
+  integrity sha512-Stz1gIiG5YUIFC1V6dLW8wvCqfC3+BiS0/nx5MFw1Yqx2k+u5gqhSdR4gK/RogXqt/IPW3mum8wjTRFElv6Fvg==
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
