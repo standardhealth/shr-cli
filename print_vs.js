@@ -53,13 +53,12 @@ module.exports = function printValueSets(specs, config) {
     }
   }
 
-  const valueSetDetailsLines = [['Value Set', 'Code System', 'Logical Definition', 'Code', 'Code Description']];
+  const valueSetDetailsLines = [['Value Set', 'Code System', 'Code', 'Code Description']];
   for (const vs of vsMap.values()) {
     for (const rule of vs.rulesFilter.includesCode.rules) {
       valueSetDetailsLines.push([
         vs.identifier.name,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
-        '',
         `${rule.code.code}`,
         `${rule.code.display}`
       ]);
@@ -69,7 +68,6 @@ module.exports = function printValueSets(specs, config) {
         vs.identifier.name,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
         `includes codes descending from ${rule.code.code}`,
-        '',
         `${rule.code.display}`
       ]);
     }
@@ -78,7 +76,6 @@ module.exports = function printValueSets(specs, config) {
         vs.identifier.name,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
         `includes codes from code ${rule.code.code}`,
-        '',
         `${rule.code.display}`
       ]);
     }
@@ -87,7 +84,6 @@ module.exports = function printValueSets(specs, config) {
         vs.identifier.name,
         urlsToNames[rule.system] ? urlsToNames[rule.system] : rule.system,
         `includes codes from code system ${urlsToNames[rule.system] ? urlsToNames[rule.system] : rule.system}`,
-        '',
         ''
       ]);
     }
@@ -96,7 +92,6 @@ module.exports = function printValueSets(specs, config) {
         vs.identifier.name,
         urlsToNames[rule.code.system] ? urlsToNames[rule.code.system] : rule.code.system,
         `excludes codes descending from ${rule.code.code}`,
-        '',
         `${rule.code.display}`
       ]);
     }
