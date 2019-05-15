@@ -1,7 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-const mkdirp = require('mkdirp');
-
 const urlsToNames = {
   'https://sdt.cap.org': 'College of American Pathologists',
   'http://www.dsm5.org/': 'DSM-5',

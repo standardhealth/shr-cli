@@ -1,4 +1,4 @@
-const { IdentifiableValue, ChoiceValue, TypeConstraint, CardConstraint, IncludesTypeConstraint, ConstraintsFilter, RefValue } = require('shr-models');
+const { Identifier, IdentifiableValue, ChoiceValue, TypeConstraint, CardConstraint, IncludesTypeConstraint, ConstraintsFilter, RefValue } = require('shr-models');
 
 // These will insert a space in between:
 // - not a capital letter -- a capital letter
@@ -229,19 +229,33 @@ function mergeConstraintsToChild(parentConstraints, childValue, childIsElementVa
   return mergedChild;
 }
 
-module.exports = function printElements(specs, config) {
-  const dataElementLines = [['Profile Name', 'Data Element Name', 'Description', 'Cardinality', 'Data Type', 'Terminology Binding']];
-  const profileLines = [['Profile Name', 'Profile Description']];
-  for (const de of specs.dataElements.all) {
-    let isInProfileList = false;
-    const valueAndFields = [de.value, ...de.fields];
-    const profileName = getHumanReadableProfileName(de.identifier.name);
-    for (const f of valueAndFields) {
-      if (!f) continue; // no field
-      const cpRules = (specs.contentProfiles.findRulesByIdentifierAndField(de.identifier, f.identifier));
-      for (const rule of cpRules) {
-        if (!rule.mustSupport) continue; // not a must-support rule
-        isInProfileList = true; // some rule of element is must-support, so include in profile list
+function fillLines(dataElementLines, profileLines, de, specs, config) {
+  let isInProfileList = false;
+  const valueAndFields = [de.value, ...de.fields];
+  const profileName = getHumanReadableProfileName(de.identifier.name);
+  for (const f of valueAndFields) {
+    if (!(f && f.identifier)) continue; // no field or no identifier
+
+    let includesTypeConstraints = [];
+    if (f.identifier.equals(new Identifier('shr.core', 'Components')
+    || f.identifier.equals(new Identifier('shr.core', 'PanelMembers')))) {
+      includesTypeConstraints = f.constraintsFilter.includesType.constraints;
+    }
+
+    const cpRules = (specs.contentProfiles.findRulesByIdentifierAndField(de.identifier, f.identifier));
+
+    for (const rule of cpRules) {
+      if (!rule.mustSupport) continue; // not a must-support rule
+      isInProfileList = true; // some rule of element is must-support, so include in profile list
+      if (includesTypeConstraints.length > 0) {
+        for (const itc of includesTypeConstraints) {
+          const itcName = getHumanReadableProfileName(itc.isA.name);
+          const itcElement = specs.dataElements.findByIdentifier(itc.isA);
+          const description = `${itcElement.description}`;
+          const cardinality = itc.card.toString();
+          dataElementLines.push([profileName, itcName, description, cardinality, '', '']);
+        }
+      } else {
         const pathName = getHumanReadablePathName(rule.path);
         const endOfPathElement = specs.dataElements.findByIdentifier(rule.path[rule.path.length-1]);
         const description = `${endOfPathElement.description}`;
@@ -251,10 +265,18 @@ module.exports = function printElements(specs, config) {
         dataElementLines.push([profileName, pathName, description, cardinality, dataType, binding]);
       }
     }
+  }
 
-    if (isInProfileList) {
-      profileLines.push([profileName, de.description]);
-    }
+  if (isInProfileList) {
+    profileLines.push([profileName, de.description]);
+  }
+}
+
+module.exports = function printElements(specs, config) {
+  const dataElementLines = [['Profile Name', 'Data Element Name', 'Description', 'Cardinality', 'Data Type', 'Terminology Binding']];
+  const profileLines = [['Profile Name', 'Profile Description']];
+  for (const de of specs.dataElements.all) {
+    fillLines(dataElementLines, profileLines, de, specs, config);
   }
 
   return { profileLines, dataElementLines };
