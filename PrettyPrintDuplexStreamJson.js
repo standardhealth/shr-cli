@@ -5,7 +5,6 @@ const chalk = require('chalk');   //library for colorizing Strings
 // color palette for messages -- can also do rgb; e.g.  chalk.rgb(123, 45, 67)
 const originalErrorColor = chalk.bold.greenBright;
 const errorDetailColor = chalk.bold.cyan;
-const otherColor = chalk.bold.yellowBright;
 const errorCodeColor = chalk.bold.redBright;
 const noErrorCode = '-1';
 
@@ -25,7 +24,7 @@ class PrettyPrintDuplexStreamJson extends Transform {
     this.buildMapFromFile( csvFilePath, this.solutionMap, 0, 2);
     this.buildMapFromFile( csvFilePath, this.ruleMap, 0, 3);
     this.buildMapFromFile( csvFilePath, this.templateStrings, 0, 1);
-    // populate a map with the key as the ERROR_CODE number and the value is the suggested solution
+    // populate a set with the key as the ERROR_CODE number and the value is the suggested solution
     this.idSet = new Set();
     this.idSet.add( noErrorCode );
   }
@@ -46,19 +45,19 @@ class PrettyPrintDuplexStreamJson extends Transform {
     switch(inName) {
     case 'shr-expand': return ('Model Expansion');
     case 'shr-fhir-export' : return ('FHIR Export') ;
-    default: return(inName);
+    default: return inName ;
     }
   }
   
   getUnqualifiedName ( inName ) {     // take a name with '.' delimiters and return the last part
     if (inName === '') {
-      return(inName);
+      return inName ;
     }
     const nameParts = inName.split('.');
     if (nameParts.length > 0) {
-      return(nameParts[nameParts.length -1 ]);
+      return nameParts[nameParts.length -1 ];
     }
-    return(inName);
+    return inName;
   }
 
   parseErrorCode(myRegex, myMsg) {
@@ -66,21 +65,21 @@ class PrettyPrintDuplexStreamJson extends Transform {
     let myECode = noErrorCode;       // supply default error code of -1 (noErrorCode) if msg doesn't have ERROR_CODE
     if ( result != null) {
       if ( result[1] == null) {
-        return(myECode);
+        return myECode ;
       }
       else {
         myECode = result[1].trim();   
       }
     }
-    return(myECode);
+    return myECode ;
   }
 
   getAttributeOrEmptyString( myPart) {   // guard against undefined or null attributes
     if (myPart == null) {
-      return('');
+      return '' ;
     }
     else {
-      return(myPart);
+      return myPart;
     }
   }
 
@@ -91,7 +90,7 @@ class PrettyPrintDuplexStreamJson extends Transform {
     if ( semicolonDelimitedKeyList != null ) {
       semicolonDelimitedKeyList = semicolonDelimitedKeyList.toString().replace(/'/g, '').trim() ;
       if ( semicolonDelimitedKeyList === '' ) {   // if you have no keys for deduplication in errorMessages.txt for this error, print everything
-        return(hashValue);
+        return hashValue ;
       }
       const parts = semicolonDelimitedKeyList.split(';');
     
@@ -109,10 +108,10 @@ class PrettyPrintDuplexStreamJson extends Transform {
         }
       } 
     }
-    return(hashValue);
+    return hashValue;
   }
 
-  processTemplate_new(jsonKeys, myTemplate, myJson  ) {  // get the elements from the template and fill them in; return the detail message
+  processTemplate(jsonKeys, myTemplate, myJson  ) {  // get the elements from the template and fill them in; return the detail message
     let template = myTemplate;
     const templateRegex=/\$\{([\w\d]+)\}/g;
     if (myTemplate != null) {
@@ -132,13 +131,12 @@ class PrettyPrintDuplexStreamJson extends Transform {
         }
       }
     } 
-    return(template);
+    return template ;
   }
   
   // this function processes a single error message and returns a colorized, formatted string
   // for the moment, it writes the original input message in red to console.log
   processLine(myinline, printAllErrors) {
-    const myline = myinline.toString();
     const myJson = JSON.parse(myinline);          // convert String to object, then grab attributes
     const jsonKeys = Object.keys( myJson);
     const jMsg = this.getAttributeOrEmptyString( myJson.msg ); 
@@ -148,12 +146,11 @@ class PrettyPrintDuplexStreamJson extends Transform {
     let myTemplate = this.templateStrings[ eCode ];
 
     if (myTemplate != null) {
-      myTemplate = this.processTemplate_new(jsonKeys, myTemplate, myJson  ) ;
-      detailMsg = myTemplate;
+      detailMsg = this.processTemplate(jsonKeys, myTemplate, myJson  ) ;
     }
     else {
       console.log( errorCodeColor(' Message is missing errorCode; no template found.  Default error code '+ eCode + ':'));
-      return('');
+      return '';
     } 
     
     const shrIdPart = this.getAttributeOrEmptyString( myJson.shrId );             //grab shrId
@@ -186,17 +183,17 @@ class PrettyPrintDuplexStreamJson extends Transform {
     const myDedupHashKey = this.buildHashKey( eCode, this.ruleMap,  myJson ) ;
     
     if (myDedupHashKey === '') { // if you have no keys for deduplication in errorMessages.txt for thisd, print everything
-      return(outline);
+      return outline ;
     }
     else if (this.idSet.has(myDedupHashKey)) {
-      return('');
+      return '';
     }
     else {
       this.idSet.add(myDedupHashKey);
       if (printAllErrors !== false) {
-        console.log( originalErrorColor (myline )); 
+        console.log( originalErrorColor (myinline )); 
       }
-      return (outline);
+      return outline ;
     }
   }
 
