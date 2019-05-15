@@ -64,7 +64,7 @@ function getBinding(de, path, specs, projectURL) {
   }
   if (constraint) {
     const url = constraint.valueSet.startsWith(projectURL) ? constraint.valueSet.split('/')[constraint.valueSet.split('/').length-1] : constraint.valueSet;
-    return `${url} (${constraint.bindingStrength})`;
+    return { url, strength: constraint.bindingStrength };
   }
 }
 
@@ -237,8 +237,8 @@ function fillLines(dataElementLines, profileLines, de, specs, config) {
     if (!(f && f.identifier)) continue; // no field or no identifier
 
     let includesTypeConstraints = [];
-    if (f.identifier.equals(new Identifier('shr.core', 'Components')
-    || f.identifier.equals(new Identifier('shr.core', 'PanelMembers')))) {
+    if (f.identifier.equals(new Identifier('shr.core', 'Components'))
+    || f.identifier.equals(new Identifier('shr.core', 'PanelMembers'))) {
       includesTypeConstraints = f.constraintsFilter.includesType.constraints;
     }
 
@@ -253,7 +253,7 @@ function fillLines(dataElementLines, profileLines, de, specs, config) {
           const itcElement = specs.dataElements.findByIdentifier(itc.isA);
           const description = `${itcElement.description}`;
           const cardinality = itc.card.toString();
-          dataElementLines.push([profileName, itcName, description, cardinality, '', '']);
+          dataElementLines.push([profileName, itcName, description, cardinality, '', '', '']);
         }
       } else {
         const pathName = getHumanReadablePathName(rule.path);
@@ -262,7 +262,9 @@ function fillLines(dataElementLines, profileLines, de, specs, config) {
         const cardinality = getCard(f);
         const dataType = getDataType(endOfPathElement);
         const binding = getBinding(de, rule.path, specs, config.projectURL);
-        dataElementLines.push([profileName, pathName, description, cardinality, dataType, binding]);
+        const url = binding ? binding.url : '';
+        const strength = binding ? binding.strength : '';
+        dataElementLines.push([profileName, pathName, description, cardinality, dataType, url, strength]);
       }
     }
   }
@@ -273,7 +275,7 @@ function fillLines(dataElementLines, profileLines, de, specs, config) {
 }
 
 module.exports = function printElements(specs, config) {
-  const dataElementLines = [['Profile Name', 'Data Element Name', 'Description', 'Cardinality', 'Data Type', 'Terminology Binding']];
+  const dataElementLines = [['Profile Name', 'Data Element Name', 'Description', 'Cardinality', 'Data Type', 'Value Set', 'Value Set Binding']];
   const profileLines = [['Profile Name', 'Profile Description']];
   for (const de of specs.dataElements.all) {
     fillLines(dataElementLines, profileLines, de, specs, config);
