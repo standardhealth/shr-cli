@@ -137,6 +137,10 @@ class PrettyPrintDuplexStreamJson extends Transform {
   // this function processes a single error message and returns a colorized, formatted string
   // for the moment, it writes the original input message in red to console.log
   processLine(myinline, printAllErrors) {
+    
+    if (printAllErrors !== false) {
+      console.log( originalErrorColor (myinline )); 
+    }
     const myJson = JSON.parse(myinline);          // convert String to object, then grab attributes
     const jsonKeys = Object.keys( myJson);
     const jMsg = this.getAttributeOrEmptyString( myJson.msg ); 
@@ -190,9 +194,7 @@ class PrettyPrintDuplexStreamJson extends Transform {
     }
     else {
       this.idSet.add(myDedupHashKey);
-      if (printAllErrors !== false) {
-        console.log( originalErrorColor (myinline )); 
-      }
+
       return outline ;
     }
   }
