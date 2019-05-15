@@ -29,11 +29,15 @@ class PrettyPrintDuplexStreamJson extends Transform {
     this.idSet.add( noErrorCode );
   }
 
+
   buildMapFromFile( filePath, map, keyColumnNumber, valueColumnNumber) {
     const recArray = fs.readFileSync(filePath).toString().split('\n'); 
     // populate a map with the key as the ERROR_CODE number and the value is the suggested solution
     for( const i in recArray) {   
       const line = recArray[i].toString();
+      if (line.trim().startsWith('//') ){
+        continue;                          // skip lines that start with comment delimiter
+      }
       const parts= line.split(',');
       const key = parts[keyColumnNumber].trim();
       const value = parts[valueColumnNumber];
