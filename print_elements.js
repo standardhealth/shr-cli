@@ -236,11 +236,7 @@ function fillLines(dataElementLines, profileLines, de, specs, config) {
   for (const f of valueAndFields) {
     if (!(f && f.identifier)) continue; // no field or no identifier
 
-    let includesTypeConstraints = [];
-    if (f.identifier.equals(new Identifier('shr.core', 'Components'))
-    || f.identifier.equals(new Identifier('shr.core', 'PanelMembers'))) {
-      includesTypeConstraints = f.constraintsFilter.includesType.constraints;
-    }
+    let includesTypeConstraints = f.constraintsFilter.includesType.constraints;
 
     const cpRules = (specs.contentProfiles.findRulesByIdentifierAndField(de.identifier, f.identifier));
 
