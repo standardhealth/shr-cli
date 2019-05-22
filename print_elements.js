@@ -1,4 +1,4 @@
-const { Identifier, IdentifiableValue, ChoiceValue, TypeConstraint, CardConstraint, IncludesTypeConstraint, ConstraintsFilter, RefValue } = require('shr-models');
+const { Identifier, IdentifiableValue, ChoiceValue, TypeConstraint, CardConstraint, IncludesTypeConstraint, ConstraintsFilter, RefValue, Cardinality } = require('shr-models');
 
 // These will insert a space in between:
 // - not a capital letter -- a capital letter
@@ -264,6 +264,33 @@ function mergeConstraintsToChild(parentConstraints, childValue, childIsElementVa
   return mergedChild;
 }
 
+function getAggregateEffectiveCardinality(elementIdentifier, path, specs) {
+  const cards = [];
+  const def = specs.dataElements.findByIdentifier(elementIdentifier);
+  for (let i=0; i < path.length; i++) {
+    const sourceValue = findValueByPath(specs, path.slice(0, i+1), def);
+    cards.push(sourceValue.effectiveCard);
+  }
+  return aggregateCardinality(...cards);
+}
+
+function aggregateCardinality(...card) {
+  if (card.length == 0) {
+    return;
+  }
+  const min = card.reduce((val, current) => val * current.min, 1);
+  const max = card.reduce((val, current) => {
+    if (val == 0 || current.max == 0) {
+      return 0;
+    } else if (typeof val === 'undefined' || typeof current.max == 'undefined') {
+      return; // keep it undefined (e.g. unbounded)
+    } else {
+      return val * current.max;
+    }
+  }, 1);
+  return new Cardinality(min, max);
+}
+
 function fillLines(dataElementLines, profileLines, de, specs, config) {
   let isInProfileList = false;
   const valueAndFields = [de.value, ...de.fields];
@@ -283,20 +310,21 @@ function fillLines(dataElementLines, profileLines, de, specs, config) {
           const itcName = getHumanReadableProfileName(itc.isA.name);
           const itcElement = specs.dataElements.findByIdentifier(itc.isA);
           const description = `${itcElement.description}`;
-          const cardinalityInfo = getCardinalityInfo(itc.card);
-          dataElementLines.push([profileName, itcName, description, cardinalityInfo.requirement, cardinalityInfo.multiplicity, '', '', '', '']);
+          const cardInfo = getCardinalityInfo(itc.card);
+          dataElementLines.push([profileName, itcName, description, cardInfo.requirement, cardInfo.multiplicity, '', '', '', '']);
         }
       } else {
         const pathName = getHumanReadablePathName(rule.path);
         const endOfPathElement = specs.dataElements.findByIdentifier(rule.path[rule.path.length-1]);
         const description = `${endOfPathElement.description}`;
-        const cardinalityInfo = getCardinalityInfo(f.effectiveCard);
+        const card = getAggregateEffectiveCardinality(de.identifier, rule.path, specs);
+        const cardInfo = getCardinalityInfo(card);
         const dataType = getDataType(endOfPathElement);
         const binding = getBinding(de, rule.path, specs, config.projectURL);
         const url = binding ? binding.url : '';
         const strength = binding ? binding.strength.toLowerCase() : '';
         const unit = getUnit(de, rule.path, specs, config.projectURL);
-        dataElementLines.push([profileName, pathName, description, cardinalityInfo.requirement, cardinalityInfo.multiplicity, dataType, url, strength, unit]);
+        dataElementLines.push([profileName, pathName, description, cardInfo.requirement, cardInfo.multiplicity, dataType, url, strength, unit]);
       }
     }
   }
