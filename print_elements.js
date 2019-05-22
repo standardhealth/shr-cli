@@ -68,6 +68,39 @@ function getBinding(de, path, specs, projectURL) {
   }
 }
 
+function getUnit(de, path, specs, projectURL) {
+  const value = findValueByPath(specs, path, de);
+  let constraint;
+  const codeConstraints = value.constraintsFilter.constraints;
+  if (codeConstraints && codeConstraints.length > 0) {
+    constraint = codeConstraints.find(c => !c.onValue && c.path.some(e => e.equals(new Identifier('shr.core', 'Units'))));
+  }
+  if (!constraint) {
+    // It may be on the value...
+    let valueId = choiceFriendlyEffectiveIdentifier(value);
+    if (valueId == null && value instanceof ChoiceValue) {
+      valueId = value.aggregateOptions.find(o => ['CodeableConcept', 'Coding', 'code'].indexOf(o.identifier.name) !== -1);
+    }
+    if (valueId) {
+      const valueDE = specs.dataElements.findByIdentifier(valueId);
+      if (valueDE.value) {
+        const newValue = mergeConstraintsToChild(value.constraints, valueDE.value, true);
+        const newCodeConstraints = newValue.constraintsFilter.code.constraints;
+        constraint = newCodeConstraints.find(c => !c.onValue && c.path.some(e => e.equals('shr.core', 'Units')));
+      }
+    }
+  }
+  if (constraint) {
+    let units = '';
+    if (constraint.code) {
+      units = `${constraint.code.display}`;
+    } else if (constraint.valueSet) {
+      units = constraint.valueSet.startsWith(projectURL) ? constraint.valueSet.split('/')[constraint.valueSet.split('/').length-1] : constraint.valueSet;
+    }
+    return units;
+  }
+}
+
 function choiceFriendlyEffectiveIdentifier(value) {
   if (value.effectiveIdentifier) {
     return value.effectiveIdentifier;
@@ -260,7 +293,8 @@ function fillLines(dataElementLines, profileLines, de, specs, config) {
         const binding = getBinding(de, rule.path, specs, config.projectURL);
         const url = binding ? binding.url : '';
         const strength = binding ? binding.strength : '';
-        dataElementLines.push([profileName, pathName, description, cardinality, dataType, url, strength]);
+        const unit = getUnit(de, rule.path, specs, config.projectURL);
+        dataElementLines.push([profileName, pathName, description, cardinality, dataType, url, strength, unit]);
       }
     }
   }
@@ -271,7 +305,7 @@ function fillLines(dataElementLines, profileLines, de, specs, config) {
 }
 
 module.exports = function printElements(specs, config) {
-  const dataElementLines = [['Profile Name', 'Data Element Name', 'Description', 'Cardinality', 'Data Type', 'Value Set', 'Value Set Binding']];
+  const dataElementLines = [['Profile Name', 'Data Element Name', 'Description', 'Cardinality', 'Data Type', 'Value Set', 'Value Set Binding', 'Units']];
   const profileLines = [['Profile Name', 'Profile Description']];
   for (const de of specs.dataElements.all) {
     fillLines(dataElementLines, profileLines, de, specs, config);
