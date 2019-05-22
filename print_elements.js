@@ -20,12 +20,14 @@ function humanReadableReplacer(match, p1, p2, p3, p4, p5, p6, p7, p8, p9, offset
   }
 }
 
-function getCard(f) {
-  let card = ' ';
-  if (f != null && f.effectiveCard != null && f.effectiveCard.toString() != null) {
-    card = f.effectiveCard.toString();
+function getCardinalityInfo(card) {
+  let requirement = '';
+  let multiplicity = '';
+  if (card) {
+    requirement = (card.min && card.min > 0) ? 'required' : 'optional';
+    multiplicity = (card.max && card.max === 1) ? 'single' : 'multiple';
   }
-  return card;
+  return { requirement, multiplicity };
 }
 
 function getDataType(de) {
@@ -281,20 +283,20 @@ function fillLines(dataElementLines, profileLines, de, specs, config) {
           const itcName = getHumanReadableProfileName(itc.isA.name);
           const itcElement = specs.dataElements.findByIdentifier(itc.isA);
           const description = `${itcElement.description}`;
-          const cardinality = itc.card.toString();
-          dataElementLines.push([profileName, itcName, description, cardinality, '', '', '']);
+          const cardinalityInfo = getCardinalityInfo(itc.card);
+          dataElementLines.push([profileName, itcName, description, cardinalityInfo.requirement, cardinalityInfo.multiplicity, '', '', '', '']);
         }
       } else {
         const pathName = getHumanReadablePathName(rule.path);
         const endOfPathElement = specs.dataElements.findByIdentifier(rule.path[rule.path.length-1]);
         const description = `${endOfPathElement.description}`;
-        const cardinality = getCard(f);
+        const cardinalityInfo = getCardinalityInfo(f.effectiveCard);
         const dataType = getDataType(endOfPathElement);
         const binding = getBinding(de, rule.path, specs, config.projectURL);
         const url = binding ? binding.url : '';
-        const strength = binding ? binding.strength : '';
+        const strength = binding ? binding.strength.toLowerCase() : '';
         const unit = getUnit(de, rule.path, specs, config.projectURL);
-        dataElementLines.push([profileName, pathName, description, cardinality, dataType, url, strength, unit]);
+        dataElementLines.push([profileName, pathName, description, cardinalityInfo.requirement, cardinalityInfo.multiplicity, dataType, url, strength, unit]);
       }
     }
   }
@@ -305,7 +307,7 @@ function fillLines(dataElementLines, profileLines, de, specs, config) {
 }
 
 module.exports = function printElements(specs, config) {
-  const dataElementLines = [['Profile Name', 'Data Element Name', 'Description', 'Cardinality', 'Data Type', 'Value Set', 'Value Set Binding', 'Units']];
+  const dataElementLines = [['Profile Name', 'Data Element Name', 'Description', 'Required in Profile?', 'Occurrences Allowed', 'Data Type', 'Value Set', 'Value Set Binding', 'Units']];
   const profileLines = [['Profile Name', 'Profile Description']];
   for (const de of specs.dataElements.all) {
     fillLines(dataElementLines, profileLines, de, specs, config);
