@@ -254,6 +254,8 @@ This is how you can run the script.
 python3 comments.py [Directory of CIMPL 5 Files] [Directory of Exported CIMPL 6.0 files]
 ```
 
+After running this command, the CIMPL6 files with inserted comments will be available in the `comments` folder at the root of the shr-cli project.
+
 # License
 
 Copyright 2016, 2017 The MITRE Corporation
