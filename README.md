@@ -121,7 +121,7 @@ The contents of the configuration file are as follows:
 |`projectShorthand`   |`string`|A shorthand name for the project.                              |
 |`projectURL`         |`string`|The primary URL for the project.                               |
 |`fhirURL`            |`string`|The FHIR IG URL for the project.                               |
-|`fhirTarget`         |`string`|The FHIR target for the project (`FHIR_STU_3` or `FHIR_DSTU_2`)|
+|`fhirTarget`         |`string`|The FHIR target for the project (`FHIR_R4`, `FHIR_STU_3`, or `FHIR_DSTU_2`)|
 |`entryTypeURL`       |`string`|The root URL for the JSON schema `EntryType` field.            |
 |`filterStrategy`     |`{}`    |An object containing configuration for filtering.              |
 |`contentProfile`     |`string`|The base file name for the content profile for the project.    |
@@ -167,16 +167,21 @@ These configurations are used to highlight specific elements as more important i
 
 The contents of the `implementationGuide` object are as follows:
 
-|Parameter                 |Type     |Description                                                    |
-|:-------------------------|:--------|:--------------------------------------------------------------|
-|`npmName`                 |`string` |The assigned npm-name (see note) for this IG,                  |
-|`version`                 |`string` |The version of this IG (not necessarily the version of FHIR).  |
-|`includeLogicalModels`    |`boolean`|A value indicating whether to include logical models in the IG.|
-|`includeModelDoc`         |`boolean`|A value indicating whether to include the model doc in the IG. |
-|`indexContent`            |`string` |The name of the file or folder to place the IG index content.  |
-|`primarySelectionStrategy`|`{}`     |The strategy for selection of what is primary in the IG.       |
+|Parameter                 |Type     |Description                                                       |
+|:-------------------------|:--------|:-----------------------------------------------------------------|
+|`npmName`                 |`string` |The assigned npm-name for this IG (usually assign by HL7).        |
+|`version`                 |`string` |The version of this IG (not necessarily the version of FHIR).     |
+|`includeLogicalModels`    |`boolean`|A value indicating whether to include logical models in the IG.   |
+|`includeModelDoc`         |`boolean`|A value indicating whether to include the model doc in the IG.    |
+|`indexContent`            |`string` |The name of the file or folder containing the IG index content.   |
+|`examples`                |`string` |The name of the folder containing examples to include in the IG.  |
+|`primarySelectionStrategy`|`{}`     |The strategy for selection of what is primary in the IG.          |
 
-Note: the npm-name is _______________________
+If the `indexContent` value is a path to a folder (relative to the spec directory), then it should contain an `index.html` file whose contents will be used as the body of the IG landing page.
+
+The folder indicated by `examples` should include one file per JSON-formatted example.  Each example may be named as the author wishes, but we recommend the example name match the example `id` in the file (with a `.json` file extension added).  The example JSON must contain an `id` and the example's `meta.profile` should include the canonical URL for the profile it exemplifies (e.g., `"meta": { "profile": [ "http://hl7.org/fhir/us/breastcancer/StructureDefinition/oncology-BreastCancerPresenceStatement" ] }`).
+
+_NOTE: For backwards compatibility, if no `examples` folder is specified in the config, and a folder named "fhir-examples" exists in the spec directory, it will be used as the examples folder._
 
 The contents of the `primarySelectionStrategy` object are as follows:
 
