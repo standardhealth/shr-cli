@@ -939,9 +939,9 @@ shr-adl-bmm-export@^1.0.1:
     dedent-js "^1.0.1"
     eslint "^4.19.1"
 
-shr-es6-export@^5.6.0-beta.3:
-  version "5.6.0-beta.3"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.6.0-beta.3.tgz#2cb4bad28743262542a28204b308dc11d9c300f3"
+shr-es6-export@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.6.0.tgz#dc039efdcffed51f085bcf32dd49e4439088280e"
   dependencies:
     reserved-words "^0.1.2"
 
@@ -949,9 +949,9 @@ shr-expand@^5.8.1:
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.8.1.tgz#99aa50b7c9d8dfbe7d2c996740b8770e3d23527c"
 
-shr-fhir-export@^5.14.0-beta.6:
-  version "5.14.0-beta.6"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.14.0-beta.6.tgz#1b4758fb3b62731cf50d430e7c448145e1e62d92"
+shr-fhir-export@^5.14.0:
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.14.0.tgz#1217931ebfb736059f2b5c4c9e943a932881ae54"
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
