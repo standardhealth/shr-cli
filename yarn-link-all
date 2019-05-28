@@ -18,6 +18,7 @@ yarn link
 cd ../shr-text-import
 echo "================= shr-text-import =================="
 yarn link shr-models
+yarn link shr-expand
 yarn link shr-test-helpers
 yarn link
 
