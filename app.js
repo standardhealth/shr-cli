@@ -250,8 +250,7 @@ if (doCIMCORE) {
   logger.info('Skipping CIMCORE export');
 }
 
-const { profileLines, dataElementLines } = require('./print_elements')(expSpecifications, configSpecifications);
-const { valueSetLines, valueSetDetailsLines } = require('./print_vs')(expSpecifications, configSpecifications);
+const { profileLines, dataElementLines, valueSetLines, valueSetDetailsLines } = require('./print_elements')(expSpecifications, configSpecifications);
 
 const workbook = new exceljs.Workbook();
 workbook.creator = 'fhir-summary';
