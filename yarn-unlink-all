@@ -51,6 +51,7 @@ yarn unlink
 cd ../shr-text-import
 echo "================= shr-text-import =================="
 yarn unlink shr-models
+yarn unlink shr-expand
 yarn unlink shr-test-helpers
 yarn unlink
 
