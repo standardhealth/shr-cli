@@ -63,14 +63,33 @@ function getCardinalityInfo(card) {
   return { requirement, multiplicity };
 }
 
-function getDataType(de) {
-  let type = '';
-  if (de != null) {
-    if (de.value instanceof IdentifiableValue) {
-      type = de.value.effectiveIdentifier.name;
-    } else if (de.value instanceof ChoiceValue) {
-      type = de.value.aggregateOptions.filter(o => o.identifier).map(o => o.identifier.name).join(' or ');
+function getDataType(de, path, specs, endOfPathElement) {
+  const value = findValueByPath(specs, path, de);
+  let typeConstraints = [];
+  typeConstraints = value.constraintsFilter.type.constraints;
+  if (typeConstraints.length === 0) {
+    // It may be on the value...
+    let valueId = choiceFriendlyEffectiveIdentifier(value);
+    if (valueId == null && value instanceof ChoiceValue) {
+      valueId = value.aggregateOptions.find(o => ['CodeableConcept', 'Coding', 'code'].indexOf(o.identifier.name) !== -1);
     }
+    if (valueId) {
+      const valueDE = specs.dataElements.findByIdentifier(valueId);
+      if (valueDE.value) {
+        const newValue = mergeConstraintsToChild(value.constraints, valueDE.value, true);
+        const newTypeConstraints = newValue.constraintsFilter.type.constraints;
+        typeConstraints = newTypeConstraints.filter(c => !c.onValue);
+      }
+    }
+  }
+  
+  let type = '';
+  if (typeConstraints.length > 0) {
+    type = typeConstraints.map(c => c.isA.name).join(' or ');
+  } else if (endOfPathElement.value instanceof IdentifiableValue) {
+    type = endOfPathElement.value.effectiveIdentifier.name;
+  } else if (endOfPathElement.value instanceof ChoiceValue) {
+    type = endOfPathElement.value.aggregateOptions.filter(o => o.identifier).map(o => o.identifier.name).join(' or ');
   }
   return type;
 }
@@ -354,7 +373,7 @@ function fillElementLines(dataElementLines, profileLines, vsMap, de, specs, conf
         const description = `${endOfPathElement.description}`;
         const card = getAggregateEffectiveCardinality(de.identifier, rule.path, specs);
         const cardInfo = getCardinalityInfo(card);
-        const dataType = getDataType(endOfPathElement);
+        const dataType = getDataType(de, rule.path, specs, endOfPathElement);
         const vsInfo = getVsInfo(de, rule.path, specs, config.projectURL);
         const url = vsInfo ? vsInfo.url : '';
         const strength = vsInfo ? vsInfo.strength.toLowerCase() : '';
