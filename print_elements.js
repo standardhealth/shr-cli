@@ -24,7 +24,7 @@ function getCardinalityInfo(card) {
   let requirement = '';
   let multiplicity = '';
   if (card) {
-    requirement = (card.min && card.min > 0) ? 'required' : 'optional';
+    requirement = (card.min && card.min > 0) ? 'required' : 'required if known';
     multiplicity = (card.max && card.max === 1) ? 'single' : 'multiple';
   }
   return { requirement, multiplicity };
@@ -121,7 +121,7 @@ function findValueByPath(specs, path, def, valueOnly=false, parentConstraints=[]
   }
 
   const fieldsToSearch = [];
-  if (typeof def.value !== 'undefined') {
+  if (def.value !== undefined) {
     fieldsToSearch.push(mergeConstraintsToChild(parentConstraints, def.value, true));
   }
   if (!valueOnly) {
@@ -132,13 +132,13 @@ function findValueByPath(specs, path, def, valueOnly=false, parentConstraints=[]
 
   // If we didn't find the value, it could be one of those cases where we replaced the original identifier with
   // an includesType identifier, so we should check the constraints to look for a match on the includesType.
-  if (typeof value === 'undefined' && parentConstraints.length > 0) {
+  if (value === undefined && parentConstraints.length > 0) {
     const cf = new ConstraintsFilter(parentConstraints);
     for (const itc of cf.includesType.constraints) {
       if (itc.path.length == 1 && itc.isA.equals(path[0])) {
 
         value = findValueByIdentifier(itc.path[0], fieldsToSearch);
-        if (typeof value !== 'undefined') {
+        if (value !== undefined) {
           if (value instanceof RefValue) {
             value = new RefValue(itc.isA).withCard(itc.card).withConstraints(value.constraints);
           } else {
@@ -149,7 +149,7 @@ function findValueByPath(specs, path, def, valueOnly=false, parentConstraints=[]
     }
   }
 
-  if (typeof value === 'undefined') {
+  if (value === undefined) {
     return; // invalid path
   }
 
@@ -159,21 +159,21 @@ function findValueByPath(specs, path, def, valueOnly=false, parentConstraints=[]
 
   // We're not at the end of the path, so we must dig deeper
   def = specs.dataElements.findByIdentifier(choiceFriendlyEffectiveIdentifier(value));
-  if (typeof def === 'undefined') {
+  if (def === undefined) {
     return; // invalid path
   }
 
   // First see if we can continue the path by traversing the value
-  if (typeof def.value !== 'undefined') {
+  if (def.value !== undefined) {
     const subValue = findValueByPath(specs, path.slice(1), def, true, value.constraints);
-    if (typeof subValue !== 'undefined') {
+    if (subValue !== undefined) {
       return mergeConstraintsToChild(value.constraints, subValue, true);
     }
   }
 
   // Still haven't found it, so traverse the rest
   const subValue = findValueByPath(specs, path.slice(1), def, false, value.constraints);
-  if (typeof subValue !== 'undefined') {
+  if (subValue !== undefined) {
     return subValue;
   }
 }
@@ -213,7 +213,7 @@ function findValueByIdentifier(identifier, values) {
       const typeConstrained = value.constraintsFilter.own.type.constraints.some(c => c.isA.equals(identifier));
 
       let opt = findValueByIdentifier(identifier, value.options);
-      if (typeof opt !== 'undefined') {
+      if (opt !== undefined) {
         // We need to modify cardinality to:
         // (a) use the choice's cardinality, because choice options are now ALWAYS 1..1
         // (b) set min to 0 if there are multiple options (since it will have 0 instances if not selected)
@@ -266,6 +266,7 @@ function mergeConstraintsToChild(parentConstraints, childValue, childIsElementVa
 
 function getAggregateEffectiveCardinality(elementIdentifier, path, specs) {
   const cards = [];
+  
   const def = specs.dataElements.findByIdentifier(elementIdentifier);
   for (let i=0; i < path.length; i++) {
     const sourceValue = findValueByPath(specs, path.slice(0, i+1), def);
@@ -282,7 +283,7 @@ function aggregateCardinality(...card) {
   const max = card.reduce((val, current) => {
     if (val == 0 || current.max == 0) {
       return 0;
-    } else if (typeof val === 'undefined' || typeof current.max == 'undefined') {
+    } else if (val === undefined || current.max == undefined) {
       return; // keep it undefined (e.g. unbounded)
     } else {
       return val * current.max;
