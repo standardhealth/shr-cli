@@ -9,7 +9,7 @@ const shrTI = require('shr-text-import');
 const shrEx = require('shr-expand');
 const shrJE = require('shr-json-export');
 const shrJSE = require('shr-json-schema-export');
-const shrEE = require('shr-es6-export');
+// const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
 const shrJDE = require('shr-json-javadoc');
 const shrAE = require('shr-adl-bmm-export');
@@ -18,7 +18,7 @@ const SpecificationsFilter = require('./filter');
 
 /* eslint-disable no-console */
 
-sanityCheckModules({shrTI, shrEx, shrJE, shrJSE, shrEE, shrFE });
+sanityCheckModules({shrTI, shrEx, shrJE, shrJSE, /*shrEE,*/ shrFE });
 
 // Record the time so we can print elapsed time
 const hrstart = process.hrtime();
@@ -111,7 +111,7 @@ if (doADL) {
   shrAE.setLogger(logger.child({module: 'shr-adl-export'}));
 }
 if (doES6) {
-  shrEE.setLogger(logger.child({ module: 'shr-es6-export'}));
+  //shrEE.setLogger(logger.child({ module: 'shr-es6-export'}));
 }
 
 // Go!
@@ -297,24 +297,25 @@ if (doES6 || doFHIR){
 }
 
 if (doES6) {
-  try {
-    const es6Results = shrEE.exportToES6(expSpecifications, fhirResults);
-    const es6Path = path.join(program.out, 'es6');
-    const handleNS = (obj, fpath) => {
-      mkdirp.sync(fpath);
-      for (const key of Object.keys(obj)) {
-        if (key.endsWith('.js')) {
-          fs.writeFileSync(path.join(fpath, key), obj[key]);
-        } else {
-          handleNS(obj[key], path.join(fpath, key));
-        }
-      }
-    };
-    handleNS(es6Results, es6Path);
-  } catch (error) {
-    logger.fatal('Failure in ES6 export. Aborting with error message: %s', error);
-    failedExports.push('shr-es6-export');
-  }
+  logger.info('ES6 export disabled in SHR CLI 6.0.0-beta.1.  Will be re-enabled in a future beta.');
+  // try {
+  //   const es6Results = shrEE.exportToES6(expSpecifications, fhirResults);
+  //   const es6Path = path.join(program.out, 'es6');
+  //   const handleNS = (obj, fpath) => {
+  //     mkdirp.sync(fpath);
+  //     for (const key of Object.keys(obj)) {
+  //       if (key.endsWith('.js')) {
+  //         fs.writeFileSync(path.join(fpath, key), obj[key]);
+  //       } else {
+  //         handleNS(obj[key], path.join(fpath, key));
+  //       }
+  //     }
+  //   };
+  //   handleNS(es6Results, es6Path);
+  // } catch (error) {
+  //   logger.fatal('Failure in ES6 export. Aborting with error message: %s', error);
+  //   failedExports.push('shr-es6-export');
+  // }
 } else {
   logger.info('Skipping ES6 export');
 }
