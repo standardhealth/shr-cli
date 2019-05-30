@@ -256,6 +256,13 @@ doctrine@^2.1.0:
   dependencies:
     esutils "^2.0.2"
 
+dtrace-provider@^0.8.7:
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/dtrace-provider/-/dtrace-provider-0.8.7.tgz#dc939b4d3e0620cfe0c1cd803d0d2d7ed04ffd04"
+  integrity sha1-3JObTT4GIM/gwc2APQ0tftBP/QQ=
+  dependencies:
+    nan "^2.10.0"
+
 dtrace-provider@~0.8:
   version "0.8.6"
   resolved "https://registry.yarnpkg.com/dtrace-provider/-/dtrace-provider-0.8.6.tgz#428a223afe03425d2cd6d6347fdf40c66903563d"
@@ -696,6 +703,11 @@ mv@~2:
     ncp "~2.0.0"
     rimraf "~2.4.0"
 
+nan@^2.10.0:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
+  integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
+
 nan@^2.3.3:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
@@ -862,10 +874,6 @@ require-uncached@^1.0.3:
     caller-path "^0.1.0"
     resolve-from "^1.0.0"
 
-reserved-words@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/reserved-words/-/reserved-words-0.1.2.tgz#00a0940f98cd501aeaaac316411d9adc52b31ab1"
-
 resolve-from@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-1.0.1.tgz#26cbfe935d1aeeeabb29bc3fe5aeb01e93d44226"
@@ -939,51 +947,51 @@ shr-adl-bmm-export@^1.0.1:
     dedent-js "^1.0.1"
     eslint "^4.19.1"
 
-shr-es6-export@^5.7.2:
-  version "5.7.2"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.7.2.tgz#addebc6c3a1b0c6d7c73ed86ebe2e8c5ae07426d"
-  integrity sha512-ydAyAbYKKdUd9J7j4s1AMevykTJwy7C957Wc5pv37PugXTFrKrhNCU+ifBEZx9vxa6zIVYV/fgzoK6rm2whMaQ==
-  dependencies:
-    reserved-words "^0.1.2"
+shr-expand@^6.0.0-beta.1:
+  version "6.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-6.0.0-beta.1.tgz#2ef7ada2c5d5cc390e05216ebba88a160bb3c924"
+  integrity sha512-CQ2zOMQ3cD/8g0F89KfZGNoARzie7fEK4CfCM6Xd8RWMFAIK26gAJN5+M5yqEqghxCqt9RFvQP/WnmBL2mopgA==
 
-shr-expand@^5.8.1:
-  version "5.8.1"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-5.8.1.tgz#99aa50b7c9d8dfbe7d2c996740b8770e3d23527c"
-
-shr-fhir-export@^5.14.0:
-  version "5.14.0"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-5.14.0.tgz#1217931ebfb736059f2b5c4c9e943a932881ae54"
+shr-fhir-export@^6.0.0-beta.1:
+  version "6.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-6.0.0-beta.1.tgz#0d1f0190060119940eabc822ba5460d1af880a58"
+  integrity sha512-Sy4/F0wTBlZOuw96LroWBKNnc96RLpEMqb7PP9UenKC4vosU1F+euLBpDJz9l13elPGzXPApDh9hlGmdqEL3Jg==
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
 
-shr-json-export@^5.1.5:
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-5.1.5.tgz#62ee553e1ac18808ff2cea6400ba128a60fafe8a"
+shr-json-export@^6.0.0-beta.1:
+  version "6.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-6.0.0-beta.1.tgz#0aac5fd5133376dd48b38e0c8ea47c07944d1af0"
+  integrity sha512-xPRuqIUO0HXWKOAVukoc74HPdPxywKuW29VuaQVz2rcUhMskcWI8cBjvKxbDY+H71IT4gXwZCaqr27G31KWYLw==
 
-shr-json-javadoc@^1.4.5:
-  version "1.4.5"
-  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-1.4.5.tgz#056895e5d20ab06c4a8d7549953646cb08436038"
+shr-json-javadoc@^6.0.0-beta.1:
+  version "6.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-6.0.0-beta.1.tgz#5f06dd46288f13041b1e5939f4db36b23c548400"
+  integrity sha512-r1YKKYWY4sfxymkZnvZNjIc4sIHbfM5b4Reiw1Y+VQZ7x0SwlqMkVz/Bgomj1Uoyt0uofmVxJaVoKAlY/aaS3g==
   dependencies:
     bluebird "^3.5.1"
     ejs "^2.5.7"
     ncp "^2.0.0"
     showdown "^1.8.6"
 
-shr-json-schema-export@^5.3.2:
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.2.tgz#8840b62eb6a882cb242043e93733e1f3bd472a21"
+shr-json-schema-export@^6.0.0-beta.1:
+  version "6.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-6.0.0-beta.1.tgz#a975f737556eb32bb55bd4a0b7ef522816bcc6a7"
+  integrity sha512-Yzvp4l78d4CoMMTeI1z183Fx+PErjhTEEUKpmFBU7huzH6Pfa/6HhgIeYAngTsfZ2+D9rA4zyPGyZiHh/P9SfA==
 
-shr-models@^5.9.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.9.0.tgz#579c7e0387688b0d49a54fe18f8431210bd285b7"
-  integrity sha512-pv4wSeVnfP3K6zfhTsVlYcVXlct4iHO/qSwCpbe0YP4XoaZ6ym2BuGP3vX62D+EEZSAPyoaBOL6G7WkVVlu0Qw==
+shr-models@^6.0.0-beta.1:
+  version "6.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-6.0.0-beta.1.tgz#52f6c9ff10838820c00d6c4e524b237fb95db646"
+  integrity sha512-M7Iz17rCDXDnJ+Su2FbybikNT/O2fHG50BkS+rH4ydFa/6EgLvhL89VI+o9qG+mot3DRb+gvMStn9n7SVkqkwQ==
 
-shr-text-import@^5.7.1:
-  version "5.7.1"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-5.7.1.tgz#81d1c54be5eba751a9849e9f368618a3762097b0"
+shr-text-import@^6.0.0-beta.1:
+  version "6.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-6.0.0-beta.1.tgz#fc0bd420d2ac70fbfe991d6bc7413dffa6219209"
+  integrity sha512-sqXWkxBF7uhbkoiAGVAME6vkINxh7NdJLIW9H+hSqMrs1qiY9dUCqQWTvy/misCHRnXB3A495mgPKcLKIHHXHw==
   dependencies:
     antlr4 "~4.6.0"
+    dtrace-provider "^0.8.7"
 
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
