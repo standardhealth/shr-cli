@@ -271,7 +271,11 @@ if __name__ == "__main__":
                 if len(current_term) > 0:
                     for t in range(0, len(file_elements[k][current_term])):
                         if not t in added_comment_hash[k][current_term]:
-                            all_terms.append((' '*19) + file_elements[k][current_term][t][1])
+                            if not file_elements[k][current_term][t][1].strip().startswith('/*'):
+                                all_terms.append((' '*19) + file_elements[k][current_term][t][1])
+                            else:
+                                all_terms.append(file_elements[k][current_term][t][1])
+
                 current_term = new_cimpl_hash[k][a].split(":")[1].rstrip().strip()
                 added_comment_hash[k][current_term] = []
             if current_term in file_elements[k]:
@@ -289,14 +293,21 @@ if __name__ == "__main__":
                         new_six_set = six_line - five_line
 
                         if len(new_five_set) <= 1 and len(new_six_set) <= 1:
-                            all_terms.append((' '*19) + comments[b][1])
+                            if not comments[b][1].strip().startswith('/*'):
+                                all_terms.append((' '*19) + comments[b][1])
+                            else:
+                                all_terms.append(comments[b][1])
                             added_comment_hash[k][current_term].append(b)
             all_terms.append(new_cimpl_hash[k][a])
             if a == len(new_cimpl_hash[k]) - 1:
                 if len(current_term) > 0:
                     for t in range(0, len(file_elements[k][current_term])):
                         if not t in added_comment_hash[k][current_term]:
-                            all_terms.append((' '*19) + file_elements[k][current_term][t][1])
+                            if not file_elements[k][current_term][t][1].strip().startswith('/*'):
+                                all_terms.append((' '*19) + file_elements[k][current_term][t][1])
+                            else:
+                                all_terms.append(file_elements[k][current_term][t][1])
+
 
 
         file_name = output_dir + k
