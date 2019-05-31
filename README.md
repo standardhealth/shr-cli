@@ -243,16 +243,16 @@ and the directory where the exported CIMPL 6.0 files are present. It will then i
 place the commented CIMPL 6.0 files. One thing to note is that the program assumes that comments will be before a particular line. In addition, for multi-line comments which utilize the /* \*/ notation,
 the parser assumes that no multiline comment begins in the same line as text that may pertain to an Element. Thus, for example this is not valid for the parser:
 ```
-Element: A /* This is not okay to
-have */
+Element: A /* This will not be
+preserved */
 ```
 
 In addition, no new text should come within the same line as the \*/ symbol. Thus,
 
 ```
-/* This is also not okay
-to have */ Element: B
-``` 
+/* This will also not be
+preserved */ Element: B
+```
 
 
 Note: When specifying the directory, after specifying the last part of the path, be sure to include a / at the end.
