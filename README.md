@@ -237,11 +237,23 @@ Namespace: oncocore
 # Comment Preservation
 
 When running the CIMPL 6.0 exporter, comments from the CIMPL 5 files are not preserved in the resulting
-exported CIMPL 6.0 files. Thus, in order to try and best preserve the comments, the Python 3 script comments.py
+exported CIMPL 6.0 files. Thus, in order to try and best preserve the comments, the Python 3 script CommentReintegration.py
 can be run from the command line and it will take in the directory where the CIMPL 5 files with comments are held
 and the directory where the exported CIMPL 6.0 files are present. It will then in a new directory called comments
-place the commented CIMPL 6.0 files. One thing to note is that the program assumes that comments will be after a particular line. Thus, any comments that are present above a particular declaration may not be preserved properly
-except for those at the start of the file.
+place the commented CIMPL 6.0 files. One thing to note is that the program assumes that comments will be before a particular line. In addition, for multi-line comments which utilize the /* \*/ notation,
+the parser assumes that no multiline comment begins in the same line as text that may pertain to an Element. Thus, for example this is not valid for the parser:
+```
+Element: A /* This is not okay to
+have */
+```
+
+In addition, no new text should come within the same line as the \*/ symbol. Thus,
+
+```
+/* This is also not okay
+to have */ Element: B
+``` 
+
 
 Note: When specifying the directory, after specifying the last part of the path, be sure to include a / at the end.
 Example: If your input directory is the spec folder in the shr_spec directory, then you should give something like:
@@ -251,10 +263,10 @@ The same holds for the directory of exported CIMPL 6.0 files. Make sure to inclu
 
 This is how you can run the script.
 ```
-python3 comments.py [Directory of CIMPL 5 Files] [Directory of Exported CIMPL 6.0 files]
+python3 CommentReintegration.py [Directory of CIMPL 5 Files] [Directory of Exported CIMPL 6.0 files]
 ```
 
-After running this command, the CIMPL6 files with inserted comments will be available in the `comments` folder at the root of the shr-cli project.
+After running this command, the CIMPL6 files with inserted comments will be available in the `CommentReintegration` folder at the root of the shr-cli project.
 
 # License
 
