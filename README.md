@@ -237,9 +237,9 @@ Namespace: oncocore
 # Comment Preservation
 
 When running the CIMPL 6.0 exporter, comments from the CIMPL 5 files are not preserved in the resulting
-exported CIMPL 6.0 files. Thus, in order to try and best preserve the comments, the Python 3 script CommentReintegration.py
+exported CIMPL 6.0 files. Thus, in order to try and best preserve the comments, the Python 3 script commentReintegration.py
 can be run from the command line and it will take in the directory where the CIMPL 5 files with comments are held
-and the directory where the exported CIMPL 6.0 files are present. It will then in a new directory called comments
+and the directory where the exported CIMPL 6.0 files are present. It will then in a new directory called CommentReintegration,
 place the commented CIMPL 6.0 files. One thing to note is that the program assumes that comments will be before a particular line. In addition, for multi-line comments which utilize the /* \*/ notation,
 the parser assumes that no multiline comment begins in the same line as text that may pertain to an Element. Thus, for example this is not valid for the parser:
 ```
