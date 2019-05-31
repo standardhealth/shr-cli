@@ -263,7 +263,7 @@ The same holds for the directory of exported CIMPL 6.0 files. Make sure to inclu
 
 This is how you can run the script.
 ```
-python3 CommentReintegration.py [Directory of CIMPL 5 Files] [Directory of Exported CIMPL 6.0 files]
+python3 commentReintegration.py [Directory of CIMPL 5 Files] [Directory of Exported CIMPL 6.0 files]
 ```
 
 After running this command, the CIMPL6 files with inserted comments will be available in the `CommentReintegration` folder at the root of the shr-cli project.
