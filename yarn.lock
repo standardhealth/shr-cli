@@ -974,9 +974,10 @@ shr-json-schema-export@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.2.tgz#8840b62eb6a882cb242043e93733e1f3bd472a21"
 
-shr-models@^5.9.0-beta.2:
-  version "5.9.0-beta.2"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.9.0-beta.2.tgz#7bf298f9d10616b1b42bdfcf80185e562bb14647"
+shr-models@^5.9.0-beta.3:
+  version "5.9.0-beta.3"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.9.0-beta.3.tgz#752b88c340812471a14aa9a1892bc6931a72de47"
+  integrity sha512-gWwiDyWeCOtOpY30+0vV57KRxRBPNUDEpzTalnKvSSiLKrA4+IGGHriwc0oP7FmfFz7HpyZ2S6wIJIz5+ru9XA==
 
 shr-text-import@^5.7.1:
   version "5.7.1"
