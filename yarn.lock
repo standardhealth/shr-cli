@@ -874,6 +874,11 @@ require-uncached@^1.0.3:
     caller-path "^0.1.0"
     resolve-from "^1.0.0"
 
+reserved-words@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/reserved-words/-/reserved-words-0.1.2.tgz#00a0940f98cd501aeaaac316411d9adc52b31ab1"
+  integrity sha1-AKCUD5jNUBrqqsMWQR2a3FKzGrE=
+
 resolve-from@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-1.0.1.tgz#26cbfe935d1aeeeabb29bc3fe5aeb01e93d44226"
@@ -947,6 +952,13 @@ shr-adl-bmm-export@^1.0.1:
     dedent-js "^1.0.1"
     eslint "^4.19.1"
 
+shr-es6-export@^6.0.0-beta.1:
+  version "6.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-6.0.0-beta.1.tgz#81e4bf410bcd9508e8654e245ac097976ed29223"
+  integrity sha512-hofsmo16T18AwOOX8lrqT0MOgQJLqSND3QVaCNDhzSSOJ0uGD5WMn91vMsr/Jf4c6LmWREycNOCUa3yTldjwtQ==
+  dependencies:
+    reserved-words "^0.1.2"
+
 shr-expand@^6.0.0-beta.1:
   version "6.0.0-beta.1"
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-6.0.0-beta.1.tgz#2ef7ada2c5d5cc390e05216ebba88a160bb3c924"
@@ -975,10 +987,10 @@ shr-json-javadoc@^6.0.0-beta.1:
     ncp "^2.0.0"
     showdown "^1.8.6"
 
-shr-json-schema-export@^6.0.0-beta.1:
-  version "6.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-6.0.0-beta.1.tgz#a975f737556eb32bb55bd4a0b7ef522816bcc6a7"
-  integrity sha512-Yzvp4l78d4CoMMTeI1z183Fx+PErjhTEEUKpmFBU7huzH6Pfa/6HhgIeYAngTsfZ2+D9rA4zyPGyZiHh/P9SfA==
+shr-json-schema-export@^6.0.0-beta.2:
+  version "6.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-6.0.0-beta.2.tgz#aaff08a41ba5c161c160bcce13ce9aa91943cf77"
+  integrity sha512-Z5nJJ9qmR1xkrJMo+gIoWxyLz6fUcBXPfUQTVQYmw68tRy9Bg9MB/JJdfXsoPfa+fDnQJaz8bL0J+U5aKnCrwQ==
 
 shr-models@^6.0.0-beta.1:
   version "6.0.0-beta.1"
