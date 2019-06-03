@@ -25,7 +25,6 @@
     "shr-es6-export": "^6.0.0-beta.1",
     "shr-expand": "^6.0.0-beta.1",
     "shr-fhir-export": "^6.0.0-beta.1",
-    "shr-json-export": "^6.0.0-beta.1",
     "shr-json-javadoc": "^6.0.0-beta.1",
     "shr-json-schema-export": "^6.0.0-beta.2",
     "shr-models": "^6.0.0-beta.1",

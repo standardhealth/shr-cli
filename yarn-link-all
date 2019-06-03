@@ -22,12 +22,6 @@ yarn link shr-expand
 yarn link shr-test-helpers
 yarn link
 
-cd ../shr-json-export
-echo "================= shr-json-export =================="
-yarn link shr-models
-yarn link shr-test-helpers
-yarn link
-
 cd ../shr-json-schema-export
 echo "============== shr-json-schema-export =============="
 yarn link shr-models
@@ -60,7 +54,6 @@ echo "===================== shr-cli ======================"
 yarn link shr-models
 yarn link shr-expand
 yarn link shr-text-import
-yarn link shr-json-export
 yarn link shr-json-schema-export
 yarn link shr-json-javadoc
 yarn link shr-es6-export

@@ -960,11 +960,6 @@ shr-fhir-export@^6.0.0-beta.1:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
 
-shr-json-export@^6.0.0-beta.1:
-  version "6.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/shr-json-export/-/shr-json-export-6.0.0-beta.1.tgz#0aac5fd5133376dd48b38e0c8ea47c07944d1af0"
-  integrity sha512-xPRuqIUO0HXWKOAVukoc74HPdPxywKuW29VuaQVz2rcUhMskcWI8cBjvKxbDY+H71IT4gXwZCaqr27G31KWYLw==
-
 shr-json-javadoc@^6.0.0-beta.1:
   version "6.0.0-beta.1"
   resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-6.0.0-beta.1.tgz#5f06dd46288f13041b1e5939f4db36b23c548400"

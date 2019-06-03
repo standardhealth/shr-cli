@@ -20,10 +20,6 @@ cd ../shr-text-import
 echo "================= shr-text-import =================="
 git pull
 
-cd ../shr-json-export
-echo "================= shr-json-export =================="
-git pull
-
 cd ../shr-json-schema-export
 echo "============== shr-json-schema-export =============="
 git pull
