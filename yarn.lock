@@ -939,9 +939,10 @@ shr-adl-bmm-export@^1.0.1:
     dedent-js "^1.0.1"
     eslint "^4.19.1"
 
-shr-es6-export@^5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.6.0.tgz#dc039efdcffed51f085bcf32dd49e4439088280e"
+shr-es6-export@^5.7.1:
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.7.1.tgz#790e13234638bafdc0d341dd9711b9aad5c2baf3"
+  integrity sha512-Ay8/sQQ4om7YJlvM17msQbVUotbv8KXBp5xZVzoOWQf2cJDkIKOHsItaPsj06gSc4mXvuZNduQC8xIukV1WHrQ==
   dependencies:
     reserved-words "^0.1.2"
 
@@ -973,9 +974,10 @@ shr-json-schema-export@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-5.3.2.tgz#8840b62eb6a882cb242043e93733e1f3bd472a21"
 
-shr-models@^5.8.0:
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.8.0.tgz#b2438c52340f1e167513334169d51c88bdcef5e7"
+shr-models@^5.9.0:
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-5.9.0.tgz#579c7e0387688b0d49a54fe18f8431210bd285b7"
+  integrity sha512-pv4wSeVnfP3K6zfhTsVlYcVXlct4iHO/qSwCpbe0YP4XoaZ6ym2BuGP3vX62D+EEZSAPyoaBOL6G7WkVVlu0Qw==
 
 shr-text-import@^5.7.1:
   version "5.7.1"

@@ -234,6 +234,40 @@ Namespace: oncocore
     // ... more ...
 ```
 
+# Comment Preservation
+
+When running the CIMPL 6.0 exporter, comments from the CIMPL 5 files are not preserved in the resulting
+exported CIMPL 6.0 files. Thus, in order to try and best preserve the comments, the Python 3 script commentReintegration.py
+can be run from the command line and it will take in the directory where the CIMPL 5 files with comments are held
+and the directory where the exported CIMPL 6.0 files are present. It will then in a new directory called CommentReintegration,
+place the commented CIMPL 6.0 files. One thing to note is that the program assumes that comments will be before a particular line. In addition, for multi-line comments which utilize the /* \*/ notation,
+the parser assumes that no multiline comment begins in the same line as text that may pertain to an Element. Thus, for example this is not valid for the parser:
+```
+Element: A /* This will not be
+preserved */
+```
+
+In addition, no new text should come within the same line as the \*/ symbol. Thus,
+
+```
+/* This will also not be
+preserved */ Element: B
+```
+
+
+Note: When specifying the directory, after specifying the last part of the path, be sure to include a / at the end.
+Example: If your input directory is the spec folder in the shr_spec directory, then you should give something like:
+../shr_spec/spec/
+The same holds for the directory of exported CIMPL 6.0 files. Make sure to include a slash at the end of the path.
+
+
+This is how you can run the script.
+```
+python3 commentReintegration.py [Directory of CIMPL 5 Files] [Directory of Exported CIMPL 6.0 files]
+```
+
+After running this command, the CIMPL6 files with inserted comments will be available in the `CommentReintegration` folder at the root of the shr-cli project.
+
 # License
 
 Copyright 2016, 2017 The MITRE Corporation
