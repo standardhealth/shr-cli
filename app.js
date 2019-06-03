@@ -12,7 +12,6 @@ const shrJSE = require('shr-json-schema-export');
 const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
 const shrJDE = require('shr-json-javadoc');
-const shrAE = require('shr-adl-bmm-export');
 const LogCounter = require('./logcounter');
 const SpecificationsFilter = require('./filter');
 
@@ -34,7 +33,6 @@ program
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace>', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off>', /^(short|long|json|off)$/i, 'short')
   .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all>', collect, [])
-  .option('-a, --adl', 'run the adl exporter (default: false)')
   .option('-o, --out <out>', `the path to the output folder`, path.join('.', 'out'))
   .option('-c, --config <config>', 'the name of the config file', 'config.json')
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
@@ -57,9 +55,6 @@ const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' &&
 const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
 const doModelDoc = program.skip.every(a => a.toLowerCase() != 'model-doc' && a.toLowerCase() != 'all');
 const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
-
-// Process the ADL flag
-const doADL = program.adl;
 
 // Process the de-duplicate error flag
 
@@ -102,9 +97,6 @@ if (doJSONSchema) {
 }
 if (doModelDoc) {
   shrJDE.setLogger(logger.child({ module: 'shr-json-javadoc' }));
-}
-if (doADL) {
-  shrAE.setLogger(logger.child({module: 'shr-adl-export'}));
 }
 if (doES6) {
   shrEE.setLogger(logger.child({ module: 'shr-es6-export'}));
@@ -243,17 +235,6 @@ if (doCIMCORE) {
   }
 } else {
   logger.info('Skipping CIMCORE export');
-}
-
-if (doADL) {
-  try {
-    shrAE.generateADLtoPath(expSpecifications, configSpecifications, program.out);
-  } catch (error) {
-    logger.fatal('Failure in ADL export. Aborting with error message: %s', error);
-    failedExports.push('shr-adl-bmm-export');
-  }
-} else {
-  logger.info('Skipping ADL export');
 }
 
 if (doJSON) {
