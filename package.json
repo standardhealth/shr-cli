@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "5.19.0-beta.3",
+  "version": "5.19.0",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
@@ -23,7 +23,7 @@
     "fs-extra": "^7.0.0",
     "mkdirp": "^0.5.1",
     "shr-adl-bmm-export": "^1.0.1",
-    "shr-es6-export": "^5.7.1",
+    "shr-es6-export": "^5.7.2",
     "shr-expand": "^5.8.1",
     "shr-fhir-export": "^5.14.0",
     "shr-json-export": "^5.1.5",

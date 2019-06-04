@@ -939,10 +939,10 @@ shr-adl-bmm-export@^1.0.1:
     dedent-js "^1.0.1"
     eslint "^4.19.1"
 
-shr-es6-export@^5.7.1:
-  version "5.7.1"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.7.1.tgz#790e13234638bafdc0d341dd9711b9aad5c2baf3"
-  integrity sha512-Ay8/sQQ4om7YJlvM17msQbVUotbv8KXBp5xZVzoOWQf2cJDkIKOHsItaPsj06gSc4mXvuZNduQC8xIukV1WHrQ==
+shr-es6-export@^5.7.2:
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-5.7.2.tgz#addebc6c3a1b0c6d7c73ed86ebe2e8c5ae07426d"
+  integrity sha512-ydAyAbYKKdUd9J7j4s1AMevykTJwy7C957Wc5pv37PugXTFrKrhNCU+ifBEZx9vxa6zIVYV/fgzoK6rm2whMaQ==
   dependencies:
     reserved-words "^0.1.2"
 
