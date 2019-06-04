@@ -256,8 +256,8 @@ if (doCIMCORE) {
 
 if (doDD) {
   try {
-    const indexPath = path.join(input, configSpecifications.implementationGuide.indexContent);
-    shrDD.generateDDtoPath(expSpecifications, configSpecifications, indexPath);
+    const hierarchyPath = path.join(program.out, 'data-dictionary');
+    shrDD.generateDDtoPath(expSpecifications, configSpecifications, hierarchyPath);
   } catch (error) {
     logger.fatal('Failure in Data Dictionary export. Aborting with error message: %s', error);
     failedExports.push('shr-data-dict-export');
