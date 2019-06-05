@@ -328,18 +328,25 @@ if (doModelDoc) {
 }
 
 if (doGraph) {
-  try {
-    const graphTree = shrGr.exportToGraph(expSpecifications);
-    const graphOutputPath = path.join(program.out, 'graph');
-    mkdirp.sync(graphOutputPath);
-    fs.writeFileSync(path.join(graphOutputPath, 'tree.js'), 'const tree = ' + JSON.stringify(graphTree,  null, '  '));
-    // Need to copy over the graph viewer files to the output directory
-    const graphResourcePath = path.join(input, configSpecifications.graphDirectory);
-    if (fs.existsSync(graphResourcePath)) {
-      fs.copySync(graphResourcePath, graphOutputPath);
+  if (configSpecifications.graphDirectory) {
+    try {
+      const graphOutputPath = path.join(program.out, 'graph');
+      mkdirp.sync(graphOutputPath);
+      mkdirp.sync(path.join(graphOutputPath, 'data'));
+      const graphResourcePath = path.join(input, configSpecifications.graphDirectory);
+      // Need to copy over the graph viewer files to the output directory
+      if (fs.existsSync(graphResourcePath)) {
+        fs.copySync(graphResourcePath, graphOutputPath);
+      }
+      const graphTree = shrGr.exportToGraph(expSpecifications);
+      fs.writeFileSync(path.join(graphOutputPath, 'data', 'tree.js'), 'const tree = ' + JSON.stringify(graphTree,  null, '  '));
+    } catch (error) {
+      logger.fatal('Failure in Graph export. Aborting with error message: %s', error);
+      failedExports.push('shr-graph-export');
     }
-  } catch (error) {
-    logger.fatal('Failure in Graph export. Aborting with error message: %s', error);
+  }
+  else {
+    logger.fatal('The configuration file graphDirectory field is required for generating Graph. Skipping Graph export.');
     failedExports.push('shr-graph-export');
   }
 } else {
