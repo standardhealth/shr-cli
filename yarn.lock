@@ -1209,9 +1209,10 @@ shr-adl-bmm-export@^1.0.1:
     dedent-js "^1.0.1"
     eslint "^4.19.1"
 
-shr-data-dict-export@standardhealth/shr-data-dict-export#master:
+shr-data-dict-export@^5.0.0:
   version "5.0.0"
-  resolved "https://codeload.github.com/standardhealth/shr-data-dict-export/tar.gz/46376f0d4c4908ce680d71377c4675c969845dbf"
+  resolved "https://registry.yarnpkg.com/shr-data-dict-export/-/shr-data-dict-export-5.0.0.tgz#6787e86c656289ad02063e3b8c7996d5b7c0108f"
+  integrity sha512-6jm4D98MY4zlSMF5irljFYy+/68+HO+w6kzXtQcfkjIgMndJc4nIn2r8mXKVwMc00SXhkekkkMA4rQc4FruWLA==
   dependencies:
     bunyan "^1.8.12"
     exceljs "^1.11.0"
