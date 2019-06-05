@@ -40,6 +40,11 @@ echo "================= shr-fhir-export =================="
 rm -rf node_modules
 yarn
 
+cd ../shr-data-dict-export
+echo "================ shr-data-dict-export ================="
+rm -rf node_modules
+yarn
+
 cd ../shr-cli
 echo "===================== shr-cli ======================"
 rm -rf node_modules
