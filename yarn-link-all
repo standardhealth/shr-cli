@@ -18,12 +18,7 @@ yarn link
 cd ../shr-text-import
 echo "================= shr-text-import =================="
 yarn link shr-models
-yarn link shr-test-helpers
-yarn link
-
-cd ../shr-json-export
-echo "================= shr-json-export =================="
-yarn link shr-models
+yarn link shr-expand
 yarn link shr-test-helpers
 yarn link
 
@@ -54,18 +49,12 @@ yarn link shr-test-helpers
 yarn link shr-fhir-export
 yarn link
 
-cd ../shr-adl-bmm-export
-echo "=============== shr-adl-bmm-export ================="
-yarn link
-
 cd ../shr-cli
 echo "===================== shr-cli ======================"
 yarn link shr-models
 yarn link shr-expand
 yarn link shr-text-import
-yarn link shr-json-export
 yarn link shr-json-schema-export
 yarn link shr-json-javadoc
 yarn link shr-es6-export
 yarn link shr-fhir-export
-yarn link shr-adl-bmm-export

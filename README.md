@@ -2,7 +2,7 @@
 
 The Standard Health Record (SHR) initiative is working to create a single, high-quality health record for every individual in the United States.  For more information, see [standardhealthrecord.org](http://standardhealthrecord.org/).
 
-This GitHub repository contains a Node.js command-line interface for parsing SHR text definitions and exporting them as FHIR profiles, [CIMCORE](https://github.com/standardhealth/shr-cli/wiki/CIMCORE-Documentation) JSON serialized files, JSON schema, ES6 classes, or a JSON document (for website generation).  Future versions of the CLI may support additional capabilities.
+This GitHub repository contains a Node.js command-line interface for parsing SHR text definitions and exporting them as a FHIR IG, [CIMCORE](https://github.com/standardhealth/shr-cli/wiki/CIMCORE-Documentation) JSON serialized files, JSON schema, or ES6 classes.  Future versions of the CLI may support additional capabilities.
 
 The SHR text definitions and grammar files can be found in the [shr_spec](https://github.com/standardhealth/shr_spec) repo.  As the SHR text format (and content files) are still evolving, so is this toolset.
 
@@ -18,9 +18,9 @@ To run the command-line interface, you must perform the following steps to insta
 2. Install [Yarn](https://yarnpkg.com/en/docs/install) (1.3.x or above)
 3. Execute the following from this project's root directory: `yarn`
 
-# Exporting SHR to JSON and FHIR
+# Exporting SHR
 
-After setting up the environment, you can use node to import a folder of files from CAMEO (SHR text format) and export the definitions to JSON and FHIR:
+After setting up the environment, you can use node to import a folder of files from CIMPL (SHR text format) and export the definitions to other formats:
 ```
 $ node . /path/to/shr_spec/spec
 ```
@@ -37,13 +37,11 @@ $ node . --help
 
     -l, --log-level <level>  the console log level <fatal,error,warn,info,debug,trace> (default: info)
     -m, --log-mode <mode>    the console log mode <short,long,json,off> (default: short)
-    -s, --skip <feature>     skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all> (default: <none>)
-    -a, --adl                run the adl exporter (default: false)
+    -s, --skip <feature>     skip an export feature <fhir,cimcore,json-schema,es6,model-doc,all> (default: <none>)
     -o, --out <out>          the path to the output folder (default: out)
     -c, --config <config>    the name of the config file (default: config.json)
     -d, --duplicate          show duplicate error messages (default: false)
     -i, --import-cimcore     import CIMCORE files instead of CIMPL (default: false)
-    -6, --export-cimpl-6     export CIMPL 6 files generated  from input (default: false)
     -h, --help               output usage information
 ```
 
@@ -106,7 +104,7 @@ When using this command-line interface and IG publisher, the general order of op
 
 1. The command-line interface (CLI) imports SHR definitions that have been written (as in the [shr_spec](https://github.com/standardhealth/shr_spec) repo) and parses them through a text importer.
 2. CLI applies filters, according to the `filterStrategy` (see below).
-3. CLI exports the filtered SHR definitions into desired formats, such as ES6, JSON, FHIR, etc. The exports can be selected through command line options, as explained above.
+3. CLI exports the filtered SHR definitions into desired formats, such as FHIR, ES6, etc. The exports can be selected through command line options, as explained above.
 4. (separate, optional step) The IG publisher takes the SHR FHIR export and generates an IG from the information in these files, following the `implementationGuide` configuration (see below).
 
 To control this process, CLI requires a configuration file. Configuration files *must* be valid JSON, have at least the `projectName` property, and use the `.json` file extension. The configuration file must be located in the path to the SHR specification definitions.
@@ -233,40 +231,6 @@ Namespace: oncocore
         DateOfDiagnosis MS
     // ... more ...
 ```
-
-# Comment Preservation
-
-When running the CIMPL 6.0 exporter, comments from the CIMPL 5 files are not preserved in the resulting
-exported CIMPL 6.0 files. Thus, in order to try and best preserve the comments, the Python 3 script commentReintegration.py
-can be run from the command line and it will take in the directory where the CIMPL 5 files with comments are held
-and the directory where the exported CIMPL 6.0 files are present. It will then in a new directory called CommentReintegration,
-place the commented CIMPL 6.0 files. One thing to note is that the program assumes that comments will be before a particular line. In addition, for multi-line comments which utilize the /* \*/ notation,
-the parser assumes that no multiline comment begins in the same line as text that may pertain to an Element. Thus, for example this is not valid for the parser:
-```
-Element: A /* This will not be
-preserved */
-```
-
-In addition, no new text should come within the same line as the \*/ symbol. Thus,
-
-```
-/* This will also not be
-preserved */ Element: B
-```
-
-
-Note: When specifying the directory, after specifying the last part of the path, be sure to include a / at the end.
-Example: If your input directory is the spec folder in the shr_spec directory, then you should give something like:
-../shr_spec/spec/
-The same holds for the directory of exported CIMPL 6.0 files. Make sure to include a slash at the end of the path.
-
-
-This is how you can run the script.
-```
-python3 commentReintegration.py [Directory of CIMPL 5 Files] [Directory of Exported CIMPL 6.0 files]
-```
-
-After running this command, the CIMPL6 files with inserted comments will be available in the `CommentReintegration` folder at the root of the shr-cli project.
 
 # License
 

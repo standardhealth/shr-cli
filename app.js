@@ -7,18 +7,16 @@ const bps = require('@ojolabs/bunyan-prettystream');
 const { sanityCheckModules } = require('shr-models');
 const shrTI = require('shr-text-import');
 const shrEx = require('shr-expand');
-const shrJE = require('shr-json-export');
 const shrJSE = require('shr-json-schema-export');
 const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
 const shrJDE = require('shr-json-javadoc');
-const shrAE = require('shr-adl-bmm-export');
 const LogCounter = require('./logcounter');
 const SpecificationsFilter = require('./filter');
 
 /* eslint-disable no-console */
 
-sanityCheckModules({shrTI, shrEx, shrJE, shrJSE, shrEE, shrFE });
+sanityCheckModules({shrTI, shrEx, shrJSE, shrEE, shrFE });
 
 // Record the time so we can print elapsed time
 const hrstart = process.hrtime();
@@ -33,13 +31,11 @@ program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace>', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off>', /^(short|long|json|off)$/i, 'short')
-  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,all>', collect, [])
-  .option('-a, --adl', 'run the adl exporter (default: false)')
+  .option('-s, --skip <feature>', 'skip an export feature <fhir,cimcore,json-schema,es6,model-doc,all>', collect, [])
   .option('-o, --out <out>', `the path to the output folder`, path.join('.', 'out'))
   .option('-c, --config <config>', 'the name of the config file', 'config.json')
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
   .option('-i, --import-cimcore', 'import CIMCORE files instead of CIMPL (default: false)')
-  .option('-6, --export-cimpl-6', 'export CIMPL 6 files generated  from input (default: false)')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
     input = pathToShrDefs;
@@ -53,17 +49,10 @@ if (typeof input === 'undefined') {
 }
 // Process the skip flags
 const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
-const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
 const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
 const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
 const doModelDoc = program.skip.every(a => a.toLowerCase() != 'model-doc' && a.toLowerCase() != 'all');
 const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
-
-// Process the ADL flag
-const doADL = program.adl;
-
-// Process the CIMPL 6 export flag
-const doCIMPL6 = program.exportCimpl6;
 
 // Process the de-duplicate error flag
 
@@ -95,9 +84,6 @@ const logger = bunyan.createLogger({
 
 shrTI.setLogger(logger.child({module: 'shr-text-input'}));
 shrEx.setLogger(logger.child({module: 'shr-expand'}));
-if (doJSON) {
-  shrJE.setLogger(logger.child({module: 'shr-json-export'}));
-}
 if (doFHIR) {
   shrFE.setLogger(logger.child({module: 'shr-fhir-export'}));
 }
@@ -106,9 +92,6 @@ if (doJSONSchema) {
 }
 if (doModelDoc) {
   shrJDE.setLogger(logger.child({ module: 'shr-json-javadoc' }));
-}
-if (doADL) {
-  shrAE.setLogger(logger.child({module: 'shr-adl-export'}));
 }
 if (doES6) {
   shrEE.setLogger(logger.child({ module: 'shr-es6-export'}));
@@ -248,48 +231,6 @@ if (doCIMCORE) {
 } else {
   logger.info('Skipping CIMCORE export');
 }
-
-if (doADL) {
-  try {
-    shrAE.generateADLtoPath(expSpecifications, configSpecifications, program.out);
-  } catch (error) {
-    logger.fatal('Failure in ADL export. Aborting with error message: %s', error);
-    failedExports.push('shr-adl-bmm-export');
-  }
-} else {
-  logger.info('Skipping ADL export');
-}
-
-if (doJSON) {
-  if (!importCimcore) {
-    try {
-      const jsonHierarchyResults = shrJE.exportToJSON(specifications, configSpecifications);
-      const hierarchyPath = path.join(program.out, 'json', 'definitions.json');
-      mkdirp.sync(path.dirname(hierarchyPath));
-      fs.writeFileSync(hierarchyPath, JSON.stringify(jsonHierarchyResults, null, '  '));
-    } catch (error) {
-      logger.fatal('Failure in JSON export. Aborting with error message: %s', error);
-      failedExports.push('shr-json-export');
-    }
-  } else {
-    //Skipping website generation legacy output for imported cimcore.
-    logger.info('Using imported CIMCORE, skipping JSON export');
-  }
-} else {
-  logger.info('Skipping JSON export');
-}
-
-if (doCIMPL6) {
-  logger.info('Exporting CIMPL 6');
-  try {
-    const cimpl6Path = path.join(program.out, 'cimpl6');
-    expSpecifications.toCIMPL6(cimpl6Path);
-    logger.info('Exported %s namespaces to CIMPL 6.', expSpecifications.namespaces.all.length);
-  } catch (error) {
-    logger.fatal('Failure in CIMPL 6 export. Aborting with error message: %s', error);
-    failedExports.push('cimpl-6-export');
-  }
-} // the CIMPL 6 export is opt-in, so we are omitting the 'skip' info log.
 
 let fhirResults = null;
 if (doES6 || doFHIR){

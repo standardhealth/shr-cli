@@ -1,19 +1,13 @@
 #!/usr/bin/env bash
 
 echo "===================== shr-cli ======================"
-yarn unlink shr-adl-bmm-export
 yarn unlink shr-fhir-export
 yarn unlink shr-es6-export
 yarn unlink shr-json-schema-export
-yarn unlink shr-json-export
 yarn unlink shr-json-javadoc
 yarn unlink shr-text-import
 yarn unlink shr-expand
 yarn unlink shr-models
-
-cd ../shr-adl-bmm-export
-echo "=============== shr-adl-bmm-export ================="
-yarn unlink
 
 cd ../shr-es6-export
 echo "================== shr-es6-export =================="
@@ -42,15 +36,10 @@ cd ../shr-json-javadoc
 echo "============== shr-json-javadoc ===================="
 yarn unlink
 
-cd ../shr-json-export
-echo "================= shr-json-export =================="
-yarn unlink shr-models
-yarn unlink shr-test-helpers
-yarn unlink
-
 cd ../shr-text-import
 echo "================= shr-text-import =================="
 yarn unlink shr-models
+yarn unlink shr-expand
 yarn unlink shr-test-helpers
 yarn unlink
 
