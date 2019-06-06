@@ -37,12 +37,13 @@ $ node . --help
 
     -l, --log-level <level>  the console log level <fatal,error,warn,info,debug,trace> (default: info)
     -m, --log-mode <mode>    the console log mode <short,long,json,off> (default: short)
-    -s, --skip <feature>     skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,data-dict,all> (default: <none>)
+    -s, --skip <feature>     skip an export feature <fhir,json,cimcore,json-schema,model-doc,data-dict,all> (default: <none>)
     -a, --adl                run the adl exporter (default: false)
     -o, --out <out>          the path to the output folder (default: out)
     -c, --config <config>    the name of the config file (default: config.json)
     -d, --duplicate          show duplicate error messages (default: false)
     -i, --import-cimcore     import CIMCORE files instead of CIMPL (default: false)
+    -j, --export-es6         export ES6 JavaScript classes (experimental, default: false)
     -6, --export-cimpl-6     export CIMPL 6 files generated  from input (default: false)
     -h, --help               output usage information
 ```
@@ -106,7 +107,7 @@ When using this command-line interface and IG publisher, the general order of op
 
 1. The command-line interface (CLI) imports SHR definitions that have been written (as in the [shr_spec](https://github.com/standardhealth/shr_spec) repo) and parses them through a text importer.
 2. CLI applies filters, according to the `filterStrategy` (see below).
-3. CLI exports the filtered SHR definitions into desired formats, such as ES6, JSON, FHIR, etc. The exports can be selected through command line options, as explained above.
+3. CLI exports the filtered SHR definitions into desired formats, such as FHIR, JSON-Schema, ES6 etc. The exports can be selected through command line options, as explained above.
 4. (separate, optional step) The IG publisher takes the SHR FHIR export and generates an IG from the information in these files, following the `implementationGuide` configuration (see below).
 
 To control this process, CLI requires a configuration file. Configuration files *must* be valid JSON, have at least the `projectName` property, and use the `.json` file extension. The configuration file must be located in the path to the SHR specification definitions.

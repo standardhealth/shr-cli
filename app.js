@@ -34,12 +34,13 @@ program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace>', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off>', /^(short|long|json|off)$/i, 'short')
-  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,es6,model-doc,data-dict,all>', collect, [])
+  .option('-s, --skip <feature>', 'skip an export feature <fhir,json,cimcore,json-schema,model-doc,data-dict,all>', collect, [])
   .option('-a, --adl', 'run the adl exporter (default: false)')
   .option('-o, --out <out>', `the path to the output folder`, path.join('.', 'out'))
   .option('-c, --config <config>', 'the name of the config file', 'config.json')
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
   .option('-i, --import-cimcore', 'import CIMCORE files instead of CIMPL (default: false)')
+  .option('-j, --export-es6', 'export ES6 JavaScript classes (experimental, default: false)')
   .option('-6, --export-cimpl-6', 'export CIMPL 6 files generated  from input (default: false)')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
@@ -56,7 +57,6 @@ if (typeof input === 'undefined') {
 const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCase() != 'all');
 const doJSON = program.skip.every(a => a.toLowerCase() != 'json' && a.toLowerCase() != 'all');
 const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
-const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
 const doModelDoc = program.skip.every(a => a.toLowerCase() != 'model-doc' && a.toLowerCase() != 'all');
 const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
 const doDD = program.skip.every(a => a.toLowerCase() != 'data-dict' && a.toLowerCase() != 'all');
@@ -66,6 +66,7 @@ const doADL = program.adl;
 
 // Process the CIMPL 6 export flag
 const doCIMPL6 = program.exportCimpl6;
+const doES6 = program.exportEs6;
 
 // Process the de-duplicate error flag
 
