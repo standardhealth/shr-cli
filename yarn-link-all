@@ -49,6 +49,11 @@ yarn link shr-test-helpers
 yarn link shr-fhir-export
 yarn link
 
+cd ../shr-data-dict-export
+echo "============== shr-data-dict-export ================"
+yarn link shr-models
+yarn link
+
 cd ../shr-cli
 echo "===================== shr-cli ======================"
 yarn link shr-models
@@ -58,3 +63,4 @@ yarn link shr-json-schema-export
 yarn link shr-json-javadoc
 yarn link shr-es6-export
 yarn link shr-fhir-export
+yarn link shr-data-dict-export

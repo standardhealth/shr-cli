@@ -22,6 +22,7 @@
     "commander": "^2.9.0",
     "fs-extra": "^7.0.0",
     "mkdirp": "^0.5.1",
+    "shr-data-dict-export": "^6.0.0",
     "shr-es6-export": "^6.0.0",
     "shr-expand": "^6.0.0",
     "shr-fhir-export": "^6.0.1",

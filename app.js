@@ -11,6 +11,7 @@ const shrJSE = require('shr-json-schema-export');
 const shrEE = require('shr-es6-export');
 const shrFE = require('shr-fhir-export');
 const shrJDE = require('shr-json-javadoc');
+const shrDD = require('shr-data-dict-export');
 const LogCounter = require('./logcounter');
 const SpecificationsFilter = require('./filter');
 
@@ -31,7 +32,7 @@ program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace>', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
   .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off>', /^(short|long|json|off)$/i, 'short')
-  .option('-s, --skip <feature>', 'skip an export feature <fhir,cimcore,json-schema,es6,model-doc,all>', collect, [])
+  .option('-s, --skip <feature>', 'skip an export feature <fhir,cimcore,json-schema,es6,model-doc,data-dict,all>', collect, [])
   .option('-o, --out <out>', `the path to the output folder`, path.join('.', 'out'))
   .option('-c, --config <config>', 'the name of the config file', 'config.json')
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
@@ -53,6 +54,7 @@ const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' &&
 const doES6 = program.skip.every(a => a.toLowerCase() != 'es6' && a.toLowerCase() != 'all');
 const doModelDoc = program.skip.every(a => a.toLowerCase() != 'model-doc' && a.toLowerCase() != 'all');
 const doCIMCORE = program.skip.every(a => a.toLowerCase() != 'cimcore' && a.toLowerCase() != 'all');
+const doDD = program.skip.every(a => a.toLowerCase() != 'data-dict' && a.toLowerCase() != 'all');
 
 // Process the de-duplicate error flag
 
@@ -95,6 +97,9 @@ if (doModelDoc) {
 }
 if (doES6) {
   shrEE.setLogger(logger.child({ module: 'shr-es6-export'}));
+}
+if (doDD) {
+  shrDD.setLogger(logger.child({ module: 'shr-data-dict-export'}));
 }
 
 // Go!
@@ -230,6 +235,18 @@ if (doCIMCORE) {
   }
 } else {
   logger.info('Skipping CIMCORE export');
+}
+
+if (doDD) {
+  try {
+    const hierarchyPath = path.join(program.out, 'data-dictionary');
+    shrDD.generateDDtoPath(expSpecifications, configSpecifications, hierarchyPath);
+  } catch (error) {
+    logger.fatal('Failure in Data Dictionary export. Aborting with error message: %s', error);
+    failedExports.push('shr-data-dict-export');
+  }
+} else {
+  logger.info('Skipping Data Dictionary export');
 }
 
 let fhirResults = null;
