@@ -37,10 +37,11 @@ $ node . --help
 
     -l, --log-level <level>  the console log level <fatal,error,warn,info,debug,trace> (default: info)
     -m, --log-mode <mode>    the console log mode <short,long,json,off> (default: short)
-    -s, --skip <feature>     skip an export feature <fhir,cimcore,json-schema,es6,model-doc,data-dict,all> (default: <none>)
+    -s, --skip <feature>     skip an export feature <fhir,cimcore,json-schema,model-doc,data-dict,all> (default: <none>)
     -o, --out <out>          the path to the output folder (default: out)
     -c, --config <config>    the name of the config file (default: config.json)
     -d, --duplicate          show duplicate error messages (default: false)
+    -j, --export-es6         export ES6 JavaScript classes (experimental, default: false)
     -i, --import-cimcore     import CIMCORE files instead of CIMPL (default: false)
     -h, --help               output usage information
 ```

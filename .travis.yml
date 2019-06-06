@@ -10,4 +10,4 @@ before_install:
   - git clone https://github.com/standardhealth/shr_spec.git
   - git -C ./shr_spec checkout dev6
 script:
-  - node . -s es6 shr_spec/spec/
+  - node . shr_spec/spec/
