@@ -125,6 +125,7 @@ The contents of the configuration file are as follows:
 |`filterStrategy`     |`{}`    |An object containing configuration for filtering.              |
 |`contentProfile`     |`string`|The base file name for the content profile for the project.    |
 |`implementationGuide`|`{}`    |An object containing configuration for IG publishing.          |
+|`copyrightYear`      |`string`|The copyright year to include in the documentation.            |
 |`publisher`          |`string`|The name of the publisher for the project.                     |
 |`contact`            |`[]`    |The array of FHIR `ContactPoint`s to reach about the project.  |
 
@@ -170,20 +171,26 @@ The contents of the `implementationGuide` object are as follows:
 |:-------------------------|:--------|:--------------------------------------------------------------------|
 |`npmName`                 |`string` |The assigned npm-name for this IG (usually assign by HL7).           |
 |`version`                 |`string` |The version of this IG (not necessarily the version of FHIR).        |
+|`ballotStatus`            |`string` |The ballot status of the IG (e.g., STU1 Ballot, CI Build, etc.)      |
 |`packageList`             |`string` |The name of the file to use as the package-list.json for publication.|
 |`includeLogicalModels`    |`boolean`|A value indicating whether to include logical models in the IG.      |
 |`includeModelDoc`         |`boolean`|A value indicating whether to include the model doc in the IG.       |
 |`indexContent`            |`string` |The name of the file or folder containing the IG index content.      |
+|`extraResources`          |`string` |The name of the folder containing extra JSON resources to include in the IG.|
 |`examples`                |`string` |The name of the folder containing examples to include in the IG.     |
+|`historyLink`             |`string` |The URL for the page containing the IG's history information.        |
+|`changesLink`             |`string` |The URL to a site where users can request changes (shown in footer)  |
 |`primarySelectionStrategy`|`{}`     |The strategy for selection of what is primary in the IG.             |
 
+The file indicated by `packageList` will be used as the `package-list.json` file for publication.  This file is required for all HL7 IGs.  If a `packageList` file is not indicated, it will default to `package-list.json`.  If a package file exists at the configured location, it will be used.  Otherwise, if the configured `fhirURL` is an hl7.org or fhir.org URL (indicating it is an HL7 publication), a basic package list file will be created.  In this case, the IG author should review and modify the file as needed and then check it into the version control system.  For more information about the `package-list.json` file, see: [http://wiki.hl7.org/index.php?title=FHIR_IG_PackageList_doco](http://wiki.hl7.org/index.php?title=FHIR_IG_PackageList_doco).
+
 If the `indexContent` value is a path to a folder (relative to the spec directory), then it should contain an `index.html` file whose contents will be used as the body of the IG landing page.
+
+The folder indicated by `extraResources` should include one file per JSON-formatted resource to include.  Currently, the following resource types are supported: `SearchParameter`, `OperationDefinition`, `CapabilityStatement` (STU3+), `Conformance` (DSTU2).  If files are detected, links are added to the navigation menu as necessary.
 
 The folder indicated by `examples` should include one file per JSON-formatted example.  Each example may be named as the author wishes, but we recommend the example name match the example `id` in the file (with a `.json` file extension added).  The example JSON must contain an `id` and the example's `meta.profile` should include the canonical URL for the profile it exemplifies (e.g., `"meta": { "profile": [ "http://hl7.org/fhir/us/breastcancer/StructureDefinition/oncology-BreastCancerPresenceStatement" ] }`).
 
 _NOTE: For backwards compatibility, if no `examples` folder is specified in the config, and a folder named "fhir-examples" exists in the spec directory, it will be used as the examples folder._
-
-The file indicated by `packageList` will be used as the `package-list.json` file for publication.  This file is required for all HL7 IGs.  If a `packageList` file is not indicated, it will default to `package-list.json`.  If a package file exists at the configured location, it will be used.  Otherwise, if the configured `fhirURL` is an hl7.org or fhir.org URL (indicating it is an HL7 publication), a basic package list file will be created.  In this case, the IG author should review and modify the file as needed and then check it into the version control system.  For more information about the `package-list.json` file, see: [http://wiki.hl7.org/index.php?title=FHIR_IG_PackageList_doco](http://wiki.hl7.org/index.php?title=FHIR_IG_PackageList_doco).
 
 The contents of the `primarySelectionStrategy` object are as follows:
 
