@@ -1,16 +1,75 @@
 Number, Message, Solution, deduplicationKeys
-//  test
 01001, 'No project configuration file found - currently using default EXAMPLE identifiers. Auto-generating a proper config.json in your specifications folder', 'Open the config.json file and customize it for your project.', 'errorNumber'
-01002, 'Config file missing key: ${key}  using default key: ${defaultValue} instead.', ' Open the config.json file and add your project specific details for that key.', 'errorNumber'
-02001, 'Potentially mismatched targets: ${class} maps to ${item} but based on class (${class}) maps to ${item}  and ${item} is not based on ${element} in ${class}. ', 'You're overwriting an inherited mapping. This is not necessarily an issue  but is definitely something to be cautious of.', 'errorNumber'
-03001, 'Trying to map ${profile} to ${code}  but ${profile} was previously mapped to it', 'Unknown', 'errorNumber'
-    // test
+01002, 'Config file missing key: ${key}  using default value: ${defaultValue} instead.', ' Open the config.json file and add your project specific details for that key.', 'errorNumber'
+01003, 'Unknown Filetype: ${fileType}',,
+01004, 'Start importing content profile file',,
+01005, 'Done importing content profile file',,
+01006, 'Entered content profile file',,
+01007, 'Exiting content profile file',,
+01008, 'Start importing data elements file',,
+01009, 'Done importing data elements file',,
+01010, 'Start importing data element',,
+01011, 'Done importing data element',,
+01012, 'Using config file ${configFile}',,
+01013, 'Start importing mapping file',,
+01014, 'Done importing mapping file',,
+01015, 'Start importing namespace mapping',,
+01016, 'Done importing namespace mapping',,
+01017, 'Start importing element mapping',,
+01018, 'Done importing element mapping',,
+01019, 'Configuration file '${oldPropertyName}' field will be deprecated. Use 'implementationGuide.${igPropertyName}' instead.', 'Replace old propery path with new property path',
+01020, 'Start preprocessing data elements file',,
+01021, 'Done preprocessing data elements file',,
+01022, 'Start importing value set file',,
+01023, 'Done importing value set file',,
+02001, 'Potentially mismatched targets: ${class} maps to ${item} but based on class (${baseClass}) maps to ${baseItem}  and ${item} is not based on ${baseItem} in ${class}. ', 'You're overwriting an inherited mapping. This is not necessarily an issue  but is definitely something to be cautious of.', 'errorNumber'
+02002, 'Ignoring TBD parent ${tbdText} for child element ${child}.', 'Unknown', 'errorNumber'
+02003, 'Start expanding element',,
+02004, 'Done expanding element',,
+02005, 'Start expanding mapping',,
+02006, 'Done expanding mapping',,
+03001, 'Trying to map ${profile} to ${code}  but ${otherProfile} was previously mapped to it', 'Unknown', 'errorNumber'
 03002, 'Choice has equivalent types  so choice options may overwrite or override each other when mapped to FHIR.', 'Unknown', 'errorNumber'
 03003, 'Overriding extensible value set constraint from ${vs1} to ${vs2}. Only allowed when new codes do not overlap meaning of old codes.', 'Unknown', 'errorNumber'
 03004, 'Element profiled on Basic. Consider a more specific mapping.', 'The Basic profile should not be used in most cases. Consider a more specific profile mapping that categorizes the Element being mapped.', 'errorNumber'
 03005, 'No mapping to '${elementPath}'. This property is core to the target resource and usually should be mapped.', 'Unknown', 'errorNumber'
 03006, 'The ${property} property is not bound to a value set  fixed to a code  or fixed to a quantity unit. This property is core to the target resource and usually should be constrained ', 'Unknown', 'errorNumber'
+03007, 'Exporting FHIR using target: ${target}',,
+03008, 'Unmapped fields in [ ${elements} ]:\n${fields}', 'Map fields to FHIR properties or to extensions', 'errorNumber'
+03009, 'Profile Indicators JSON: ${profileIndicators}',,
+03010, 'Start mapping element',,
+03011, 'Done mapping element',,
+03012, 'Start mapping rule',,
+03013, 'Done mapping rule',,
+03014, 'Nested include types are currently not supported when applied to extensions', 'Unknown', 'errorNumber'
+03015, 'Start mapping extension',,
+03016, 'Done mapping extension',,
+03017, 'Deep path mapped to extension URL, but extension placed at root level.',,
+03018, 'Abstract Class: The \'${property}\' property is not bound to a value set or fixed to a code. This property is core to the target resource and usually should be constrained.', 'Constrain the property if possible', 'errorNumber'
+03019, 'Start creating extension',,
+03020, 'Done creating extension',,
+03021, 'HL7 IGs require a package-list.json file.  A starter version has been written to ${packageListFile}. For more information on package files, see: http://wiki.hl7.org/index.php?title=FHIR_IG_PackageList_doco', 'Edit the packageListFile', 'errorNumber'
+03022, 'WARNING: Overwriting generated profile with patch: ${patchFile}',,
+03023, 'Start exporting element logical model',,
+03024, 'Done exporting element logical model',,
 04001, 'Unsupported code system: ${codeSystem}', 'Unknown', 'errorNumber'
+05001, 'Starting CLI Import/Export',,
+05002, 'Finished CLI Import/Export',,
+05003, 'Skipping CIMCORE export',,
+05004, 'Skipping Data Dictionary export',,
+05005, 'Skipping ES6 export',,
+05006, 'Skipping FHIR export',,
+05007, 'Skipping JSON Schema export',,
+05008, 'Skipping Model Docs export',,
+06001, 'Start generating class',,
+06002, 'Done generating class',,
+07001, 'Unknown constraint type ${constraintType}.', 'Unknown', 'errorNumber'
+07002, 'Compiling Documentation for ${count} namespaces...',,
+07003, 'Building documentation pages for ${count} elements...',,
+08001, 'Exporting namespace.',,
+08002, 'Finished exporting namespace.',,
+08003, 'Exporting element',,
+08004, 'Cannot enforce constraint ${constraint} on Element ${elementFqn} since ${path} refers to a type introduced by an "includesType" constraint',, 'errorNumber'
 11001, 'Element name '${name}' should begin with a capital letter', 'Rename the specified Element', 'errorNumber'
 11002, 'Entry Element name '${name}' should begin with a capital letter', 'Rename the specified EntryElement', 'errorNumber'
 11003, 'Unable to resolve value set reference: ${valueSet}', 'Invalid value set reference  double check the name and the path', 'errorNumber'
@@ -36,7 +95,6 @@ Number, Message, Solution, deduplicationKeys
 11023, 'extraneous input ${input} expecting ${listOfKeywords}', 'This is usually a typo issue. Investigate spelling and keywords used around the specificied text input.', 'errorNumber'
 11024, 'Elements cannot use ${value} modifier and specify  ${value} field at same time.', 'Unknown', 'errorNumber'
 11025, 'Fields cannot be constrained to type ${value} ', 'Unknown', 'errorNumber'
-11026, 'ref( ${value} ) is an unsupported construct; treating as ${value} without the reference.', 'Unknown', 'errorNumber'
 11027, 'Unable to import property ${fqn1}  unknown value type: ${valueType1}', 'The type either does not exist  or the import tool needs to be updated.', 'errorNumber'
 11028, 'Unable to import unknown constraint type: ${constraintType1} ', 'The type either does not exist  or the import tool needs to be updated.', 'errorNumber'
 11029, 'Unable to import mapping. Unknown rule type: ${ruleType}', 'The type either does not exist  or the import tool needs to be updated.', 'errorNumber'
@@ -49,6 +107,17 @@ Number, Message, Solution, deduplicationKeys
 11036, 'Path not found for ${identifier}: ${path}', 'Unknown', 'errorNumber'
 11037, 'Definition not found for data element in content profile path: ${cpProfilePath}', 'Unknown', 'errorNumber'
 11038, 'Could not find content profile file: ${cpFile}', 'Unknown', 'errorNumber'
+11039, 'Grammar declaration not found', 'Add Grammar declaration at top of file', 'errorNumber'
+11040, 'Property "${name}" already exists.', 'Remove or rename redundant property', 'errorNumber'
+11041, 'Choice value constrained without specifying the specific choice', 'Specify the choice to constrain using []', 'errorNumber'
+11042, 'Constraint refers to previous identifier', 'Unknown', 'errorNumber'
+11043, 'Value should not declare cardinality', 'Remove cardinality from value declaration', 'errorNumber'
+11044, 'Missing a value element', 'Unknown', 'errorNumber'
+11045, 'Invalid file ${fileName1} ',  'Unknown', 'errorNumber'
+11046, 'Invalid config file: ${configFilename1} ',  'Unknown', 'errorNumber'
+11047, 'Resolution error ${errorText} ',  'Unknown', 'errorNumber'
+11048, 'Cannot resolve element definition for ${elementFqn}', 'Unknown', 'errorNumber'
+11049, 'Namespace declaration not found', 'Add Namespace declaration to file', 'errorNumber'
 12001, 'Cannot resolve element definition.', 'Element doesn't exist. Double check spelling and inheritance', 'errorNumber'
 12002, 'Reference to non-existing base: ${elementName1}', 'Base doesn't exist. Double check spelling and inheritance.', 'errorNumber'
 12003, 'No cardinality found for value: ${value1}', 'Explicitly define cardinality for that value.', 'errorNumber'
@@ -69,10 +138,10 @@ Number, Message, Solution, deduplicationKeys
 12020, 'Cardinality of ${name1} not found. Please explicitly define the cardinality.', 'Unknown', 'errorNumber'
 12021, 'Cannot include cardinality on ${name1}  cardinality of ${card1} doesnt fit within ${card2}', 'The cardinality of included parameters must be as narrow or narrower than the property it contains.', 'errorNumber'
 12022, 'Cannot constrain valueset of ${name1} since it has no identifier', 'Unknown', 'errorNumber'
-12023, 'Cannot constrain valueset of ${name1} since neither it nor its value is a code  Coding  or CodeableConcept', 'Unknown', 'errorNumber'
+12023, 'Cannot constrain valueset of ${name1} since neither it nor its value is a concept', 'Unknown', 'errorNumber'
 12024, 'Cannot constrain valueset of ${name1} since it is already constrained to a single code', 'Unknown', 'errorNumber'
-12025, 'Cannot constrain code of ${name1} since neither it nor its value is a code based on a Coding or based on CodeableConcept', 'Unknown', 'errorNumber'
-12026, 'Cannot constrain included code of ${name1} since neither it nor its value is a code  based on a Coding  or based on CodeableConcept', 'Unknown', 'errorNumber'
+12025, 'Cannot constrain code of ${name1} since neither it nor its value is a concept', 'Unknown', 'errorNumber'
+12026, 'Cannot constrain included code of ${name1} since neither it nor its value is a concept', 'Unknown', 'errorNumber'
 12027, 'Cannot constrain boolean value of ${name1} since neither it nor its value is a boolean' , 'Unknown', 'errorNumber'
 12028, 'Cannot constrain boolean value of ${name1} to ${value1} since a previous constraint constrains it to ${value2}' , 'Unknown', 'errorNumber'
 12029, 'Cannot resolve element definition for ${name1}', 'This is due to a incomplete definition for an element. Please refer to the document for proper definition syntax.', 'errorNumber'
@@ -148,9 +217,9 @@ Number, Message, Solution, deduplicationKeys
 13059, 'Cannot fix ${target1} to ${value1} since it is already fixed to ${otherValue1}', 'Unknown', 'errorNumber'
 13060, 'Could not determine how to map nested value (${elementPath}) to FHIR profile.', 'Occurs on the FHIR profile export when there are multiple levels of reference specified. e.g.: LaboratoryObservationTopic.Specimen.CollectionSite within LaboratoryObservationTopic. Resolved by creating a reference in the cimi entity to FHIR map in cimi_entity_map.txt.', 'errorNumber'
 13061, 'Mapping ${pathName1} sub-fields is currently not supported.',  'Unknown', 'errorNumber'
-13063, 'Could not find FHIR element with ${path1} %s for content profile rule with ${path2}',  'Unknown', 'errorNumber' 
-13064, 'Could not find FHIR element for content profile rule with path ${path}',  'Unknown', 'errorNumber' 
-13065, 'Could not find FHIR element subextension for content profile rule with path ${path}',  'Unknown', 'errorNumber' 
+13063, 'Could not find FHIR element with ${path1} %s for content profile rule with ${path2}',  'Unknown', 'errorNumber'
+13064, 'Could not find FHIR element for content profile rule with path ${path}',  'Unknown', 'errorNumber'
+13065, 'Could not find FHIR element subextension for content profile rule with path ${path}',  'Unknown', 'errorNumber'
 13070, 'Cannot make choice element explicit at ${id1}. Invalid identifier: ${id2}. ', 'Unknown', 'errorNumber'
 13071, 'Cannot make choice element explicit at ${element1}. Could not find compatible type match for: ${element2}.', 'Unknown', 'errorNumber'
 13072, 'Target path ${targetPath1} and slice path ${slicePath1} are not compatible. ', 'Unknown', 'errorNumber'
@@ -158,11 +227,6 @@ Number, Message, Solution, deduplicationKeys
 13074, 'Could not find element to slice at ${slicePath1}',  'Unknown', 'errorNumber'
 13075, 'Cannot create slice since there is no slice-on command.',  'Unknown', 'errorNumber'
 13076, 'Unsupported choices in fields',  'Unknown', 'errorNumber'
-13077, 'Invalid file ${fileName1} ',  'Unknown', 'errorNumber'
-13078, 'Invalid config file: ${configFilename1} ',  'Unknown', 'errorNumber'
-13079, 'Resolution error ${errorText} ',  'Unknown', 'errorNumber'
-13080, 'Error rendering model doc: ${errorText}',  'Unknown', 'errorNumber'
-13081, 'Error copying files for export of model doc: ${errorText}',  'Unknown', 'errorNumber'
 13082, 'Unexpected error exporting element to FHIR Logical Model. ${errorText} ',  'Unknown', 'errorNumber'
 13083, 'Could not find based on element ${element1} for child element ${element2}. ',  'Unknown', 'errorNumber'
 13084, 'Could not find expanded definition of shr.base.Entry. Inheritance calculations for ${identifier1} will be incomplete.', 'Unknown', 'errorNumber'
@@ -171,42 +235,68 @@ Number, Message, Solution, deduplicationKeys
 13087, 'Cannot resolve target of card constraint on ${target1} ',  'Unknown', 'errorNumber'
 13088, 'Invalid constraint path: ${target1}',  'Unknown', 'errorNumber'
 13089, 'Cannot determine target item of mapping for ${identifier1}',  'Unknown', 'errorNumber'
-13090, 'Clashing property names: ${name1} and ${name2} ',  'Unknown', 'errorNumber'
-13091, 'Ignoring field defined as a choice: ${field1}',   'Unknown', 'errorNumber'
-13092, 'Ignoring name-less field: ${field1} ', 'Unknown', 'errorNumber'
-13093, 'Ignoring restricted field name: Value :  ${field1} ',  'Unknown', 'errorNumber'
-13094, 'Choices with options with cardinalities that are not exactly one are illegal ${value1}. Ignoring option ${option1}',  'Unknown', 'errorNumber
-13095, 'Unsupported Incomplete', 'Unknown', 'errorNumber'
-13096, 'Unknown type for value ${value1} ', 'Unknown', 'errorNumber'
-13097, 'Could not find definition for ${supertype1} which is a supertype of ${def1}', 'Unknown', 'errorNumber'
-13098, 'Internal error unexpected constraint target: ${target1} for constraint ${constraint1}'A, 'Unknown', 'errorNumber'
-13099, 'Multiple valueset constraints found on a single element ${element1}', 'Unknown', 'errorNumber'
-13100, 'Multiple code constraints found on a single element ${element1} ',  'Unknown', 'errorNumber'
-13101, 'Internal error: unhandled constraint ${constraint1} ', 'Unknown', 'errorNumber'
-13102, 'Encountered a constraint path containing a primitive ${pathId1} at index ${index1} that was not the leaf: ${constraint1} ', 'Unknown', 'errorNumber'
-13103, 'Encountered a constraint path with a primitive leaf ${pathId1} on an element that lacked a value: ${constraint1} ', 'Unknown', 'errorNumber'
-13104, 'Encountered a constraint path with a primitive leaf ${pathId1} on an element with a mismatched value: ${constraint1} on valueDef ${valueDef1} ', 'Unknown', 'errorNumber'
-13105, 'Encountered a constraint path with a primitive leaf ${pathId1} on an element with a mismatched value: ${constraint1} on valueDef ${valueDef1} ', 'Unknown', 'errorNumber'
-13106, 'Cannot resolve element definition for ${pathId1} on constraint ${constraint1}. ', 'Unknown', 'errorNumber'
-13107, 'Element ${element1} lacked any fields or a value that matched ${pathId1} as part of constraint ${constraint1} ', 'Unknown', 'errorNumber'
-13108, 'Element ${element1} lacked a field or a value that matched ${pathId1} as part of constraint ${constraint1} ', 'Unknown', 'errorNumber'
-13109, 'Encountered an unnormalized constraint path containing a primitive ${pathId1} at index ${index1}: ${constraint1} ', 'Unknown', 'errorNumber'
-13110, 'Element ${element1} lacked any fields or a value that matched ${pathId1} as part of constraint ${constraint1} ', 'Unknown', 'errorNumber'
-13111, 'Target of an unnormalized constraint: ${target1} does not have a value. Constraint is: ${constraint1} ', 'Unknown', 'errorNumber'
-13112, 'Constraint should not be on the value (except for choices): ${target1} in an expanded object model ${constraint1}. Ignoring constraint.', 'Unknown', 'errorNumber'
-13113, 'Target of an unnormalized constraint: ${constraint1} was a choice value that did not have a valid option: ${identifier1} ', 'Unknown', 'errorNumber'
+13114, 'Cannot create extension with value[x] type: ${type}', 'Check value to ensure it is a primitive, maps to a FHIR datatype, or is an Entry (which allows references)', 'errorNumber'
+13115, 'Couldn\'t identify appropriate Extension.value[x] value for ${elementId}. Is it an attempt to reference a non-Entry?', 'Check value to ensure it is a primitive, maps to a FHIR datatype, or is an Entry (which allows references)', 'errorNumber'
+13116, 'Package-id '${packageId}' (found in package-list.json) does not match npm-name '${npmName}' from config file', 'Fix packageId in package-list.json file', 'errorNumber'
+13117, 'Canonical URL '${packageUrl}' (found in package-list.json) does not match canonical URL '${canonicalUrl}' from config file', 'Fix canonical URL in package-list.json file', 'errorNumber'
+13118, 'The package-list.json file must have at least one listed publication object', 'Add at least one publication object.', 'errorNumber'
+13119, 'The first publication object in the package-list.json list must be the CI build (with "version":"curent", "status":"ci-build", and "current":true)', 'Add the CI Build entry to the publication objects in package-list.json', 'errorNumber'
+13120, 'The package-list.json contains the invalid (placeholder) path for the CI build: ${ciPath}', 'Update the path to the CI build with the real CI build URL', 'errorNumber'
+13121, 'Namespace strategy requires config.implementationGuide.primarySelectionStrategy.primary to be an array', 'Update the config file so that config.implementationGuide.primarySelectionStrategy.primary is an array', 'errorNumber'
+13122, 'Hybrid strategy requires config.implementationGuide.primarySelectionStrategy.primary to be an array', 'Update the config file so that config.implementationGuide.primarySelectionStrategy.primary is an array', 'errorNumber'
+13123, 'Specified extraResources path is not valid: ${path}', 'Fix or remove the implementationGuide.extraResources value in the config to be a valid path', 'errorNumber'
+13124, 'Invalid extra resource. Extra resource JSON must include id and resourceType properties: ${resourcePath}.', 'Add id and/or resourceType to the resource', 'errorNumber'
+13125, 'Invalid extra resource. IG is for FHIR ${igVersion}, but resource is for FHIR ${resourceVersion}: ${resourcePath}', 'Replace resource with resource using same FHIR version as the IG', 'errorNumber'
+13126, 'Invalid extra resource. Only the following resource types are currently supported: StructureDefinition, ValueSet, CodeSystem, SearchParameter, OperationDefinition, CapabilityStatement, Conformance.  Found: ${resourceType}.', 'Remove unsupported resource.', 'errorNumber'
+13127, 'Invalid extra resource.  Resource must be valid JSON: ${resourcePath}.', 'Remove invalid JSON resource.', 'errorNumber'
+13128, 'Specified examples path is not valid: ${path}', 'Fix implementationGuide.examples config value to point to valid path', 'errorNumber'
 14001, 'Unsupported value set rule type: ${vsRuleType}', 'Unknown', 'errorNumber'
 14002, 'Unknown type for value ${value1}', 'Unknown', 'errorNumber'
 14003, 'Unknown type for constraint ${constraint1}, 'Unknown', 'errorNumber'
 14004, 'Unknown type for constraint ${constraint}, 'Unknown', 'errorNumber'
-14005, 'Could not identify fixed value for: ${element1}', 'Unknown, 'errorNumber'
-14006, 'Unable to find field with identifer ${elementId1} on element ${currDefId1}; Original Element: ${defId1}; full mapping: ${mapping1}; FHR Path: ${elementPath1} ID: ${elementId2}', 'Unknown, 'errorNumber'
-14007, 'Value referenced in mapping but none exist on this element ${element1}', 'Unknown, 'errorNumber'
-14008, 'Value referenced in mapping but none exist on this element ${element1}', 'Unknown, 'errorNumber'
-14009, 'Cannot create proper inheritance tree w/ multiple based on elements.  Using first element.', 'Unknown, 'errorNumber'
 15001, 'Unable to successfully serialize element ${identifierName} into CIMCORE, failing with error ${errorText}',  'Unknown, 'errorNumber'
 15002, 'Unable to successfully serialize value set ${valueSet} into CIMCORE, failing with error ${errorText}',  'Unknown, 'errorNumber'
 15003, 'Unable to successfully serialize mapping ${mappingIdentifier} into CIMCORE, failing with error ${errorText}',   'Unknown, 'errorNumber'
 15004, 'Unable to successfully serialize ${nameSpace} meta information ${} into CIMCORE, failing with error ${errorText}', 'Unknown, 'errorNumber'
-15100, 'Failure in ES6 export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15005, 'Failure in CIMCORE export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15006, 'Failure in data dictionary export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15007, 'Failure in ES6 export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15008, 'Failure in FHIR export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15009, 'Failure in JSON Schema export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15010, 'Failure in Model Doc export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15011, 'CIMCORE is required for generating Model Doc. Skipping Model Docs export.', 'Do not skip CIMCORE if Model Doc should be generated', 'errorNumber'
 15101, 'Cumulative slice min cardinalities ${totalMinimum} exceed the max cardinality (${maxCard}) for the containing array at ${baseArray}.', 'Unknown, 'errorNumber'
+16001, 'Could not identify fixed value for: ${element1}', 'Unknown, 'errorNumber'
+16002, 'Unable to find field with identifer ${elementId1} on element ${currDefId1}; Original Element: ${defId1}; full mapping: ${mapping1}; FHR Path: ${elementPath1} ID: ${elementId2}', 'Unknown, 'errorNumber'
+16003, 'Value referenced in mapping but none exist on this element ${element1}', 'Unknown, 'errorNumber'
+16004, 'Value referenced in mapping but none exist on this element ${element1}', 'Unknown, 'errorNumber'
+16005, 'Cannot create proper inheritance tree w/ multiple based on elements.  Using first element.', 'Unknown, 'errorNumber'
+16006, 'No profile to match on, for extension ${extensionId} element: ${elementIdOrPath}', 'Unknown', 'errorNumber'
+16007, 'Unable to find matching extension with url ${profileUrl}', 'Unknown', 'errorNumber'
+16008, 'Cannot resolve element definition for ${elementFqn}', 'Unknown', 'errorNumber'
+17001, 'Error rendering model doc: ${errorText}',  'Unknown', 'errorNumber'
+17002, 'Error copying files for export of model doc: ${errorText}',  'Unknown', 'errorNumber'
+18001, 'Clashing property names: ${name1} and ${name2} ',  'Unknown', 'errorNumber'
+18002, 'Ignoring field defined as a choice: ${field1}',   'Unknown', 'errorNumber'
+18003, 'Ignoring name-less field: ${field1} ', 'Unknown', 'errorNumber'
+18004, 'Ignoring restricted field name: Value :  ${field1} ',  'Unknown', 'errorNumber'
+18005, 'Choices with options with cardinalities that are not exactly one are illegal ${value1}. Ignoring option ${option1}',  'Unknown', 'errorNumber
+18006, 'Unsupported Incomplete', 'Unknown', 'errorNumber'
+18007, 'Unknown type for value ${value1} ', 'Unknown', 'errorNumber'
+18008, 'Could not find definition for ${supertype1} which is a supertype of ${def1}', 'Unknown', 'errorNumber'
+18009, 'Internal error unexpected constraint target: ${target1} for constraint ${constraint1}'A, 'Unknown', 'errorNumber'
+18010, 'Multiple valueset constraints found on a single element ${element1}', 'Unknown', 'errorNumber'
+18011, 'Multiple code constraints found on a single element ${element1} ',  'Unknown', 'errorNumber'
+18012, 'Internal error: unhandled constraint ${constraint1} ', 'Unknown', 'errorNumber'
+18013, 'Encountered a constraint path containing a primitive ${pathId1} at index ${index1} that was not the leaf: ${constraint1} ', 'Unknown', 'errorNumber'
+18014, 'Encountered a constraint path with a primitive leaf ${pathId1} on an element that lacked a value: ${constraint1} ', 'Unknown', 'errorNumber'
+18015, 'Encountered a constraint path with a primitive leaf ${pathId1} on an element with a mismatched value: ${constraint1} on valueDef ${valueDef1} ', 'Unknown', 'errorNumber'
+18016, 'Encountered a constraint path with a primitive leaf ${pathId1} on an element with a mismatched value: ${constraint1} on valueDef ${valueDef1} ', 'Unknown', 'errorNumber'
+18017, 'Cannot resolve element definition for ${pathId1} on constraint ${constraint1}. ', 'Unknown', 'errorNumber'
+18018, 'Element ${element1} lacked any fields or a value that matched ${pathId1} as part of constraint ${constraint1} ', 'Unknown', 'errorNumber'
+18019, 'Element ${element1} lacked a field or a value that matched ${pathId1} as part of constraint ${constraint1} ', 'Unknown', 'errorNumber'
+18020, 'Encountered an unnormalized constraint path containing a primitive ${pathId1} at index ${index1}: ${constraint1} ', 'Unknown', 'errorNumber'
+18021, 'Element ${element1} lacked any fields or a value that matched ${pathId1} as part of constraint ${constraint1} ', 'Unknown', 'errorNumber'
+18022, 'Target of an unnormalized constraint: ${target1} does not have a value. Constraint is: ${constraint1} ', 'Unknown', 'errorNumber'
+18023, 'Constraint should not be on the value (except for choices): ${target1} in an expanded object model ${constraint1}. Ignoring constraint.', 'Unknown', 'errorNumber'
+18024, 'Target of an unnormalized constraint: ${constraint1} was a choice value that did not have a valid option: ${identifier1} ', 'Unknown', 'errorNumber'

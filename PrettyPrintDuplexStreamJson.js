@@ -1,7 +1,9 @@
+/* eslint no-console: off */
 const Transform = require('stream').Transform;
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');   //library for colorizing Strings
+const { nameFromLevel } = require('bunyan');
 // color palette for messages -- can also do rgb; e.g.  chalk.rgb(123, 45, 67)
 const originalErrorColor = chalk.bold.greenBright;
 const errorDetailColor = chalk.bold.cyan;
@@ -20,7 +22,7 @@ class PrettyPrintDuplexStreamJson extends Transform {
     this.templateStrings = {};
     const csvFilePath = path.join(__dirname, 'errorMessages.txt' );
     this.solutionMap[ noErrorCode ] = 'Error message has no error code; please add error code';  // -1 means noErrorCode
-    // build the hashMap resources from the errorMessages csv file; each column has a part 
+    // build the hashMap resources from the errorMessages csv file; each column has a part
     this.buildMapFromFile( csvFilePath, this.solutionMap, 0, 2);
     this.buildMapFromFile( csvFilePath, this.ruleMap, 0, 3);
     this.buildMapFromFile( csvFilePath, this.templateStrings, 0, 1);
@@ -31,9 +33,9 @@ class PrettyPrintDuplexStreamJson extends Transform {
 
 
   buildMapFromFile( filePath, map, keyColumnNumber, valueColumnNumber) {
-    const recArray = fs.readFileSync(filePath).toString().split('\n'); 
+    const recArray = fs.readFileSync(filePath).toString().split('\n');
     // populate a map with the key as the ERROR_CODE number and the value is the suggested solution
-    for( const i in recArray) {   
+    for( const i in recArray) {
       const line = recArray[i].toString();
       if (line.trim().startsWith('//') ){
         continue;                          // skip lines that start with comment delimiter
@@ -52,7 +54,7 @@ class PrettyPrintDuplexStreamJson extends Transform {
     default: return inName ;
     }
   }
-  
+
   getUnqualifiedName ( inName ) {     // take a name with '.' delimiters and return the last part
     if (inName === '') {
       return inName ;
@@ -72,10 +74,18 @@ class PrettyPrintDuplexStreamJson extends Transform {
         return myECode ;
       }
       else {
-        myECode = result[1].trim();   
+        myECode = result[1].trim();
       }
     }
     return myECode ;
+  }
+
+  getLevel( level ) {
+    if (level === null) {
+      return 'INFO';
+    }
+    const levelStr = nameFromLevel[level];
+    return levelStr ? levelStr.toUpperCase() : 'INFO';
   }
 
   getAttributeOrEmptyString( myPart) {   // guard against undefined or null attributes
@@ -97,20 +107,20 @@ class PrettyPrintDuplexStreamJson extends Transform {
         return hashValue ;
       }
       const parts = semicolonDelimitedKeyList.split(';');
-    
+
       for (let i=0; i < parts.length; i++) {
         let curKey = parts[i].trim();   // since errorCode not in json attributes we have to special case this
         if (curKey === 'errorNumber' ) {
-          hashValue += errorCode + '$'; 
+          hashValue += errorCode + '$';
         }
         else {
           curKey = jsonObj[ parts[i].trim() ];
           if (curKey === undefined) {
             console.log('undefined JSON atttribute ' + parts[i].trim());
           }
-          hashValue += curKey + '$';    
+          hashValue += curKey + '$';
         }
-      } 
+      }
     }
     return hashValue;
   }
@@ -121,7 +131,7 @@ class PrettyPrintDuplexStreamJson extends Transform {
     if (myTemplate != null) {
       const myMatches  = myTemplate.match(templateRegex);
       if (myMatches != null) {
-      
+
         for (let i=0; i < myMatches.length; i++) {
           const strToReplace = myMatches[i].toString();
           const myKey = strToReplace.replace(/\{/g, '').replace(/\}/g, '').replace(/\$/g, '');
@@ -134,20 +144,20 @@ class PrettyPrintDuplexStreamJson extends Transform {
           }
         }
       }
-    } 
+    }
     return template ;
   }
-  
+
   // this function processes a single error message and returns a colorized, formatted string
   // for the moment, it writes the original input message in red to console.log
   processLine(myinline, printAllErrors) {
-    
+
     if (printAllErrors !== false) {
-      console.log( originalErrorColor (myinline )); 
+      console.log( originalErrorColor (myinline ));
     }
     const myJson = JSON.parse(myinline);          // convert String to object, then grab attributes
     const jsonKeys = Object.keys( myJson);
-    const jMsg = this.getAttributeOrEmptyString( myJson.msg ); 
+    const jMsg = this.getAttributeOrEmptyString( myJson.msg );
     const modulePart = this.getAttributeOrEmptyString( myJson.module);  //grab module
     const eCode = this.parseErrorCode( /([\d]{5})\s*/, jMsg); //extract ERROR_CODE:ddddd from msg attribute;eCode = noErrorCode if not found;
     let detailMsg = '';
@@ -157,19 +167,22 @@ class PrettyPrintDuplexStreamJson extends Transform {
       detailMsg = this.processTemplate(jsonKeys, myTemplate, myJson  ) ;
     }
     else {
-      console.log( errorCodeColor(' Message is missing errorCode; no template found.  Default error code '+ eCode + ':'));
+      console.log( errorCodeColor('Message is missing errorCode; no template found: ' + myinline));
       return '';
-    } 
-    
+    }
+
+    const level = this.getLevel( myJson.level );                                  //grab level
     const shrIdPart = this.getAttributeOrEmptyString( myJson.shrId );             //grab shrId
     const mappingRulePart = this.getAttributeOrEmptyString( myJson.mappingRule ); //grab mappingRule
     const targetPart = this.getAttributeOrEmptyString( myJson.target );          //grab targetPart
     const targetSpecPart = this.getAttributeOrEmptyString( myJson.targetSpec );  //grab targetSpec
     // now we have pieces; assemble the pieces into a formatted, colorized, multi-line message
-    let outline =  errorCodeColor('\nERROR ' + eCode + ': ' + detailMsg );  // first part of new message is ERROR xxxxx: <<detail>> 
-    outline +=   errorDetailColor ( '\n    During:         ' + this.translateNames( modulePart))
-                   +   errorDetailColor( '\n    Class:          ' + this.getUnqualifiedName(this.translateNames( shrIdPart)));
+    let outline =  errorCodeColor('\n' + level + ' ' + eCode + ': ' + detailMsg );  // first part of new message is ERROR xxxxx: <<detail>>
+    outline +=   errorDetailColor ( '\n    During:         ' + this.translateNames( modulePart));
     // if parts are optional/missing, then only print them if they are found
+    if (shrIdPart !== '') {
+      outline += errorDetailColor( '\n    Class:          ' + this.getUnqualifiedName(this.translateNames( shrIdPart)));
+    }
     if ( targetSpecPart != '') {
       outline += errorDetailColor( '\n    Target Spec:    ' + this.translateNames(this.targetSpecPart));
     }
@@ -184,12 +197,12 @@ class PrettyPrintDuplexStreamJson extends Transform {
     if ( suggestedFix != null ) {
       suggestedFix = suggestedFix.replace(/'/g, '').trim() ;
       // only print suggested fix if it's available from the resource file (i.e. in the solutionMap)
-      if (suggestedFix !== 'Unknown' && suggestedFix !== '') { 
+      if (suggestedFix !== 'Unknown' && suggestedFix !== '') {
         outline += errorDetailColor(   '\n    Suggested Fix:  ' + suggestedFix.trim() + '\n'  );
       }
     }
     const myDedupHashKey = this.buildHashKey( eCode, this.ruleMap,  myJson ) ;
-    
+
     if (myDedupHashKey === '') { // if you have no keys for deduplication in errorMessages.txt for thisd, print everything
       return outline ;
     }
@@ -205,7 +218,9 @@ class PrettyPrintDuplexStreamJson extends Transform {
 
   _transform(chunk, encoding, callback) {
     const ans = this.processLine(chunk, false);
-    console.log( ans );
+    if (ans.length > 0) {
+      console.log( ans );
+    }
     callback();
   }
 }
