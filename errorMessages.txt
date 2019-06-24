@@ -11,6 +11,14 @@ Number, Message, Solution, deduplicationKeys
 03005, 'No mapping to '${elementPath}'. This property is core to the target resource and usually should be mapped.', 'Unknown', 'errorNumber'
 03006, 'The ${property} property is not bound to a value set  fixed to a code  or fixed to a quantity unit. This property is core to the target resource and usually should be constrained ', 'Unknown', 'errorNumber'
 04001, 'Unsupported code system: ${codeSystem}', 'Unknown', 'errorNumber'
+05001, 'Starting CLI Import/Export',,
+05002, 'Finished CLI Import/Export',,
+05003, 'Skipping CIMCORE export',,
+05004, 'Skipping Data Dictionary export',,
+05005, 'Skipping ES6 export',,
+05006, 'Skipping FHIR export',,
+05007, 'Skipping JSON Schema export',,
+05008, 'Skipping Model Docs export',,
 11001, 'Element name '${name}' should begin with a capital letter', 'Rename the specified Element', 'errorNumber'
 11002, 'Entry Element name '${name}' should begin with a capital letter', 'Rename the specified EntryElement', 'errorNumber'
 11003, 'Unable to resolve value set reference: ${valueSet}', 'Invalid value set reference  double check the name and the path', 'errorNumber'
@@ -208,5 +216,11 @@ Number, Message, Solution, deduplicationKeys
 15002, 'Unable to successfully serialize value set ${valueSet} into CIMCORE, failing with error ${errorText}',  'Unknown, 'errorNumber'
 15003, 'Unable to successfully serialize mapping ${mappingIdentifier} into CIMCORE, failing with error ${errorText}',   'Unknown, 'errorNumber'
 15004, 'Unable to successfully serialize ${nameSpace} meta information ${} into CIMCORE, failing with error ${errorText}', 'Unknown, 'errorNumber'
-15100, 'Failure in ES6 export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15005, 'Failure in CIMCORE export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15006, 'Failure in data dictionary export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15007, 'Failure in ES6 export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15008, 'Failure in FHIR export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15009, 'Failure in JSON Schema export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15010, 'Failure in Model Doc export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15011, 'CIMCORE is required for generating Model Doc. Skipping Model Docs export.', 'Do not skip CIMCORE if Model Doc should be generated', 'errorNumber'
 15101, 'Cumulative slice min cardinalities ${totalMinimum} exceed the max cardinality (${maxCard}) for the containing array at ${baseArray}.', 'Unknown, 'errorNumber'
