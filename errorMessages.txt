@@ -2,7 +2,12 @@ Number, Message, Solution, deduplicationKeys
 //  test
 01001, 'No project configuration file found - currently using default EXAMPLE identifiers. Auto-generating a proper config.json in your specifications folder', 'Open the config.json file and customize it for your project.', 'errorNumber'
 01002, 'Config file missing key: ${key}  using default key: ${defaultValue} instead.', ' Open the config.json file and add your project specific details for that key.', 'errorNumber'
-02001, 'Potentially mismatched targets: ${class} maps to ${item} but based on class (${class}) maps to ${item}  and ${item} is not based on ${element} in ${class}. ', 'You're overwriting an inherited mapping. This is not necessarily an issue  but is definitely something to be cautious of.', 'errorNumber'
+02001, 'Potentially mismatched targets: ${class} maps to ${item} but based on class (${baseClass}) maps to ${baseItem}  and ${item} is not based on ${baseItem} in ${class}. ', 'You're overwriting an inherited mapping. This is not necessarily an issue  but is definitely something to be cautious of.', 'errorNumber'
+02002, 'Ignoring TBD parent ${tbdText} for child element ${child}.', 'Unknown', 'errorNumber'
+02003, 'Start expanding element',,
+02004, 'Done expanding element',,
+02005, 'Start expanding mapping',,
+02006, 'Done expanding mapping',,
 03001, 'Trying to map ${profile} to ${code}  but ${profile} was previously mapped to it', 'Unknown', 'errorNumber'
     // test
 03002, 'Choice has equivalent types  so choice options may overwrite or override each other when mapped to FHIR.', 'Unknown', 'errorNumber'
