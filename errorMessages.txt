@@ -19,6 +19,8 @@ Number, Message, Solution, deduplicationKeys
 05006, 'Skipping FHIR export',,
 05007, 'Skipping JSON Schema export',,
 05008, 'Skipping Model Docs export',,
+06001, 'Start generating class',,
+06002, 'Done generating class'
 11001, 'Element name '${name}' should begin with a capital letter', 'Rename the specified Element', 'errorNumber'
 11002, 'Entry Element name '${name}' should begin with a capital letter', 'Rename the specified EntryElement', 'errorNumber'
 11003, 'Unable to resolve value set reference: ${valueSet}', 'Invalid value set reference  double check the name and the path', 'errorNumber'
@@ -207,11 +209,6 @@ Number, Message, Solution, deduplicationKeys
 14002, 'Unknown type for value ${value1}', 'Unknown', 'errorNumber'
 14003, 'Unknown type for constraint ${constraint1}, 'Unknown', 'errorNumber'
 14004, 'Unknown type for constraint ${constraint}, 'Unknown', 'errorNumber'
-14005, 'Could not identify fixed value for: ${element1}', 'Unknown, 'errorNumber'
-14006, 'Unable to find field with identifer ${elementId1} on element ${currDefId1}; Original Element: ${defId1}; full mapping: ${mapping1}; FHR Path: ${elementPath1} ID: ${elementId2}', 'Unknown, 'errorNumber'
-14007, 'Value referenced in mapping but none exist on this element ${element1}', 'Unknown, 'errorNumber'
-14008, 'Value referenced in mapping but none exist on this element ${element1}', 'Unknown, 'errorNumber'
-14009, 'Cannot create proper inheritance tree w/ multiple based on elements.  Using first element.', 'Unknown, 'errorNumber'
 15001, 'Unable to successfully serialize element ${identifierName} into CIMCORE, failing with error ${errorText}',  'Unknown, 'errorNumber'
 15002, 'Unable to successfully serialize value set ${valueSet} into CIMCORE, failing with error ${errorText}',  'Unknown, 'errorNumber'
 15003, 'Unable to successfully serialize mapping ${mappingIdentifier} into CIMCORE, failing with error ${errorText}',   'Unknown, 'errorNumber'
@@ -224,3 +221,11 @@ Number, Message, Solution, deduplicationKeys
 15010, 'Failure in Model Doc export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
 15011, 'CIMCORE is required for generating Model Doc. Skipping Model Docs export.', 'Do not skip CIMCORE if Model Doc should be generated', 'errorNumber'
 15101, 'Cumulative slice min cardinalities ${totalMinimum} exceed the max cardinality (${maxCard}) for the containing array at ${baseArray}.', 'Unknown, 'errorNumber'
+16001, 'Could not identify fixed value for: ${element1}', 'Unknown, 'errorNumber'
+16002, 'Unable to find field with identifer ${elementId1} on element ${currDefId1}; Original Element: ${defId1}; full mapping: ${mapping1}; FHR Path: ${elementPath1} ID: ${elementId2}', 'Unknown, 'errorNumber'
+16003, 'Value referenced in mapping but none exist on this element ${element1}', 'Unknown, 'errorNumber'
+16004, 'Value referenced in mapping but none exist on this element ${element1}', 'Unknown, 'errorNumber'
+16005, 'Cannot create proper inheritance tree w/ multiple based on elements.  Using first element.', 'Unknown, 'errorNumber'
+16006, 'No profile to match on, for extension ${extensionId} element: ${elementIdOrPath}', 'Unknown', 'errorNumber'
+16007, 'Unable to find matching extension with url ${profileUrl}', 'Unknown', 'errorNumber'
+16008, 'Cannot resolve element definition for ${elementFqn}', 'Unknown', 'errorNumber'
