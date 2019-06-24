@@ -2,6 +2,7 @@ const Transform = require('stream').Transform;
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');   //library for colorizing Strings
+const { nameFromLevel } = require('bunyan');
 // color palette for messages -- can also do rgb; e.g.  chalk.rgb(123, 45, 67)
 const originalErrorColor = chalk.bold.greenBright;
 const errorDetailColor = chalk.bold.cyan;
@@ -76,6 +77,14 @@ class PrettyPrintDuplexStreamJson extends Transform {
       }
     }
     return myECode ;
+  }
+
+  getLevel( level ) {
+    if (level === null) {
+      return 'INFO';
+    }
+    const levelStr = nameFromLevel[level];
+    return levelStr ? levelStr.toUpperCase() : 'INFO';
   }
 
   getAttributeOrEmptyString( myPart) {   // guard against undefined or null attributes
@@ -161,15 +170,18 @@ class PrettyPrintDuplexStreamJson extends Transform {
       return '';
     }
 
+    const level = this.getLevel( myJson.level );                                  //grab level
     const shrIdPart = this.getAttributeOrEmptyString( myJson.shrId );             //grab shrId
     const mappingRulePart = this.getAttributeOrEmptyString( myJson.mappingRule ); //grab mappingRule
     const targetPart = this.getAttributeOrEmptyString( myJson.target );          //grab targetPart
     const targetSpecPart = this.getAttributeOrEmptyString( myJson.targetSpec );  //grab targetSpec
     // now we have pieces; assemble the pieces into a formatted, colorized, multi-line message
-    let outline =  errorCodeColor('\nERROR ' + eCode + ': ' + detailMsg );  // first part of new message is ERROR xxxxx: <<detail>>
-    outline +=   errorDetailColor ( '\n    During:         ' + this.translateNames( modulePart))
-                   +   errorDetailColor( '\n    Class:          ' + this.getUnqualifiedName(this.translateNames( shrIdPart)));
+    let outline =  errorCodeColor('\n' + level + ' ' + eCode + ': ' + detailMsg );  // first part of new message is ERROR xxxxx: <<detail>>
+    outline +=   errorDetailColor ( '\n    During:         ' + this.translateNames( modulePart));
     // if parts are optional/missing, then only print them if they are found
+    if (shrIdPart !== '') {
+      outline += errorDetailColor( '\n    Class:          ' + this.getUnqualifiedName(this.translateNames( shrIdPart)));
+    }
     if ( targetSpecPart != '') {
       outline += errorDetailColor( '\n    Target Spec:    ' + this.translateNames(this.targetSpecPart));
     }

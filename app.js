@@ -96,6 +96,7 @@ streams.push({ level: 'warn', type: 'raw', stream: logCounter});
 streams.push({ level: 'trace', path: path.join(program.out, 'out.log') });
 const logger = bunyan.createLogger({
   name: 'shr',
+  module: 'shr-cli',
   streams: streams
 });
 
