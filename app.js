@@ -58,9 +58,6 @@ const doModelDoc = program.skip.every(a => a.toLowerCase() != 'model-doc' && a.t
 const doDD = program.skip.every(a => a.toLowerCase() != 'data-dict' && a.toLowerCase() != 'all');
 const doGraph = program.skip.every(a => a.toLowerCase() != 'graph');
 
-// Process the CIMPL 6 export flag
-const doCIMPL6 = program.exportCimpl6;
-
 // Process the de-duplicate error flag
 
 const showDuplicateErrors = !program.deduplicate;
@@ -136,6 +133,7 @@ if (doES6) {
 }
 if (doDD) {
   shrDD.setLogger(logger.child({ module: 'shr-data-dict-export'}));
+}
 if (doGraph) {
   shrGr.setLogger(logger.child({module: 'shr-graph-export'}));
 }
