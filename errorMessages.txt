@@ -41,7 +41,10 @@ Number, Message, Solution, deduplicationKeys
 05007, 'Skipping JSON Schema export',,
 05008, 'Skipping Model Docs export',,
 06001, 'Start generating class',,
-06002, 'Done generating class'
+06002, 'Done generating class',,
+07001, 'Unknown constraint type ${constraintType}.', 'Unknown', 'errorNumber'
+07002, 'Compiling Documentation for ${count} namespaces...',,
+07003, 'Building documentation pages for ${count} elements...',,
 11001, 'Element name '${name}' should begin with a capital letter', 'Rename the specified Element', 'errorNumber'
 11002, 'Entry Element name '${name}' should begin with a capital letter', 'Rename the specified EntryElement', 'errorNumber'
 11003, 'Unable to resolve value set reference: ${valueSet}', 'Invalid value set reference  double check the name and the path', 'errorNumber'
@@ -192,8 +195,6 @@ Number, Message, Solution, deduplicationKeys
 13077, 'Invalid file ${fileName1} ',  'Unknown', 'errorNumber'
 13078, 'Invalid config file: ${configFilename1} ',  'Unknown', 'errorNumber'
 13079, 'Resolution error ${errorText} ',  'Unknown', 'errorNumber'
-13080, 'Error rendering model doc: ${errorText}',  'Unknown', 'errorNumber'
-13081, 'Error copying files for export of model doc: ${errorText}',  'Unknown', 'errorNumber'
 13082, 'Unexpected error exporting element to FHIR Logical Model. ${errorText} ',  'Unknown', 'errorNumber'
 13083, 'Could not find based on element ${element1} for child element ${element2}. ',  'Unknown', 'errorNumber'
 13084, 'Could not find expanded definition of shr.base.Entry. Inheritance calculations for ${identifier1} will be incomplete.', 'Unknown', 'errorNumber'
@@ -265,3 +266,5 @@ Number, Message, Solution, deduplicationKeys
 16006, 'No profile to match on, for extension ${extensionId} element: ${elementIdOrPath}', 'Unknown', 'errorNumber'
 16007, 'Unable to find matching extension with url ${profileUrl}', 'Unknown', 'errorNumber'
 16008, 'Cannot resolve element definition for ${elementFqn}', 'Unknown', 'errorNumber'
+17001, 'Error rendering model doc: ${errorText}',  'Unknown', 'errorNumber'
+17002, 'Error copying files for export of model doc: ${errorText}',  'Unknown', 'errorNumber'
