@@ -133,6 +133,7 @@ if (doES6) {
 }
 if (doDD) {
   shrDD.setLogger(logger.child({ module: 'shr-data-dict-export'}));
+}
 if (doGraph) {
   shrGr.setLogger(logger.child({module: 'shr-graph-export'}));
 }
