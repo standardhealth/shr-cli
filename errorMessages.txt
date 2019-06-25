@@ -1,5 +1,4 @@
 Number, Message, Solution, deduplicationKeys
-//  test
 01001, 'No project configuration file found - currently using default EXAMPLE identifiers. Auto-generating a proper config.json in your specifications folder', 'Open the config.json file and customize it for your project.', 'errorNumber'
 01002, 'Config file missing key: ${key}  using default key: ${defaultValue} instead.', ' Open the config.json file and add your project specific details for that key.', 'errorNumber'
 02001, 'Potentially mismatched targets: ${class} maps to ${item} but based on class (${baseClass}) maps to ${baseItem}  and ${item} is not based on ${baseItem} in ${class}. ', 'You're overwriting an inherited mapping. This is not necessarily an issue  but is definitely something to be cautious of.', 'errorNumber'
@@ -8,13 +7,30 @@ Number, Message, Solution, deduplicationKeys
 02004, 'Done expanding element',,
 02005, 'Start expanding mapping',,
 02006, 'Done expanding mapping',,
-03001, 'Trying to map ${profile} to ${code}  but ${profile} was previously mapped to it', 'Unknown', 'errorNumber'
-    // test
+03001, 'Trying to map ${profile} to ${code}  but ${otherProfile} was previously mapped to it', 'Unknown', 'errorNumber'
 03002, 'Choice has equivalent types  so choice options may overwrite or override each other when mapped to FHIR.', 'Unknown', 'errorNumber'
 03003, 'Overriding extensible value set constraint from ${vs1} to ${vs2}. Only allowed when new codes do not overlap meaning of old codes.', 'Unknown', 'errorNumber'
 03004, 'Element profiled on Basic. Consider a more specific mapping.', 'The Basic profile should not be used in most cases. Consider a more specific profile mapping that categorizes the Element being mapped.', 'errorNumber'
 03005, 'No mapping to '${elementPath}'. This property is core to the target resource and usually should be mapped.', 'Unknown', 'errorNumber'
 03006, 'The ${property} property is not bound to a value set  fixed to a code  or fixed to a quantity unit. This property is core to the target resource and usually should be constrained ', 'Unknown', 'errorNumber'
+03007, 'Exporting FHIR using target: ${target}',,
+03008, 'Unmapped fields in [ ${elements} ]:\n${fields}', 'Map fields to FHIR properties or to extensions', 'errorNumber'
+03009, 'Profile Indicators JSON: ${profileIndicators}',,
+03010, 'Start mapping element',,
+03011, 'Done mapping element',,
+03012, 'Start mapping rule',,
+03013, 'Done mapping rule',,
+03014, 'Nested include types are currently not supported when applied to extensions', 'Unknown', 'errorNumber'
+03015, 'Start mapping extension',,
+03016, 'Done mapping extension',,
+03017, 'Deep path mapped to extension URL, but extension placed at root level.',,
+03018, 'Abstract Class: The \'${property}\' property is not bound to a value set or fixed to a code. This property is core to the target resource and usually should be constrained.', 'Constrain the property if possible', 'errorNumber'
+03019, 'Start creating extension',,
+03020, 'Done creating extension',,
+03021, 'HL7 IGs require a package-list.json file.  A starter version has been written to ${packageListFile}. For more information on package files, see: http://wiki.hl7.org/index.php?title=FHIR_IG_PackageList_doco', 'Edit the packageListFile', 'errorNumber'
+03022, 'WARNING: Overwriting generated profile with patch: ${patchFile}',,
+03023, 'Start exporting element logical model',,
+03024, 'Done exporting element logical model',,
 04001, 'Unsupported code system: ${codeSystem}', 'Unknown', 'errorNumber'
 05001, 'Starting CLI Import/Export',,
 05002, 'Finished CLI Import/Export',,
@@ -210,6 +226,21 @@ Number, Message, Solution, deduplicationKeys
 13111, 'Target of an unnormalized constraint: ${target1} does not have a value. Constraint is: ${constraint1} ', 'Unknown', 'errorNumber'
 13112, 'Constraint should not be on the value (except for choices): ${target1} in an expanded object model ${constraint1}. Ignoring constraint.', 'Unknown', 'errorNumber'
 13113, 'Target of an unnormalized constraint: ${constraint1} was a choice value that did not have a valid option: ${identifier1} ', 'Unknown', 'errorNumber'
+13114, 'Cannot create extension with value[x] type: ${type}', 'Check value to ensure it is a primitive, maps to a FHIR datatype, or is an Entry (which allows references)', 'errorNumber'
+13115, 'Couldn\'t identify appropriate Extension.value[x] value for ${elementId}. Is it an attempt to reference a non-Entry?', 'Check value to ensure it is a primitive, maps to a FHIR datatype, or is an Entry (which allows references)', 'errorNumber'
+13116, 'Package-id '${packageId}' (found in package-list.json) does not match npm-name '${npmName}' from config file', 'Fix packageId in package-list.json file', 'errorNumber'
+13117, 'Canonical URL '${packageUrl}' (found in package-list.json) does not match canonical URL '${canonicalUrl}' from config file', 'Fix canonical URL in package-list.json file', 'errorNumber'
+13118, 'The package-list.json file must have at least one listed publication object', 'Add at least one publication object.', 'errorNumber'
+13119, 'The first publication object in the package-list.json list must be the CI build (with "version":"curent", "status":"ci-build", and "current":true)', 'Add the CI Build entry to the publication objects in package-list.json', 'errorNumber'
+13120, 'The package-list.json contains the invalid (placeholder) path for the CI build: ${ciPath}', 'Update the path to the CI build with the real CI build URL', 'errorNumber'
+13121, 'Namespace strategy requires config.implementationGuide.primarySelectionStrategy.primary to be an array', 'Update the config file so that config.implementationGuide.primarySelectionStrategy.primary is an array', 'errorNumber'
+13122, 'Hybrid strategy requires config.implementationGuide.primarySelectionStrategy.primary to be an array', 'Update the config file so that config.implementationGuide.primarySelectionStrategy.primary is an array', 'errorNumber'
+13123, 'Specified extraResources path is not valid: ${path}', 'Fix or remove the implementationGuide.extraResources value in the config to be a valid path', 'errorNumber'
+13124, 'Invalid extra resource. Extra resource JSON must include id and resourceType properties: ${resourcePath}.', 'Add id and/or resourceType to the resource', 'errorNumber'
+13125, 'Invalid extra resource. IG is for FHIR ${igVersion}, but resource is for FHIR ${resourceVersion}: ${resourcePath}', 'Replace resource with resource using same FHIR version as the IG', 'errorNumber'
+13126, 'Invalid extra resource. Only the following resource types are currently supported: StructureDefinition, ValueSet, CodeSystem, SearchParameter, OperationDefinition, CapabilityStatement, Conformance.  Found: ${resourceType}.', 'Remove unsupported resource.', 'errorNumber'
+13127, 'Invalid extra resource.  Resource must be valid JSON: ${resourcePath}.', 'Remove invalid JSON resource.', 'errorNumber'
+13128, 'Specified examples path is not valid: ${path}', 'Fix implementationGuide.examples config value to point to valid path', 'errorNumber'
 14001, 'Unsupported value set rule type: ${vsRuleType}', 'Unknown', 'errorNumber'
 14002, 'Unknown type for value ${value1}', 'Unknown', 'errorNumber'
 14003, 'Unknown type for constraint ${constraint1}, 'Unknown', 'errorNumber'
