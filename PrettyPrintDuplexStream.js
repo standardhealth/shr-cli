@@ -1,3 +1,4 @@
+/* eslint no-console: off */
 const Transform = require('stream').Transform;
 const fs = require('fs');
 const path = require('path');

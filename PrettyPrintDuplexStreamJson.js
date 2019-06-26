@@ -1,3 +1,4 @@
+/* eslint no-console: off */
 const Transform = require('stream').Transform;
 const fs = require('fs');
 const path = require('path');
@@ -166,7 +167,7 @@ class PrettyPrintDuplexStreamJson extends Transform {
       detailMsg = this.processTemplate(jsonKeys, myTemplate, myJson  ) ;
     }
     else {
-      console.log( errorCodeColor(' Message is missing errorCode; no template found.  Default error code '+ eCode + ':'));
+      console.log( errorCodeColor('Message is missing errorCode; no template found: ' + myinline));
       return '';
     }
 
