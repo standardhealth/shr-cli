@@ -1261,50 +1261,44 @@ shr-data-dict-export@^6.0.0:
     exceljs "^1.11.0"
     mkdirp "^0.5.1"
 
-shr-es6-export@^6.0.0:
+shr-es6-export@standardhealth/shr-es6-export#loggerific:
   version "6.0.0"
-  resolved "https://registry.yarnpkg.com/shr-es6-export/-/shr-es6-export-6.0.0.tgz#c8a0c60a01e53d90518296fffbbc997f45ff8369"
-  integrity sha512-EXz0jQd+pzzM5oWRtel9x3/cfJsRPQdpcDp6nqvNvfWgPqtceRGThbHnJW1kdxWTNFIp35hQIfYb6N7u/gO1Mg==
+  resolved "https://codeload.github.com/standardhealth/shr-es6-export/tar.gz/31cb5b2b380225fc9a706258dc68e214687708ec"
   dependencies:
     reserved-words "^0.1.2"
 
-shr-expand@^6.0.0:
+shr-expand@standardhealth/shr-expand#loggerific:
   version "6.0.0"
-  resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-6.0.0.tgz#a2072f971e19b9f221e012c0056ee389a78633d7"
-  integrity sha512-zzjli5uVY23J4jHnr5Cr+iLkZ7+6RsHk3kQMksBPUR4ly96NXlCRgillJ3IszbdP3dHpBuWymcrAOjyz4C/lRA==
+  resolved "https://codeload.github.com/standardhealth/shr-expand/tar.gz/3a5007e386edd8518a88f8a566cdec566fda0bd6"
 
-shr-fhir-export@^6.1.1:
+shr-fhir-export@standardhealth/shr-fhir-export#loggerific:
   version "6.1.1"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-6.1.1.tgz#e96edabb6f5fc1779d0188a6825ac9a21d8d4705"
-  integrity sha512-v72hRKceq95ns4zSPR6Am3afX8y9i2WxPybQsplksj86PYJ2IKT7yxsJMg6Y2Noq69zlnOQWCa5qCPuZcnEjUQ==
+  resolved "https://codeload.github.com/standardhealth/shr-fhir-export/tar.gz/dcab98bb6f4daac16c6d2949e1603b7ae2561e0f"
   dependencies:
     fs-extra "^2.0.0"
     lodash "^4.17.5"
 
-shr-json-javadoc@^6.0.0:
+shr-json-javadoc@standardhealth/shr-json-javadoc#loggerific:
   version "6.0.0"
-  resolved "https://registry.yarnpkg.com/shr-json-javadoc/-/shr-json-javadoc-6.0.0.tgz#fd4ef1168f14764ad04b610ff5e2e8034813a935"
-  integrity sha512-lpCz6sD0HaFbkL4HrzAw1puglvjzc8ZXLgT1O1v/ibkXh4gVLKy2BdL8exPFT7pyMTg705sYRN+5zJrt7hN0+g==
+  resolved "https://codeload.github.com/standardhealth/shr-json-javadoc/tar.gz/b61f59f3ca966547da3d6af98d0abbae4b872064"
   dependencies:
     bluebird "^3.5.1"
     ejs "^2.5.7"
     ncp "^2.0.0"
     showdown "^1.8.6"
 
-shr-json-schema-export@^6.0.0:
+shr-json-schema-export@standardhealth/shr-json-schema-export#loggerific:
   version "6.0.0"
-  resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-6.0.0.tgz#08e969c5debf5719b298c59c2b1ef83f1c52fa3e"
-  integrity sha512-megbVDNpi/PenTVFHFbkqgAmud8LwToveyUaKL0qabnEJ1QzwUuik3aZFz007kC7iidyAVKGo0GcKUBb0k1RQg==
+  resolved "https://codeload.github.com/standardhealth/shr-json-schema-export/tar.gz/89f0809aec41e2f9fadd927ece92c18a8d43ac4c"
 
 shr-models@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-6.0.0.tgz#6ffe6a48ae6bcf6c20e25dbfcc5b2954fca7d661"
   integrity sha512-k8tU/YghNoFdpHxzC1ZpfpHMEMAJPZyGGAMd9QfOcCqDsETUyK9u76GuXoSlhXHjDM5CXOCeq6LmxWCQhK95iw==
 
-shr-text-import@^6.0.0:
+shr-text-import@standardhealth/shr-text-import#loggerific:
   version "6.0.0"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-6.0.0.tgz#79aea057d8be13571ea9c4c833172268f52e85a8"
-  integrity sha512-6OhJaV/3cr8eMaQ6fm7YtDM94tEHAJoq9O43/Neulq0JPAPOrzbSkdgUTryM3TzMH3Eaup93EwvBhKwla9xsqQ==
+  resolved "https://codeload.github.com/standardhealth/shr-text-import/tar.gz/fbcf40834a5274448a3231ea0bd5963a9ebdca08"
   dependencies:
     antlr4 "~4.6.0"
 

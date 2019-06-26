@@ -23,13 +23,13 @@
     "fs-extra": "^7.0.0",
     "mkdirp": "^0.5.1",
     "shr-data-dict-export": "^6.0.0",
-    "shr-es6-export": "^6.0.0",
-    "shr-expand": "^6.0.0",
-    "shr-fhir-export": "^6.1.1",
-    "shr-json-javadoc": "^6.0.0",
-    "shr-json-schema-export": "^6.0.0",
+    "shr-es6-export": "standardhealth/shr-es6-export#loggerific",
+    "shr-expand": "standardhealth/shr-expand#loggerific",
+    "shr-fhir-export": "standardhealth/shr-fhir-export#loggerific",
+    "shr-json-javadoc": "standardhealth/shr-json-javadoc#loggerific",
+    "shr-json-schema-export": "standardhealth/shr-json-schema-export#loggerific",
     "shr-models": "^6.0.0",
-    "shr-text-import": "^6.0.0"
+    "shr-text-import": "standardhealth/shr-text-import#loggerific"
   },
   "devDependencies": {
     "eslint": "^4.6.1",
