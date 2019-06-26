@@ -69,6 +69,7 @@ Number, Message, Solution, deduplicationKeys
 08001, 'Exporting namespace.',,
 08002, 'Finished exporting namespace.',,
 08003, 'Exporting element',,
+08004, 'Cannot enforce constraint ${constraint} on Element ${elementFqn} since ${path} refers to a type introduced by an "includesType" constraint',, 'errorNumber'
 11001, 'Element name '${name}' should begin with a capital letter', 'Rename the specified Element', 'errorNumber'
 11002, 'Entry Element name '${name}' should begin with a capital letter', 'Rename the specified EntryElement', 'errorNumber'
 11003, 'Unable to resolve value set reference: ${valueSet}', 'Invalid value set reference  double check the name and the path', 'errorNumber'
