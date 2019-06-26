@@ -36,7 +36,7 @@ $ node . --help
   Options:
 
     -l, --log-level <level>  the console log level <fatal,error,warn,info,debug,trace> (default: info)
-    -m, --log-mode <mode>    the console log mode <short,long,json,off> (default: short)
+    -m, --log-mode <mode>    the console log mode <normal,json,off> (default: normal)
     -s, --skip <feature>     skip an export feature <fhir,cimcore,json-schema,model-doc,data-dict,all> (default: <none>)
     -o, --out <out>          the path to the output folder (default: out)
     -c, --config <config>    the name of the config file (default: config.json)

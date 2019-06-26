@@ -3,7 +3,6 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 const bunyan = require('bunyan');
 const program = require('commander');
-const bps = require('@ojolabs/bunyan-prettystream');
 const { sanityCheckModules } = require('shr-models');
 const shrTI = require('shr-text-import');
 const shrEx = require('shr-expand');
@@ -31,7 +30,7 @@ let input;
 program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace>', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
-  .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off>', /^(short|long|json|off)$/i, 'short')
+  .option('-m, --log-mode <mode>', 'the console log mode <normal,json,off>', /^(normal|json|off)$/i, 'normal')
   .option('-s, --skip <feature>', 'skip an export feature <fhir,cimcore,json-schema,model-doc,data-dict,all>', collect, [])
   .option('-o, --out <out>', `the path to the output folder`, path.join('.', 'out'))
   .option('-c, --config <config>', 'the name of the config file', 'config.json')
@@ -68,26 +67,14 @@ mkdirp.sync(program.out);
 const PrettyPrintDuplexStreamJson = require('./PrettyPrintDuplexStreamJson');
 const mdpStream = new PrettyPrintDuplexStreamJson();
 
-//invoke the regex stream processor
-const PrettyPrintDuplexStream = require('./PrettyPrintDuplexStream');
-const mdpStreamTxt = new PrettyPrintDuplexStream();
-
 // Set up the logger streams
 const [ll, lm] = [program.logLevel.toLowerCase(), program.logMode.toLowerCase()];
 const streams = [];
-if (lm == 'short' || lm == 'long') {
-  const prettyStdOut = new bps({mode: lm});
-  // use the regex stream processor on the text stream
-  prettyStdOut.pipe(mdpStreamTxt);
-  mdpStreamTxt.pipe(process.stdout);
-  streams.push({ level: ll, type: 'raw', stream: prettyStdOut});
-} else if (lm == 'json') {
-  const printRawJson = false;
-  if (printRawJson) {
-    streams.push({ level: ll, stream: process.stdout });
-  }
+if (lm == 'normal') {
   streams.push({ level: ll, stream: mdpStream });
   mdpStream.pipe(process.stdout);
+} else if (lm == 'json') {
+  streams.push({ level: ll, stream: process.stdout });
 }
 // Setup a ringbuffer for counting the number of errors at the end
 const logCounter = new LogCounter();

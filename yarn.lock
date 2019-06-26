@@ -2,10 +2,6 @@
 # yarn lockfile v1
 
 
-"@ojolabs/bunyan-prettystream@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@ojolabs/bunyan-prettystream/-/bunyan-prettystream-0.1.6.tgz#5b254259bf6b13af4e34e653413978da20995452"
-
 acorn-jsx@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-3.0.1.tgz#afdf9488fb1ecefc8348f6fb22f464e32a58b36b"
