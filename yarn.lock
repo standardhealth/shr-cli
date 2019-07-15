@@ -911,9 +911,14 @@ lodash.union@^4.6.0:
   resolved "https://registry.yarnpkg.com/lodash.union/-/lodash.union-4.6.0.tgz#48bb5088409f16f1821666641c44dd1aaae3cd88"
   integrity sha1-SLtQiECfFvGCFmZkHETdGqrjzYg=
 
-lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0:
+lodash@^4.17.11, lodash@^4.17.4, lodash@^4.3.0:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+
+lodash@^4.17.14:
+  version "4.17.14"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
+  integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
 
 lru-cache@^4.0.1:
   version "4.1.5"
@@ -1273,13 +1278,13 @@ shr-expand@^6.0.0:
   resolved "https://registry.yarnpkg.com/shr-expand/-/shr-expand-6.0.0.tgz#a2072f971e19b9f221e012c0056ee389a78633d7"
   integrity sha512-zzjli5uVY23J4jHnr5Cr+iLkZ7+6RsHk3kQMksBPUR4ly96NXlCRgillJ3IszbdP3dHpBuWymcrAOjyz4C/lRA==
 
-shr-fhir-export@^6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-6.1.1.tgz#e96edabb6f5fc1779d0188a6825ac9a21d8d4705"
-  integrity sha512-v72hRKceq95ns4zSPR6Am3afX8y9i2WxPybQsplksj86PYJ2IKT7yxsJMg6Y2Noq69zlnOQWCa5qCPuZcnEjUQ==
+shr-fhir-export@^6.1.3:
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/shr-fhir-export/-/shr-fhir-export-6.1.3.tgz#952bacbe4e50212f756f7e7cf5413606d98f96d4"
+  integrity sha512-OtmDWEE2EV/aAZucw4y6/eafiDfwmGqi5X0jBJJoYCXw59O0+WA9JFPEYNjli6uTPwQvbq73NyVOn57+Gx2XAg==
   dependencies:
     fs-extra "^2.0.0"
-    lodash "^4.17.5"
+    lodash "^4.17.14"
 
 shr-json-javadoc@^6.0.0:
   version "6.0.0"
