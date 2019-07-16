@@ -1301,15 +1301,13 @@ shr-json-schema-export@^6.0.0:
   resolved "https://registry.yarnpkg.com/shr-json-schema-export/-/shr-json-schema-export-6.0.0.tgz#08e969c5debf5719b298c59c2b1ef83f1c52fa3e"
   integrity sha512-megbVDNpi/PenTVFHFbkqgAmud8LwToveyUaKL0qabnEJ1QzwUuik3aZFz007kC7iidyAVKGo0GcKUBb0k1RQg==
 
-shr-models@^6.0.0:
+shr-models@standardhealth/shr-models#element-type-enforcement:
   version "6.0.0"
-  resolved "https://registry.yarnpkg.com/shr-models/-/shr-models-6.0.0.tgz#6ffe6a48ae6bcf6c20e25dbfcc5b2954fca7d661"
-  integrity sha512-k8tU/YghNoFdpHxzC1ZpfpHMEMAJPZyGGAMd9QfOcCqDsETUyK9u76GuXoSlhXHjDM5CXOCeq6LmxWCQhK95iw==
+  resolved "https://codeload.github.com/standardhealth/shr-models/tar.gz/912214a666d9da918cdabd192ed1d620f2a2a2fd"
 
-shr-text-import@^6.0.0:
+shr-text-import@standardhealth/shr-text-import#element-type-enforcement:
   version "6.0.0"
-  resolved "https://registry.yarnpkg.com/shr-text-import/-/shr-text-import-6.0.0.tgz#79aea057d8be13571ea9c4c833172268f52e85a8"
-  integrity sha512-6OhJaV/3cr8eMaQ6fm7YtDM94tEHAJoq9O43/Neulq0JPAPOrzbSkdgUTryM3TzMH3Eaup93EwvBhKwla9xsqQ==
+  resolved "https://codeload.github.com/standardhealth/shr-text-import/tar.gz/253c91e5a58833c84f78baaf44bdde69c8fe6b54"
   dependencies:
     antlr4 "~4.6.0"
 
