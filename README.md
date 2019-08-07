@@ -43,6 +43,7 @@ $ node . --help
     -d, --duplicate          show duplicate error messages (default: false)
     -j, --export-es6         export ES6 JavaScript classes (experimental, default: false)
     -i, --import-cimcore     import CIMCORE files instead of CIMPL (default: false)
+    -n, --clean              Save archive of old output directory and perform clean build (default: false)
     -h, --help               output usage information
 ```
 
