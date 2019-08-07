@@ -38,7 +38,7 @@ program
   .option('-d, --duplicate', 'show duplicate error messages (default: false)')
   .option('-j, --export-es6', 'export ES6 JavaScript classes (experimental, default: false)')
   .option('-i, --import-cimcore', 'import CIMCORE files instead of CIMPL (default: false)')
-  .option('-a, --archive', 'Save archive of old output directory if it exists (default: false)')
+  .option('-n, --clean', 'Save archive of old output directory and perform clean build (default: false)')
   .arguments('<path-to-shr-defs>')
   .action(function (pathToShrDefs) {
     input = pathToShrDefs;
@@ -62,10 +62,10 @@ const doDD = program.skip.every(a => a.toLowerCase() != 'data-dict' && a.toLower
 const showDuplicateErrors = program.duplicate;
 const importCimcore = program.importCimcore;
 const doES6 = program.exportEs6;
-const archive = program.archive;
+const clean = program.clean;
 
 // Archive old output directory if it exists
-if (archive && fs.existsSync(program.out)) {
+if (clean && fs.existsSync(program.out)) {
   let archiveDir;
   let targetDir;
   let slashIndex = program.out.lastIndexOf('/') > 0 ? 
