@@ -90,8 +90,11 @@ if (clean && fs.existsSync(program.out)) {
 // Create the output folder if necessary
 mkdirp.sync(program.out);
 
+const errorFiles = [shrTI.errorFilePath(), shrEx.errorFilePath(), shrFE.errorFilePath(), shrJDE.errorFilePath(),
+  shrEE.errorFilePath(), shrJSE.errorFilePath(), path.join(__dirname, "errorMessages.txt")]
+
 const PrettyPrintDuplexStreamJson = require('./PrettyPrintDuplexStreamJson');
-const mdpStream = new PrettyPrintDuplexStreamJson();
+const mdpStream = new PrettyPrintDuplexStreamJson(null, errorFiles, showDuplicateErrors);
 
 // Set up the logger streams
 const [ll, lm] = [program.logLevel.toLowerCase(), program.logMode.toLowerCase()];
@@ -154,10 +157,12 @@ if (!importCimcore) {
 let filter = false;
 if (configSpecifications.filterStrategy != null) {
   filter = configSpecifications.filterStrategy.filter;
-  logger.warn('Using filterStrategy in the config file is deprecated and should be done in content profile instead. ERROR_CODE:05001')
+  // 05009, 'Using filterStrategy in the configuration file is deprecated and should be done in content profile instead',,
+  logger.warn('05009')
 }
 if (configSpecifications.implementationGuide && configSpecifications.implementationGuide.primarySelectionStrategy) {
-  logger.warn('Using primarySelectionStrategy in the config file is deprecated and should be done in content profile instead. ERROR_CODE:05002');
+  // 05010, 'Using primarySelectionStrategy in the configuration file is deprecated and should be done in content profile instead',,
+  logger.warn('05010');
 }
 if (expSpecifications.contentProfiles.all.length > 0) {
   filter = true;
@@ -214,8 +219,8 @@ if (doCIMCORE) {
         mkdirp.sync(path.dirname(hierarchyPath));
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
-        // 15004, 'Unable to successfully serialize ${nameSpace} meta information ${} into CIMCORE, failing with error ${errorText}', 'Unknown, 'errorNumber'
-        logger.error({nameSpace: namespace, errorText: error }, '15004' );
+        // 15004, 'Unable to successfully serialize ${nameSpace} meta information into CIMCORE, failing with error ${errorText}', 'Unknown, 'errorNumber'
+        logger.error({nameSpace: namespace, errorText: error.stack }, '15004' );
       }
     }
 
@@ -232,7 +237,7 @@ if (doCIMCORE) {
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
         // 15001, 'Unable to successfully serialize element ${identifierName} into CIMCORE, failing with error ${errorText}',  'Unknown, 'errorNumber'
-        logger.error({identifierName: de.identifier.fqn, errorText: error }, '15001');
+        logger.error({identifierName: de.identifier.fqn, errorText: error.stack }, '15001');
       }
     }
 
@@ -249,7 +254,7 @@ if (doCIMCORE) {
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
         // 15002, 'Unable to successfully serialize value set ${valueSet} into CIMCORE, failing with error ${errorText}',  'Unknown, 'errorNumber'
-        logger.error({valueSet:vs.identifier.fqn, errorText: error}, '15002');
+        logger.error({valueSet:vs.identifier.fqn, errorText: error.stack}, '15002');
       }
     }
 
@@ -267,16 +272,17 @@ if (doCIMCORE) {
           fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
         } catch (error) {
           // 15003, 'Unable to successfully serialize mapping ${mappingIdentifier} into CIMCORE, failing with error ${errorText}',   'Unknown, 'errorNumber'
-          logger.error({mappingIdentifier:mapping.identifier.fqn, errorText:error },'15003');
+          logger.error({mappingIdentifier:mapping.identifier.fqn, errorText:error.stack },'15003');
         }
       }
     }
   } catch (error) {
     // 15005, 'Failure in CIMCORE export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
-    logger.fatal({errorText: JSON.stringify(error) },'15005');
+    logger.fatal({errorText: error.stack},'15005');
     failedExports.push('CIMCORE');
   }
 } else {
+  // 05003, 'Skipping CIMCORE export',,
   logger.info('05003');
 }
 
@@ -286,7 +292,7 @@ if (doDD) {
     shrDD.generateDDtoPath(expSpecifications, configSpecifications, hierarchyPath);
   } catch (error) {
     // 15006, 'Failure in data dictionary export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
-    logger.fatal({ errorText: JSON.stringify(error) }, '15006');
+    logger.fatal({ errorText: error.stack }, '15006');
     failedExports.push('shr-data-dict-export');
   }
 } else {
@@ -316,10 +322,11 @@ if (doES6) {
     handleNS(es6Results, es6Path);
   } catch (error) {
     // 15007, 'Failure in ES6 export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
-    logger.fatal({ errorText: JSON.stringify(error) }, '15007');
+    logger.fatal({ errorText: error.stack }, '15007');
     failedExports.push('shr-es6-export');
   }
 } else {
+  // 05005, 'Skipping ES6 export',,
   logger.info('05005');
 }
 
@@ -356,7 +363,7 @@ if (doFHIR) {
     shrFE.exportIG(expSpecifications, fhirResults, path.join(baseFHIRPath, 'guide'), configSpecifications, input);
   } catch (error) {
     // 15008, 'Failure in FHIR export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
-    logger.fatal({ errorText: JSON.stringify(error) }, '15008');
+    logger.fatal({ errorText: error.stack }, '15008');
     failedExports.push('shr-fhir-export');
   }
 } else {
@@ -394,7 +401,7 @@ if (doJSONSchema) {
 
   } catch (error) {
     // 15009, 'Failure in JSON Schema export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
-    logger.fatal({ errorText: JSON.stringify(error) }, '15009');
+    logger.fatal({ errorText: error.stack }, '15009');
     failedExports.push('shr-json-schema-export');
   }
 } else {
@@ -415,7 +422,7 @@ if (doModelDoc) {
       }
     } catch (error) {
       // 15010, 'Failure in Model Doc export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
-      logger.fatal({ errorText: JSON.stringify(error) }, '15010');
+      logger.fatal({ errorText: error.stack }, '15010');
       failedExports.push('shr-model-doc');
     }
   } else {
@@ -427,7 +434,7 @@ if (doModelDoc) {
   // 05008, 'Skipping Model Docs export',,
   logger.info('05008');
 }
-
+// 05002, 'Finished CLI Import/Export',,
 logger.info('05002');
 
 const ftlCounter = logCounter.fatal;

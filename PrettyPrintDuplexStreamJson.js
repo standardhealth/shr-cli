@@ -14,18 +14,18 @@ const noErrorCode = '-1';
 
 // make a class that implements a Duplex stream; this means you can use it to pipe into and out of
 class PrettyPrintDuplexStreamJson extends Transform {
-  constructor(name, options) {
+  constructor(options, errorFiles, showDuplicateErrors) {
     super(options);
-    this.name = name;
+    this.showDuplicateErrors = showDuplicateErrors;
     this.solutionMap = {};
     this.ruleMap = {};
     this.templateStrings = {};
-    const csvFilePath = path.join(__dirname, 'errorMessages.txt' );
     this.solutionMap[ noErrorCode ] = 'Error message has no error code; please add error code';  // -1 means noErrorCode
-    // build the hashMap resources from the errorMessages csv file; each column has a part
-    this.buildMapFromFile( csvFilePath, this.solutionMap, 0, 2);
-    this.buildMapFromFile( csvFilePath, this.ruleMap, 0, 3);
-    this.buildMapFromFile( csvFilePath, this.templateStrings, 0, 1);
+    for (const errorFile of errorFiles) {
+      this.buildMapFromFile( errorFile, this.solutionMap, 0, 2);
+      this.buildMapFromFile( errorFile, this.ruleMap, 0, 3);
+      this.buildMapFromFile( errorFile, this.templateStrings, 0, 1);
+    }
     // populate a set with the key as the ERROR_CODE number and the value is the suggested solution
     this.idSet = new Set();
     this.idSet.add( noErrorCode );
@@ -184,10 +184,10 @@ class PrettyPrintDuplexStreamJson extends Transform {
       outline += errorDetailColor( '\n    Class:          ' + this.getUnqualifiedName(this.translateNames( shrIdPart)));
     }
     if ( targetSpecPart != '') {
-      outline += errorDetailColor( '\n    Target Spec:    ' + this.translateNames(this.targetSpecPart));
+      outline += errorDetailColor( '\n    Target Spec:    ' + this.translateNames(targetSpecPart));
     }
     if ( targetPart != '') {
-      outline += errorDetailColor( '\n    Target Class:   ' + this.translateNames(this.targetPart));
+      outline += errorDetailColor( '\n    Target Class:   ' + this.translateNames(targetPart));
     }
     if ( mappingRulePart != '') {
       outline += errorDetailColor( '\n    Mapping Rule:   ' + this.translateNames( mappingRulePart)) ;
@@ -203,7 +203,7 @@ class PrettyPrintDuplexStreamJson extends Transform {
     }
     const myDedupHashKey = this.buildHashKey( eCode, this.ruleMap,  myJson ) ;
 
-    if (myDedupHashKey === '') { // if you have no keys for deduplication in errorMessages.txt for thisd, print everything
+    if (myDedupHashKey === '' || this.showDuplicateErrors) { // if you have no keys for deduplication in errorMessages.txt for thisd, print everything
       return outline ;
     }
     else if (this.idSet.has(myDedupHashKey)) {
