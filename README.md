@@ -4,7 +4,7 @@ The Standard Health Record (SHR) initiative is working to create a single, high-
 
 This GitHub repository contains a Node.js command-line interface for parsing SHR text definitions and exporting them as a FHIR IG, [CIMCORE](https://github.com/standardhealth/shr-cli/wiki/CIMCORE-Documentation) JSON serialized files, JSON schema, or ES6 classes.  Future versions of the CLI may support additional capabilities.
 
-The SHR text definitions and grammar files can be found in the [shr_spec](https://github.com/standardhealth/shr_spec) repo.  As the SHR text format (and content files) are still evolving, so is this toolset.
+The SHR text definitions and grammar files can be found in the [shr-spec](https://github.com/standardhealth/shr-spec) repo.  As the SHR text format (and content files) are still evolving, so is this toolset.
 
 # Getting the Code
 
@@ -22,7 +22,7 @@ To run the command-line interface, you must perform the following steps to insta
 
 After setting up the environment, you can use node to import a folder of files from CIMPL (SHR text format) and export the definitions to other formats:
 ```
-$ node . /path/to/shr_spec/spec
+$ node . /path/to/shr-spec/spec
 ```
 
 The command above will export these formats to the _out_ directory.
