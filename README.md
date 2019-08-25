@@ -6,13 +6,13 @@ The CIMPL base class definitions, FHIR mappingss, and a clinical models definiti
 
 # Installing SHR-CLI
 
-The first step is to obtain the SHR-CLI code. This can be done via _git clone_ or by clicking the green "Clone or download" button and choosing "Download Zip" (which you will then need to unzip to a folder of your choosing).
-
 Before you run SHR-CLI, you must first install its dependencies:
 
 1. Install [Node.js](https://nodejs.org/en/download/) (LTS edition, currently 8.x)
 2. Install [Yarn](https://yarnpkg.com/en/docs/install) (1.3.x or above)
 3. Execute the following from this project's root directory: `yarn`
+
+The second step is to obtain the SHR-CLI code. This can be done via _git clone_ or by clicking the green "Clone or download" button and choosing "Download Zip" (which you will then need to unzip to a folder of your choosing).
 
 **For complete details on how to install SHR-CLI on Windows and macOS, please see the [CIMPL Setup and Installation Guide](http://standardhealthrecord.org/cimpl-doc/#cimplInstall/).**
 
