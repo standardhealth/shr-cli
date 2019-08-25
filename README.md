@@ -30,14 +30,14 @@ where:
 * `node` is the command that starts the SHR-CLI application.
 * The first dot `.` represents the path to the SHR-CLI tool, in this case, the current working directory.
 * `../exampleDirectory` is the path where your CIMPL modeling and configuration files are located.
-* the `-l` parameter and _`error`_ value specifies logging to only show errors.
-* the `-c` parameter and _`ig-example-config.json`_ specify your configuration file.
+* the `-l` parameter and `error` value specifies logging to only show errors.
+* the `-c` parameter and `ig-example-config.json` specify your configuration file.
 
 **For details of the command line options and descriptions of auxiliary files and configurations needed to create a FHIR Implementation Guide (IG) from CIMPL (Clinical Information Modeling Profiling Language), please see [CIMPL 6.0 Tooling Reference Guide](http://standardhealthrecord.org/cimpl-doc/#cimpl6ToolingReference/).**
 
 # License
 
-Copyright 2016, 2017 The MITRE Corporation
+Copyright 2016, 2017, 2018, 2019 The MITRE Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
