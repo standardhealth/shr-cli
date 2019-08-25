@@ -6,8 +6,6 @@ The CIMPL base class definitions, FHIR mappingss, and a clinical models definiti
 
 # Installing SHR-CLI
 
-**For complete details on how to install SHR-CLI on Windows and macOS, please see the [CIMPL Setup and Installation Guide](http://standardhealthrecord.org/cimpl-doc/#cimplInstall/).**
-
 The first step is to obtain the SHR-CLI code. This can be done via _git clone_ or by clicking the green "Clone or download" button and choosing "Download Zip" (which you will then need to unzip to a folder of your choosing).
 
 Before you run SHR-CLI, you must first install its dependencies:
@@ -16,13 +14,26 @@ Before you run SHR-CLI, you must first install its dependencies:
 2. Install [Yarn](https://yarnpkg.com/en/docs/install) (1.3.x or above)
 3. Execute the following from this project's root directory: `yarn`
 
-## Running SHR-CLI
+**For complete details on how to install SHR-CLI on Windows and macOS, please see the [CIMPL Setup and Installation Guide](http://standardhealthrecord.org/cimpl-doc/#cimplInstall/).**
 
-**Please see our [comprehensive guide to the SHR-CLI](http://standardhealthrecord.org/cimpl-doc/#cimpl6ToolingReference/), including descriptions of auxiliary files and configurations needed to create a FHIR Implementation Guide (IG) from CIMPL (Clinical Information Modeling Profiling Language).**
+# Running SHR-CLI
 
+To create profiles, extensions, and other FHIR assets used in the IG, you run the SHR-CLI tool, as follows:
 
+* Open a command line terminal and navigate to the ~/cimpl/shr-cli directory (where you installed SHR-CLI)
+* Run a command similar to this:
 
+    `node . ../exampleDirectory -l error -c ig-example-config.json`
 
+where:
+
+* `node` is the command that starts the SHR-CLI application.
+* The first dot `.` represents the path to the SHR-CLI tool, in this case, the current working directory.
+* `../exampleDirectory` is the path where your CIMPL modeling and configuration files are located.
+* the `-l` parameter and _`error`_ value specifies logging to only show errors.
+* the `-c` parameter and _`ig-example-config.json`_ specify your configuration file.
+
+**For details of the command line options and descriptions of auxiliary files and configurations needed to create a FHIR Implementation Guide (IG) from CIMPL (Clinical Information Modeling Profiling Language), please see [CIMPL 6.0 Tooling Reference Guide](http://standardhealthrecord.org/cimpl-doc/#cimpl6ToolingReference/).**
 
 # Advanced Logging
 
