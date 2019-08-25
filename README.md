@@ -35,17 +35,6 @@ where:
 
 **For details of the command line options and descriptions of auxiliary files and configurations needed to create a FHIR Implementation Guide (IG) from CIMPL (Clinical Information Modeling Profiling Language), please see [CIMPL 6.0 Tooling Reference Guide](http://standardhealthrecord.org/cimpl-doc/#cimpl6ToolingReference/).**
 
-# Advanced Logging
-
-The SHR tools use the [Bunyan](https://www.npmjs.com/package/bunyan) structured logging framework, and store a full log file in the output folder (note: it will be appended to on subsequent runs).  You can use the Bunyan CLI tool to perform advanced filtering of the log file.  For example:
-```
-node_modules/.bin/bunyan -c 'this.shrId=="shr.vital.BloodPressure"'  -o short out/out.log
-```
-(On Windows, replace `/` with `\` in the example).
-
-For more information on Bunyan and Bunyan CLI, see the Bunyan documentation.
-
-
 # License
 
 Copyright 2016, 2017 The MITRE Corporation
