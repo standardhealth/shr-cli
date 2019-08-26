@@ -23,6 +23,20 @@ class SpecificationsFilter {
       target = this._config.filterStrategy.target;
     }
 
+    // Account for any filtering done in ContentProfile
+    // Only happens if no filtering done in config file
+    if (this._expSpecs.contentProfiles.all.length > 0 && strategy === '' && target.length === 0) {
+      // Just override strategy to hybrid since it can do both namespace and element
+      strategy = 'hybrid';
+      for (const cp of this._expSpecs.contentProfiles.all) {
+        for (const cpr of cp.rules) {
+          if (cpr.primaryProfile && !target.includes(cp.identifier.fqn)) {
+            target.push(cp.identifier.fqn);
+          }
+        }
+      }
+    }
+
     // recursively find dependencies for each data element in specifications
     // if element matches filter criteria
     for (const element of this._expSpecs.dataElements.all) {

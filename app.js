@@ -150,6 +150,13 @@ if (!importCimcore) {
 let filter = false;
 if (configSpecifications.filterStrategy != null) {
   filter = configSpecifications.filterStrategy.filter;
+  logger.warn('Using filterStrategy in the config file is deprecated and should be done in content profile instead. ERROR_CODE:05001')
+}
+if (configSpecifications.implementationGuide && configSpecifications.implementationGuide.primarySelectionStrategy) {
+  logger.warn('Using primarySelectionStrategy in the config file is deprecated and should be done in content profile instead. ERROR_CODE:05002');
+}
+if (expSpecifications.contentProfiles.all.length > 0) {
+  filter = true;
 }
 
 if (filter) {
