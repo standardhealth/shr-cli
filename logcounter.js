@@ -24,13 +24,14 @@ class LogCounter extends EventEmitter {
   get fatal() { return this._fatal; }
 
   write(record) {
+    const module = record.module || '<unspecified>';
     switch(record.level) {
-    case TRACE: this._trace.increment(record.module); break;
-    case DEBUG: this._debug.increment(record.module); break;
-    case INFO: this._info.increment(record.module); break;
-    case WARN: this._warn.increment(record.module); break;
-    case ERROR: this._error.increment(record.module); break;
-    case FATAL: this._fatal.increment(record.module); break;
+    case TRACE: this._trace.increment(module); break;
+    case DEBUG: this._debug.increment(module); break;
+    case INFO: this._info.increment(module); break;
+    case WARN: this._warn.increment(module); break;
+    case ERROR: this._error.increment(module); break;
+    case FATAL: this._fatal.increment(module); break;
     }
     return true;
   }
