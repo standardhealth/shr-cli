@@ -3,6 +3,7 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 const bunyan = require('bunyan');
 const program = require('commander');
+const chalk = require('chalk');
 const { sanityCheckModules } = require('shr-models');
 const shrTI = require('shr-text-import');
 const shrEx = require('shr-expand');
@@ -34,7 +35,7 @@ program
   .option('-s, --skip <feature>', 'skip an export feature <fhir,cimcore,json-schema,model-doc,data-dict,all>', collect, [])
   .option('-o, --out <out>', `the path to the output folder`, path.join('.', 'out'))
   .option('-c, --config <config>', 'the name of the config file', 'config.json')
-  .option('-d, --duplicate', 'show duplicate error messages (default: false)')
+  .option('-d, --deduplicate', 'do not show duplicate error messages (default: false)')
   .option('-j, --export-es6', 'export ES6 JavaScript classes (experimental, default: false)')
   .option('-i, --import-cimcore', 'import CIMCORE files instead of CIMPL (default: false)')
   .option('-n, --clean', 'Save archive of old output directory and perform clean build (default: false)')
@@ -58,7 +59,7 @@ const doDD = program.skip.every(a => a.toLowerCase() != 'data-dict' && a.toLower
 
 // Process the de-duplicate error flag
 
-const showDuplicateErrors = program.duplicate;
+const showDuplicateErrors = !program.deduplicate;
 const importCimcore = program.importCimcore;
 const doES6 = program.exportEs6;
 const clean = program.clean;
@@ -94,7 +95,7 @@ const errorFiles = [shrTI.errorFilePath(), shrEx.errorFilePath(), shrFE.errorFil
   shrEE.errorFilePath(), shrJSE.errorFilePath(), path.join(__dirname, "errorMessages.txt")]
 
 const PrettyPrintDuplexStreamJson = require('./PrettyPrintDuplexStreamJson');
-const mdpStream = new PrettyPrintDuplexStreamJson(null, errorFiles, showDuplicateErrors);
+const mdpStream = new PrettyPrintDuplexStreamJson(null, errorFiles, showDuplicateErrors, path.join(program.out, 'out.log'));
 
 // Set up the logger streams
 const [ll, lm] = [program.logLevel.toLowerCase(), program.logMode.toLowerCase()];
@@ -109,7 +110,6 @@ if (lm == 'normal') {
 const logCounter = new LogCounter();
 streams.push({ level: 'warn', type: 'raw', stream: logCounter});
 // Always do a full JSON log
-streams.push({ level: 'trace', path: path.join(program.out, 'out.log') });
 const logger = bunyan.createLogger({
   name: 'shr',
   module: 'shr-cli',
@@ -142,7 +142,6 @@ let configSpecifications = shrTI.importConfigFromFilePath(input, program.config)
 if (!configSpecifications) {
   process.exit(1);
 }
-configSpecifications.showDuplicateErrors = showDuplicateErrors;
 let specifications;
 let expSpecifications;
 if (!importCimcore) {
@@ -150,7 +149,6 @@ if (!importCimcore) {
   expSpecifications = shrEx.expand(specifications, shrFE);
 } else {
   [configSpecifications, expSpecifications] = shrTI.importCIMCOREFromFilePath(input);
-  configSpecifications.showDuplicateErrors = showDuplicateErrors;
 }
 
 
@@ -440,16 +438,14 @@ logger.info('05002');
 const ftlCounter = logCounter.fatal;
 const errCounter = logCounter.error;
 const wrnCounter = logCounter.warn;
-let [errColor, errLabel, wrnColor, wrnLabel, resetColor, ftlColor, ftlLabel] = ['\x1b[32m', 'errors', '\x1b[32m', 'warnings', '\x1b[0m', '\x1b[31m', 'fatal errors'];
+let [errLabel, wrnLabel, ftlLabel] = ['errors', 'warnings', 'fatal errors'];
 if (ftlCounter.count > 0) {
   ftlLabel = `fatal errors (${failedExports.join(', ')})`;
 }
 if (errCounter.count > 0) {
-  errColor = '\x1b[31m'; // red
   errLabel = `errors (${errCounter.modules.join(', ')})`;
 }
 if (wrnCounter.count > 0) {
-  wrnColor = '\x1b[35m'; // magenta
   wrnLabel = `warnings (${wrnCounter.modules.join(', ')})`;
 }
 
@@ -457,7 +453,7 @@ if (wrnCounter.count > 0) {
 const hrend = process.hrtime(hrstart);
 console.log('------------------------------------------------------------');
 console.log('Elapsed time: %d.%ds', hrend[0], Math.floor(hrend[1]/1000000));
-if (ftlCounter.count > 0) console.log('%s%d %s%s', ftlColor, ftlCounter.count, ftlLabel, resetColor);
-console.log('%s%d %s%s', errColor, errCounter.count, errLabel, resetColor);
-console.log('%s%d %s%s', wrnColor, wrnCounter.count, wrnLabel, resetColor);
+if (ftlCounter.count > 0) console.log(chalk.redBright('%d %s'), ftlCounter.count, ftlLabel);
+console.log(chalk.bold.redBright('%d %s'), errCounter.count, errLabel);
+console.log(chalk.bold.yellowBright('%d %s'), wrnCounter.count, wrnLabel);
 console.log('------------------------------------------------------------');

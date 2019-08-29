@@ -3,20 +3,23 @@ const Transform = require('stream').Transform;
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');   //library for colorizing Strings
+const stripAnsi = require('strip-ansi');
 const { nameFromLevel } = require('bunyan');
 // color palette for messages -- can also do rgb; e.g.  chalk.rgb(123, 45, 67)
 const originalErrorColor = chalk.bold.greenBright;
 const errorDetailColor = chalk.bold.cyan;
-const errorCodeColor = chalk.bold.redBright;
+let codeColor = chalk.bold.redBright;
 const noErrorCode = '-1';
+const deduplicationNumber = 10;
 
 //https://stackoverflow.com/questions/48507828/pipe-issue-with-node-js-duplex-stream-example
 
 // make a class that implements a Duplex stream; this means you can use it to pipe into and out of
 class PrettyPrintDuplexStreamJson extends Transform {
-  constructor(options, errorFiles, showDuplicateErrors) {
+  constructor(options, errorFiles, showDuplicateErrors, outFile) {
     super(options);
     this.showDuplicateErrors = showDuplicateErrors;
+    this.outFile = outFile;
     this.solutionMap = {};
     this.ruleMap = {};
     this.templateStrings = {};
@@ -29,6 +32,9 @@ class PrettyPrintDuplexStreamJson extends Transform {
     // populate a set with the key as the ERROR_CODE number and the value is the suggested solution
     this.idSet = new Set();
     this.idSet.add( noErrorCode );
+    fs.writeFileSync(this.outFile, '');
+    // Need a way to track how many times an error has appeared
+    this.errorCount = {};
   }
 
 
@@ -176,8 +182,27 @@ class PrettyPrintDuplexStreamJson extends Transform {
     const mappingRulePart = this.getAttributeOrEmptyString( myJson.mappingRule ); //grab mappingRule
     const targetPart = this.getAttributeOrEmptyString( myJson.target );          //grab targetPart
     const targetSpecPart = this.getAttributeOrEmptyString( myJson.targetSpec );  //grab targetSpec
+
+    switch (level) {
+      case 'FATAL':
+      case 'ERROR':
+        codeColor = chalk.bold.redBright;
+        break;
+      case 'WARN':
+        codeColor = chalk.bold.yellowBright;
+        break;
+      case 'INFO':
+        codeColor = chalk.bold.whiteBright;
+        break;
+      case 'DEBUG':
+        codeColor = chalk.bold.greenBright;
+        break;
+      default:
+        codeColor = chalk.bold.whiteBright;
+    }
+
     // now we have pieces; assemble the pieces into a formatted, colorized, multi-line message
-    let outline =  errorCodeColor('\n' + level + ' ' + eCode + ': ' + detailMsg );  // first part of new message is ERROR xxxxx: <<detail>>
+    let outline =  codeColor('\n' + level + ' ' + eCode + ': ' + detailMsg );  // first part of new message is ERROR xxxxx: <<detail>>
     outline +=   errorDetailColor ( '\n    During:         ' + this.translateNames( modulePart));
     // if parts are optional/missing, then only print them if they are found
     if (shrIdPart !== '') {
@@ -198,28 +223,41 @@ class PrettyPrintDuplexStreamJson extends Transform {
       suggestedFix = suggestedFix.replace(/'/g, '').trim() ;
       // only print suggested fix if it's available from the resource file (i.e. in the solutionMap)
       if (suggestedFix !== 'Unknown' && suggestedFix !== '') {
-        outline += errorDetailColor(   '\n    Suggested Fix:  ' + suggestedFix.trim() + '\n'  );
+        outline += errorDetailColor(   '\n    Suggested Fix:  ' + suggestedFix.trim());
       }
     }
     const myDedupHashKey = this.buildHashKey( eCode, this.ruleMap,  myJson ) ;
 
-    if (myDedupHashKey === '' || this.showDuplicateErrors) { // if you have no keys for deduplication in errorMessages.txt for thisd, print everything
-      return outline ;
+    if (myDedupHashKey === '' || this.showDuplicateErrors || printAllErrors) { // if you have no keys for deduplication in errorMessages.txt for this, print everything
+      return [outline, outline];
     }
     else if (this.idSet.has(myDedupHashKey)) {
-      return '';
+      let consoleOutput;
+      // If more than deduplicationNumber errors of the same code are logged, start suppressing
+      if (this.errorCount[myDedupHashKey] === deduplicationNumber) {
+        consoleOutput = '\nOver ' + deduplicationNumber + ' logs with code ' + eCode + '. Suppressing further output of this code. Full logs can be found in out.log.';
+        consoleOutput = chalk.bold.magentaBright(consoleOutput);
+      } else if (this.errorCount[myDedupHashKey] > deduplicationNumber) {
+        consoleOutput = '';
+      } else {
+        consoleOutput = outline;
+      }
+      this.errorCount[myDedupHashKey] += 1;
+      return [consoleOutput, outline];
+
     }
     else {
       this.idSet.add(myDedupHashKey);
-
-      return outline ;
+      this.errorCount[myDedupHashKey] = 1;
+      return [outline, outline];
     }
   }
 
   _transform(chunk, encoding, callback) {
-    const ans = this.processLine(chunk, false);
-    if (ans.length > 0) {
-      console.log( ans );
+    const [consoleOut, fileOut] = this.processLine(chunk, false);
+    fs.appendFileSync(this.outFile, stripAnsi(fileOut));
+    if (consoleOut.length > 0) {
+      console.log(consoleOut);
     }
     callback();
   }
