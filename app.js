@@ -3,7 +3,7 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 const bunyan = require('bunyan');
 const program = require('commander');
-const bps = require('@ojolabs/bunyan-prettystream');
+const chalk = require('chalk');
 const { sanityCheckModules } = require('shr-models');
 const shrTI = require('shr-text-import');
 const shrEx = require('shr-expand');
@@ -31,11 +31,11 @@ let input;
 program
   .usage('<path-to-shr-defs> [options]')
   .option('-l, --log-level <level>', 'the console log level <fatal,error,warn,info,debug,trace>', /^(fatal|error|warn|info|debug|trace)$/i, 'info')
-  .option('-m, --log-mode <mode>', 'the console log mode <short,long,json,off>', /^(short|long|json|off)$/i, 'short')
+  .option('-m, --log-mode <mode>', 'the console log mode <normal,json,off>', /^(normal|json|off)$/i, 'normal')
   .option('-s, --skip <feature>', 'skip an export feature <fhir,cimcore,json-schema,model-doc,data-dict,all>', collect, [])
   .option('-o, --out <out>', `the path to the output folder`, path.join('.', 'out'))
   .option('-c, --config <config>', 'the name of the config file', 'config.json')
-  .option('-d, --duplicate', 'show duplicate error messages (default: false)')
+  .option('-d, --deduplicate', 'do not show duplicate error messages (default: false)')
   .option('-j, --export-es6', 'export ES6 JavaScript classes (experimental, default: false)')
   .option('-i, --import-cimcore', 'import CIMCORE files instead of CIMPL (default: false)')
   .option('-n, --clean', 'Save archive of old output directory and perform clean build (default: false)')
@@ -59,7 +59,7 @@ const doDD = program.skip.every(a => a.toLowerCase() != 'data-dict' && a.toLower
 
 // Process the de-duplicate error flag
 
-const showDuplicateErrors = program.duplicate;
+const showDuplicateErrors = !program.deduplicate;
 const importCimcore = program.importCimcore;
 const doES6 = program.exportEs6;
 const clean = program.clean;
@@ -91,13 +91,18 @@ if (clean && fs.existsSync(program.out)) {
 // Create the output folder if necessary
 mkdirp.sync(program.out);
 
+const errorFiles = [shrTI.errorFilePath(), shrEx.errorFilePath(), shrFE.errorFilePath(), shrJDE.errorFilePath(),
+  shrEE.errorFilePath(), shrJSE.errorFilePath(), path.join(__dirname, "errorMessages.txt")]
+
+const PrettyPrintDuplexStreamJson = require('./PrettyPrintDuplexStreamJson');
+const mdpStream = new PrettyPrintDuplexStreamJson(null, errorFiles, showDuplicateErrors, path.join(program.out, 'out.log'));
+
 // Set up the logger streams
 const [ll, lm] = [program.logLevel.toLowerCase(), program.logMode.toLowerCase()];
 const streams = [];
-if (lm == 'short' || lm == 'long') {
-  const prettyStdOut = new bps({mode: lm});
-  prettyStdOut.pipe(process.stdout);
-  streams.push({ level: ll, type: 'raw', stream: prettyStdOut});
+if (lm == 'normal') {
+  streams.push({ level: ll, stream: mdpStream });
+  mdpStream.pipe(process.stdout);
 } else if (lm == 'json') {
   streams.push({ level: ll, stream: process.stdout });
 }
@@ -105,9 +110,9 @@ if (lm == 'short' || lm == 'long') {
 const logCounter = new LogCounter();
 streams.push({ level: 'warn', type: 'raw', stream: logCounter});
 // Always do a full JSON log
-streams.push({ level: 'trace', path: path.join(program.out, 'out.log') });
 const logger = bunyan.createLogger({
   name: 'shr',
+  module: 'shr-cli',
   streams: streams
 });
 
@@ -130,12 +135,13 @@ if (doDD) {
 }
 
 // Go!
-logger.info('Starting CLI Import/Export');
+// 05001, 'Starting CLI Import/Export',,
+logger.info('05001');
+
 let configSpecifications = shrTI.importConfigFromFilePath(input, program.config);
 if (!configSpecifications) {
   process.exit(1);
 }
-configSpecifications.showDuplicateErrors = showDuplicateErrors;
 let specifications;
 let expSpecifications;
 if (!importCimcore) {
@@ -143,17 +149,18 @@ if (!importCimcore) {
   expSpecifications = shrEx.expand(specifications, shrFE);
 } else {
   [configSpecifications, expSpecifications] = shrTI.importCIMCOREFromFilePath(input);
-  configSpecifications.showDuplicateErrors = showDuplicateErrors;
 }
 
 
 let filter = false;
 if (configSpecifications.filterStrategy != null) {
   filter = configSpecifications.filterStrategy.filter;
-  logger.warn('Using filterStrategy in the config file is deprecated and should be done in content profile instead. ERROR_CODE:05001')
+  // 05009, 'Using filterStrategy in the configuration file is deprecated and should be done in content profile instead',,
+  logger.warn('05009')
 }
 if (configSpecifications.implementationGuide && configSpecifications.implementationGuide.primarySelectionStrategy) {
-  logger.warn('Using primarySelectionStrategy in the config file is deprecated and should be done in content profile instead. ERROR_CODE:05002');
+  // 05010, 'Using primarySelectionStrategy in the configuration file is deprecated and should be done in content profile instead',,
+  logger.warn('05010');
 }
 if (expSpecifications.contentProfiles.all.length > 0) {
   filter = true;
@@ -210,7 +217,8 @@ if (doCIMCORE) {
         mkdirp.sync(path.dirname(hierarchyPath));
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
-        logger.error('Unable to successfully serialize namespace meta information %s into CIMCORE, failing with error "%s". ERROR_CODE:15004', namespace, error);
+        // 15004, 'Unable to successfully serialize ${nameSpace} meta information into CIMCORE, failing with error ${errorText}', 'Unknown, 'errorNumber'
+        logger.error({nameSpace: namespace, errorText: error.stack }, '15004' );
       }
     }
 
@@ -226,7 +234,8 @@ if (doCIMCORE) {
         mkdirp.sync(path.dirname(hierarchyPath));
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
-        logger.error('Unable to successfully serialize element %s into CIMCORE, failing with error "%s". ERROR_CODE:15001', de.identifier.fqn, error);
+        // 15001, 'Unable to successfully serialize element ${identifierName} into CIMCORE, failing with error ${errorText}',  'Unknown, 'errorNumber'
+        logger.error({identifierName: de.identifier.fqn, errorText: error.stack }, '15001');
       }
     }
 
@@ -242,7 +251,8 @@ if (doCIMCORE) {
         mkdirp.sync(path.dirname(hierarchyPath));
         fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
       } catch (error) {
-        logger.error('Unable to successfully serialize value set %s into CIMCORE, failing with error "%s". ERROR_CODE:15002', vs.identifier.fqn, error);
+        // 15002, 'Unable to successfully serialize value set ${valueSet} into CIMCORE, failing with error ${errorText}',  'Unknown, 'errorNumber'
+        logger.error({valueSet:vs.identifier.fqn, errorText: error.stack}, '15002');
       }
     }
 
@@ -259,16 +269,19 @@ if (doCIMCORE) {
           mkdirp.sync(path.dirname(hierarchyPath));
           fs.writeFileSync(hierarchyPath, JSON.stringify(out, null, '  '));
         } catch (error) {
-          logger.error('Unable to successfully serialize mapping %s into CIMCORE, failing with error "%s". ERROR_CODE:15003', mapping.identifier.fqn, error);
+          // 15003, 'Unable to successfully serialize mapping ${mappingIdentifier} into CIMCORE, failing with error ${errorText}',   'Unknown, 'errorNumber'
+          logger.error({mappingIdentifier:mapping.identifier.fqn, errorText:error.stack },'15003');
         }
       }
     }
   } catch (error) {
-    logger.fatal('Failure in CIMCORE export. Aborting with error message: %s', error);
+    // 15005, 'Failure in CIMCORE export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+    logger.fatal({errorText: error.stack},'15005');
     failedExports.push('CIMCORE');
   }
 } else {
-  logger.info('Skipping CIMCORE export');
+  // 05003, 'Skipping CIMCORE export',,
+  logger.info('05003');
 }
 
 if (doDD) {
@@ -276,11 +289,13 @@ if (doDD) {
     const hierarchyPath = path.join(program.out, 'data-dictionary');
     shrDD.generateDDtoPath(expSpecifications, configSpecifications, hierarchyPath);
   } catch (error) {
-    logger.fatal('Failure in Data Dictionary export. Aborting with error message: %s', error);
+    // 15006, 'Failure in data dictionary export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+    logger.fatal({ errorText: error.stack }, '15006');
     failedExports.push('shr-data-dict-export');
   }
 } else {
-  logger.info('Skipping Data Dictionary export');
+  // 05004, 'Skipping Data Dictionary export',,
+  logger.info('05004');
 }
 
 let fhirResults = null;
@@ -304,11 +319,13 @@ if (doES6) {
     };
     handleNS(es6Results, es6Path);
   } catch (error) {
-    logger.fatal('Failure in ES6 export. Aborting with error message: %s', error);
+    // 15007, 'Failure in ES6 export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+    logger.fatal({ errorText: error.stack }, '15007');
     failedExports.push('shr-es6-export');
   }
 } else {
-  logger.info('Skipping ES6 export');
+  // 05005, 'Skipping ES6 export',,
+  logger.info('05005');
 }
 
 
@@ -343,11 +360,13 @@ if (doFHIR) {
     fs.writeFileSync(path.join(baseFHIRPath, `shr_qa.html`), fhirResults.qaHTML);
     shrFE.exportIG(expSpecifications, fhirResults, path.join(baseFHIRPath, 'guide'), configSpecifications, input);
   } catch (error) {
-    logger.fatal('Failure in FHIR export. Aborting with error message: %s', error);
+    // 15008, 'Failure in FHIR export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+    logger.fatal({ errorText: error.stack }, '15008');
     failedExports.push('shr-fhir-export');
   }
 } else {
-  logger.info('Skipping FHIR export');
+  // 05006, 'Skipping FHIR export',,
+  logger.info('05006');
 }
 
 if (doJSONSchema) {
@@ -379,11 +398,13 @@ if (doJSONSchema) {
   //   }
 
   } catch (error) {
-    logger.fatal('Failure in JSON Schema export. Aborting with error message: %s', error);
+    // 15009, 'Failure in JSON Schema export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+    logger.fatal({ errorText: error.stack }, '15009');
     failedExports.push('shr-json-schema-export');
   }
 } else {
-  logger.info('Skipping JSON Schema export');
+  // 05007, 'Skipping JSON Schema export',,
+  logger.info('05007');
 }
 
 if (doModelDoc) {
@@ -398,33 +419,33 @@ if (doModelDoc) {
         shrJDE.exportToPath(igJavadocResults, fhirPath);
       }
     } catch (error) {
-      logger.fatal('Failure in Model Doc export. Aborting with error message: %s', error);
+      // 15010, 'Failure in Model Doc export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+      logger.fatal({ errorText: error.stack }, '15010');
       failedExports.push('shr-model-doc');
     }
   } else {
-    logger.fatal('CIMCORE is required for generating Model Doc. Skipping Model Docs export.');
+    // 15011, 'CIMCORE is required for generating Model Doc. Skipping Model Docs export.', 'Do not skip CIMCORE if Model Doc should be generated', 'errorNumber'
+    logger.fatal('15011');
     failedExports.push('shr-model-doc');
   }
 } else {
-  logger.info('Skipping Model Docs export');
+  // 05008, 'Skipping Model Docs export',,
+  logger.info('05008');
 }
-
-logger.info('Finished CLI Import/Export');
+// 05002, 'Finished CLI Import/Export',,
+logger.info('05002');
 
 const ftlCounter = logCounter.fatal;
 const errCounter = logCounter.error;
 const wrnCounter = logCounter.warn;
-let [errColor, errLabel, wrnColor, wrnLabel, resetColor, ftlColor, ftlLabel] = ['\x1b[32m', 'errors', '\x1b[32m', 'warnings', '\x1b[0m', '\x1b[31m', 'fatal errors'];
+let [errLabel, wrnLabel, ftlLabel] = ['errors', 'warnings', 'fatal errors'];
 if (ftlCounter.count > 0) {
-  // logger.fatal('');
   ftlLabel = `fatal errors (${failedExports.join(', ')})`;
 }
 if (errCounter.count > 0) {
-  errColor = '\x1b[31m'; // red
   errLabel = `errors (${errCounter.modules.join(', ')})`;
 }
 if (wrnCounter.count > 0) {
-  wrnColor = '\x1b[35m'; // magenta
   wrnLabel = `warnings (${wrnCounter.modules.join(', ')})`;
 }
 
@@ -432,7 +453,7 @@ if (wrnCounter.count > 0) {
 const hrend = process.hrtime(hrstart);
 console.log('------------------------------------------------------------');
 console.log('Elapsed time: %d.%ds', hrend[0], Math.floor(hrend[1]/1000000));
-if (ftlCounter.count > 0) console.log('%s%d %s%s', ftlColor, ftlCounter.count, ftlLabel, resetColor);
-console.log('%s%d %s%s', errColor, errCounter.count, errLabel, resetColor);
-console.log('%s%d %s%s', wrnColor, wrnCounter.count, wrnLabel, resetColor);
+if (ftlCounter.count > 0) console.log(chalk.redBright('%d %s'), ftlCounter.count, ftlLabel);
+console.log(chalk.bold.redBright('%d %s'), errCounter.count, errLabel);
+console.log(chalk.bold.yellowBright('%d %s'), wrnCounter.count, wrnLabel);
 console.log('------------------------------------------------------------');
