@@ -14,9 +14,11 @@ yarn unlink shr-models
 cd ../shr-data-dict-export
 echo "============== shr-data-dict-export ================"
 yarn unlink shr-models
+yarn unlink
 
 cd ../shr-graph-export
 echo "================ shr-graph-export =================="
+yarn unlink shr-models
 yarn unlink
 
 cd ../shr-es6-export

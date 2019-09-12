@@ -56,6 +56,7 @@ yarn link
 
 cd ../shr-graph-export
 echo "================ shr-graph-export =================="
+yarn link shr-models
 yarn link
 
 cd ../shr-cli

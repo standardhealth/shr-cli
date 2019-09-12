@@ -56,7 +56,7 @@ const doFHIR = program.skip.every(a => a.toLowerCase() != 'fhir' && a.toLowerCas
 const doJSONSchema = program.skip.every(a => a.toLowerCase() != 'json-schema' && a.toLowerCase() != 'all');
 const doModelDoc = program.skip.every(a => a.toLowerCase() != 'model-doc' && a.toLowerCase() != 'all');
 const doDD = program.skip.every(a => a.toLowerCase() != 'data-dict' && a.toLowerCase() != 'all');
-const doGraph = program.skip.every(a => a.toLowerCase() != 'graph');
+const doGraph = program.skip.every(a => a.toLowerCase() != 'graph' && a.toLowerCase() != 'all');
 
 // Process the de-duplicate error flag
 
@@ -326,25 +326,16 @@ if (doModelDoc) {
 }
 
 if (doGraph) {
-  if (configSpecifications.graphDirectory) {
-    try {
-      const graphOutputPath = path.join(program.out, 'graph');
-      mkdirp.sync(graphOutputPath);
-      mkdirp.sync(path.join(graphOutputPath, 'data'));
-      const graphResourcePath = path.join(input, configSpecifications.graphDirectory);
-      // Need to copy over the graph viewer files to the output directory
-      if (fs.existsSync(graphResourcePath)) {
-        fs.copySync(graphResourcePath, graphOutputPath);
-      }
-      const graphTree = shrGr.exportToGraph(expSpecifications);
-      fs.writeFileSync(path.join(graphOutputPath, 'data', 'tree.js'), 'const tree = ' + JSON.stringify(graphTree,  null, '  '));
-    } catch (error) {
-      logger.fatal('Failure in Graph export. Aborting with error message: %s', error);
-      failedExports.push('shr-graph-export');
-    }
-  }
-  else {
-    logger.fatal('The configuration file graphDirectory field is required for generating Graph. Skipping Graph export.');
+  try {
+    const graphOutputPath = path.join(program.out, 'fhir', 'guide', 'pages', 'graph');
+    mkdirp.sync(graphOutputPath);
+    shrGr.exportResources(graphOutputPath);
+
+    const graphTree = shrGr.exportToGraph(expSpecifications, configSpecifications);
+    mkdirp.sync(path.join(graphOutputPath, 'data'));
+    fs.writeFileSync(path.join(graphOutputPath, 'data', 'tree.js'), 'const tree = ' + JSON.stringify(graphTree,  null, '  '));
+  } catch (error) {
+    logger.fatal('Failure in Graph export. Aborting with error message: %s', error);
     failedExports.push('shr-graph-export');
   }
 } else {
