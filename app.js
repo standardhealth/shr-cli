@@ -283,12 +283,8 @@ if (doJSONSchema) {
 if (doModelDoc) {
   try {
     const hierarchyPath = path.join(program.out, 'modeldoc');
-    const namespaces = expSpecifications.namespaces.all.reduce((allNs, ns) => {
-      allNs[ns.namespace] = ns.toJSON();
-      return allNs;
-    }, {});
     const modelDocConfig = {
-      namespaces: namespaces,
+      namespaces: expSpecifications.namespaces.all,
       dataElements: expSpecifications.dataElements.all,
       projectInfo: configSpecifications
     };
