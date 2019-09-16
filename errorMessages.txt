@@ -1,0 +1,22 @@
+Number, Message, Solution, deduplicationKeys
+05001, 'Starting CLI Import/Export',,
+05002, 'Finished CLI Import/Export',,
+05003, 'Skipping CIMCORE export',,
+05004, 'Skipping Data Dictionary export',,
+05005, 'Skipping ES6 export',,
+05006, 'Skipping FHIR export',,
+05007, 'Skipping JSON Schema export',,
+05008, 'Skipping Model Docs export',,
+05009, 'Using filterStrategy in the configuration file is deprecated and should be done in content profile instead',,
+05010, 'Using primarySelectionStrategy in the configuration file is deprecated and should be done in content profile instead',,
+15001, 'Unable to successfully serialize element ${identifierName} into CIMCORE. Failing with error ${errorText}',  'Unknown, 'errorNumber'
+15002, 'Unable to successfully serialize value set ${valueSet} into CIMCORE. Failing with error ${errorText}',  'Unknown, 'errorNumber'
+15003, 'Unable to successfully serialize mapping ${mappingIdentifier} into CIMCORE. Failing with error ${errorText}',   'Unknown, 'errorNumber'
+15004, 'Unable to successfully serialize ${nameSpace} meta information into CIMCORE. Failing with error ${errorText}', 'Unknown, 'errorNumber'
+15005, 'Failure in CIMCORE export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15006, 'Failure in data dictionary export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15007, 'Failure in ES6 export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15008, 'Failure in FHIR export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15009, 'Failure in JSON Schema export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15010, 'Failure in Model Doc export. Aborting with error message: ${errorText}',  'Unknown, 'errorNumber'
+15011, 'CIMCORE is required for generating Model Doc. Skipping Model Docs export.', 'Do not skip CIMCORE if Model Doc should be generated', 'errorNumber'

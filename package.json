@@ -17,19 +17,19 @@
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
   "dependencies": {
-    "@ojolabs/bunyan-prettystream": "^0.1.6",
     "bunyan": "^1.8.12",
     "commander": "^2.9.0",
     "fs-extra": "^7.0.0",
     "mkdirp": "^0.5.1",
     "shr-data-dict-export": "^6.2.0",
-    "shr-es6-export": "^6.1.0",
-    "shr-expand": "^6.4.0",
-    "shr-fhir-export": "^6.5.0",
-    "shr-json-javadoc": "^6.2.0",
-    "shr-json-schema-export": "^6.1.0",
+    "shr-es6-export": "standardhealth/shr-es6-export#loggerific2",
+    "shr-expand": "standardhealth/shr-expand#loggerific2",
+    "shr-fhir-export": "standardhealth/shr-fhir-export#loggerific2",
+    "shr-json-javadoc": "standardhealth/shr-json-javadoc#loggerific2",
+    "shr-json-schema-export": "standardhealth/shr-json-schema-export#loggerific2",
     "shr-models": "^6.5.0",
-    "shr-text-import": "^6.5.0"
+    "shr-text-import": "standardhealth/shr-text-import#loggerific2",
+    "strip-ansi": "^5.2.0"
   },
   "devDependencies": {
     "eslint": "^4.6.1",
