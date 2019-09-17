@@ -311,7 +311,7 @@ if (doModelDoc) {
       shrJDE.exportToPath(igJavadocResults, fhirPath);
     }
   } catch (error)  {
-    logger.fatal('Failure in Model Doc export. Aborting with error message: %s', error);
+    logger.fatal({ errorText: error.stack }, '15010');
     failedExports.push('shr-model-doc');
   }
 } else {
