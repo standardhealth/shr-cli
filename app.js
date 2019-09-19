@@ -145,7 +145,7 @@ let specifications;
 let expSpecifications;
 if (!importCimcore) {
   specifications = shrTI.importFromFilePath(input, configSpecifications);
-  expSpecifications = shrEx.expand(specifications, shrFE);
+  expSpecifications = shrEx.expand(specifications, configSpecifications, shrFE);
 } else {
   [configSpecifications, expSpecifications] = shrTI.importCIMCOREFromFilePath(input);
 }
