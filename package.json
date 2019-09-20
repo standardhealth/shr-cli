@@ -1,6 +1,6 @@
 {
   "name": "shr-cli",
-  "version": "6.7.0",
+  "version": "6.8.0",
   "description": "Command-line interface for SHR tools",
   "author": "",
   "license": "Apache-2.0",
@@ -22,13 +22,13 @@
     "fs-extra": "^7.0.0",
     "mkdirp": "^0.5.1",
     "shr-data-dict-export": "^6.2.0",
-    "shr-es6-export": "standardhealth/shr-es6-export#loggerific2",
-    "shr-expand": "standardhealth/shr-expand#loggerific2",
-    "shr-fhir-export": "standardhealth/shr-fhir-export#loggerific2",
-    "shr-json-javadoc": "standardhealth/shr-json-javadoc#loggerific2",
-    "shr-json-schema-export": "standardhealth/shr-json-schema-export#loggerific2",
-    "shr-models": "^6.5.0",
-    "shr-text-import": "standardhealth/shr-text-import#loggerific2",
+    "shr-es6-export": "^6.2.0",
+    "shr-expand": "^6.5.0",
+    "shr-fhir-export": "^6.6.0",
+    "shr-json-javadoc": "^6.3.0",
+    "shr-json-schema-export": "^6.2.0",
+    "shr-models": "^6.6.0",
+    "shr-text-import": "^6.6.0",
     "strip-ansi": "^5.2.0"
   },
   "devDependencies": {
