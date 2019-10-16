@@ -1,6 +1,14 @@
+> # Content Has Moved!
+>
+> **The shr-cli repo has been integrated into the**
+> **[shr-tools](https://github.com/standardhealth/shr-tools) monorepo.  All further development**
+> **will be in [shr-tools/packages/shr-cli](https://github.com/standardhealth/shr-tools/tree/master/packages/shr-cli).**
+>
+> **Current releases can be found at [shr-tools/releases](https://github.com/standardhealth/shr-tools/releases).**
+
 # SHR Command-Line Interface (SHR-CLI)
 
-This GitHub repository contains a Node.js command-line interface for parsing CIMPL (Clinical Information Modeling and Profiling Language) definitions and exporting them as a FHIR Implementation Guide, Data Dictionary, JSON serialized files, JSON schema, and/or ES6 classes. Future versions of the CLI may support additional capabilities. 
+This GitHub repository contains a Node.js command-line interface for parsing CIMPL (Clinical Information Modeling and Profiling Language) definitions and exporting them as a FHIR Implementation Guide, Data Dictionary, JSON serialized files, JSON schema, and/or ES6 classes. Future versions of the CLI may support additional capabilities.
 
 The CIMPL base class definitions, FHIR mappings, and clinical model definitions can be found in the [shr-spec](https://github.com/standardhealth/shr-spec) repo. Documentation on the CIMPL language can be found [here](http://standardhealthrecord.org/cimpl-doc/#cimpl6LanguageReference/).
 
